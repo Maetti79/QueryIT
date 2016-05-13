@@ -1,0 +1,10 @@
+C:\Users\dennis\Documents\QueryIT\QueryIT\PluginTest\obj\x86\Debug\PluginTest.Properties.Resources.resources
+C:\Users\dennis\Documents\QueryIT\QueryIT\PluginTest\obj\x86\Debug\PluginTest.csproj.GenerateResource.Cache
+C:\Users\dennis\Documents\QueryIT\QueryIT\PluginTest\bin\Debug\PluginTest.dll
+C:\Users\dennis\Documents\QueryIT\QueryIT\PluginTest\bin\Debug\PluginTest.pdb
+C:\Users\dennis\Documents\QueryIT\QueryIT\PluginTest\bin\Debug\IPlugin.dll
+C:\Users\dennis\Documents\QueryIT\QueryIT\PluginTest\bin\Debug\IPlugin.pdb
+C:\Users\dennis\Documents\QueryIT\QueryIT\PluginTest\obj\x86\Debug\PluginTest.csprojResolveAssemblyReference.cache
+C:\Users\dennis\Documents\QueryIT\QueryIT\PluginTest\obj\x86\Debug\PluginTest.dll
+C:\Users\dennis\Documents\QueryIT\QueryIT\PluginTest\obj\x86\Debug\PluginTest.pdb
+C:\Users\dennis\Documents\QueryIT\QueryIT\PluginTest\obj\x86\Debug\PluginTest.PluginForm.resources
