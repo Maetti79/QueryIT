@@ -11,3 +11,9 @@ C:\Users\Dennis\Desktop\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.csproj.Gen
 C:\Users\Dennis\Desktop\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.dll
 C:\Users\Dennis\Desktop\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.pdb
 C:\Users\Dennis\Desktop\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.csprojResolveAssemblyReference.cache
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\IPlugin\bin\Debug\IPlugin.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\IPlugin\bin\Debug\IPlugin.pdb
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.Properties.Resources.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.csproj.GenerateResource.Cache
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.pdb

@@ -61,6 +61,7 @@
             this.killToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusTimer = new System.Windows.Forms.Timer(this.components);
+            this.sqlRTF = new System.Windows.Forms.RichTextBox();
             this.moveTabs.SuspendLayout();
             this.moveMapTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -111,6 +112,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.sqlRTF);
             this.splitContainer1.Panel2.Controls.Add(this.moveMapGrid);
             this.splitContainer1.Size = new System.Drawing.Size(570, 304);
             this.splitContainer1.SplitterDistance = 189;
@@ -143,9 +145,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(30, 223);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(115, 13);
+            this.label2.Size = new System.Drawing.Size(112, 13);
             this.label2.TabIndex = 11;
-            this.label2.Text = "User at your own RISK";
+            this.label2.Text = "Use at your own RISK";
             // 
             // label1
             // 
@@ -161,9 +163,9 @@
             this.truncateBox.AutoSize = true;
             this.truncateBox.Location = new System.Drawing.Point(6, 176);
             this.truncateBox.Name = "truncateBox";
-            this.truncateBox.Size = new System.Drawing.Size(105, 17);
+            this.truncateBox.Size = new System.Drawing.Size(141, 17);
             this.truncateBox.TabIndex = 9;
-            this.truncateBox.Text = "use TRUNCATE";
+            this.truncateBox.Text = "TRUNCATE Destination";
             this.truncateBox.UseVisualStyleBackColor = true;
             // 
             // posLbl
@@ -218,9 +220,9 @@
             this.stopCheck.AutoSize = true;
             this.stopCheck.Location = new System.Drawing.Point(5, 130);
             this.stopCheck.Name = "stopCheck";
-            this.stopCheck.Size = new System.Drawing.Size(85, 17);
+            this.stopCheck.Size = new System.Drawing.Size(103, 17);
             this.stopCheck.TabIndex = 3;
-            this.stopCheck.Text = "stop on error";
+            this.stopCheck.Text = "stop on ERROR";
             this.stopCheck.UseVisualStyleBackColor = true;
             // 
             // ignoreCheck
@@ -228,9 +230,9 @@
             this.ignoreCheck.AutoSize = true;
             this.ignoreCheck.Location = new System.Drawing.Point(6, 153);
             this.ignoreCheck.Name = "ignoreCheck";
-            this.ignoreCheck.Size = new System.Drawing.Size(131, 17);
+            this.ignoreCheck.Size = new System.Drawing.Size(111, 17);
             this.ignoreCheck.TabIndex = 2;
-            this.ignoreCheck.Text = "use INSERT IGNORE";
+            this.ignoreCheck.Text = "INSERT IGNORE";
             this.ignoreCheck.UseVisualStyleBackColor = true;
             // 
             // typecastCheck
@@ -238,9 +240,9 @@
             this.typecastCheck.AutoSize = true;
             this.typecastCheck.Location = new System.Drawing.Point(6, 107);
             this.typecastCheck.Name = "typecastCheck";
-            this.typecastCheck.Size = new System.Drawing.Size(93, 17);
+            this.typecastCheck.Size = new System.Drawing.Size(109, 17);
             this.typecastCheck.TabIndex = 1;
-            this.typecastCheck.Text = "force typecast";
+            this.typecastCheck.Text = "force TYPECAST";
             this.typecastCheck.UseVisualStyleBackColor = true;
             // 
             // moveProgress
@@ -254,12 +256,15 @@
             // 
             // moveMapGrid
             // 
+            this.moveMapGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.moveMapGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.moveMapGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.moveMapGrid.Location = new System.Drawing.Point(0, 0);
             this.moveMapGrid.Name = "moveMapGrid";
-            this.moveMapGrid.Size = new System.Drawing.Size(377, 304);
+            this.moveMapGrid.Size = new System.Drawing.Size(377, 250);
             this.moveMapGrid.TabIndex = 2;
+            this.moveMapGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.moveMapGrid_CellContentClick);
             // 
             // moveResultTab
             // 
@@ -403,6 +408,17 @@
             this.statusTimer.Interval = 1000;
             this.statusTimer.Tick += new System.EventHandler(this.statusTimer_Tick);
             // 
+            // sqlRTF
+            // 
+            this.sqlRTF.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.sqlRTF.Location = new System.Drawing.Point(0, 256);
+            this.sqlRTF.Name = "sqlRTF";
+            this.sqlRTF.ReadOnly = true;
+            this.sqlRTF.Size = new System.Drawing.Size(380, 51);
+            this.sqlRTF.TabIndex = 3;
+            this.sqlRTF.Text = "";
+            // 
             // MoveForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -470,5 +486,6 @@
         private System.Windows.Forms.ToolStripMenuItem pluginsToolStripMenuItem;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RichTextBox sqlRTF;
     }
 }

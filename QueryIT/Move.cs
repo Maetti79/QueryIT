@@ -63,6 +63,7 @@ namespace QueryIT {
             try {
                 loadPlugins();
                 doLoad();
+                previewSQL();
                 doResize();
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
@@ -150,6 +151,43 @@ namespace QueryIT {
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
+        }
+
+
+        public void previewSQL() {
+            string query = "";
+            string queryV = "";
+            string sqlStr;
+            query = "INSERT ";
+            if(ignoreCheck.Checked == true) {
+                query += "IGNORE ";
+            }
+            query += "INTO `" + RDS.table + "` (";
+            foreach(DataGridViewRow col in moveMapGrid.Rows) {
+                if(col.Cells[2].Value != null) {
+                    if(col.Cells[2].Value.ToString() != "(skip column)") {
+                        if(RDS.conectionString.Contains("csv") == true) {
+                            query += "\"" + col.Cells[2].Value.ToString() + "\",";
+                        } else {
+                            query += "`" + col.Cells[2].Value.ToString() + "`,";
+                        }
+                    }
+                }
+            }
+            query = query.Substring(0, query.Length - 1);
+            query += ") ";
+            queryV = "Values(";
+            foreach(DataGridViewRow col in moveMapGrid.Rows) {
+                if(col.Cells[2].Value != null) {
+                    if(col.Cells[2].Value.ToString() != "(skip column)") {
+                        queryV += "'#" + col.Cells[0].Value.ToString() + "#',";
+                    }
+                }
+            }
+            queryV = queryV.Substring(0, queryV.Length - 1);
+            queryV += ");";
+            sqlStr = query + queryV;
+            sqlRTF.Text = sqlStr;
         }
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -318,6 +356,7 @@ namespace QueryIT {
         private void MoveForm_Activated(object sender, EventArgs e) {
             try {
                 doLoad();
+                previewSQL();
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
@@ -356,9 +395,13 @@ namespace QueryIT {
                         //File.WriteAllText(sfd.FileName, queryBox.Text.ToString());
                     }
                 }
-             } catch(Exception err) {
+            } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
+        }
+
+        private void moveMapGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {
+            previewSQL();
         }
     }
 }

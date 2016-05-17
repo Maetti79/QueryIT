@@ -27,6 +27,12 @@ namespace QueryIT {
         public bool run = false;
         public bool search = false;
 
+        public string database;
+        public string table;
+        public string column;
+        public int cellColumn;
+        public int cellRow;
+
         public string sqlfilepath = "";
 
         public QueryForm() {
@@ -56,88 +62,7 @@ namespace QueryIT {
                 InitializeComponent();
                 QDS = ds;
                 align = a;
-                if(QDS.databases.Rows.Count > 0) {
-                    string database = QDS.database;
-                    foreach(DataRow r in QDS.databases.Rows) {
-                        //QDS.executeSql("USE " + r.ItemArray[0].ToString());
-                        //QDS.getSchema();
-                        if(DatabaseTree.Nodes.IndexOfKey(r.ItemArray[0].ToString()) == -1) {
-                            DatabaseTree.Nodes.Add(r.ItemArray[0].ToString(), r.ItemArray[0].ToString());
-                            if(r.ItemArray[0].ToString() == database) {
-                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
-                            }
-                            if(QDS.conectionString.Contains("Microsoft Text Driver")) {
-                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].ImageIndex = 3;
-                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].SelectedImageIndex = 3;
-                            } else {
-                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].ImageIndex = 4;
-                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].SelectedImageIndex = 4;
-                            }
-                        }
-                    }
-                    foreach(DataRow row in QDS.tables.Rows) {
-                        if(DatabaseTree.Nodes[QDS.database.ToString()].Nodes.IndexOfKey(row["TABLE_NAME"].ToString()) == -1) {
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes.Add(row["TABLE_NAME"].ToString(), row["TABLE_NAME"].ToString());
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].ImageIndex = 5;
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].SelectedImageIndex = 5;
-                            foreach(DataRow col in QDS.columns.Rows) {
-                                if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
-
-                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
-                                    if(col.ItemArray.Contains("COLUMN_KEY") == true) {
-                                        if(col["COLUMN_KEY"].ToString() == "PRI") {
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
-                                        } else {
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
-                                        }
-                                    } else {
-                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
-                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    //QDS.executeSql("USE " + database);
-                } else {
-                    if(DatabaseTree.Nodes.IndexOfKey(QDS.database.ToString()) == -1) {
-                        DatabaseTree.Nodes.Add(QDS.database.ToString(), QDS.database.ToString());
-                        DatabaseTree.Nodes[QDS.database.ToString()].NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
-                        if(QDS.conectionString.Contains("Microsoft Text Driver")) {
-                            DatabaseTree.Nodes[QDS.database.ToString()].ImageIndex = 3;
-                            DatabaseTree.Nodes[QDS.database.ToString()].SelectedImageIndex = 3;
-                        } else {
-                            DatabaseTree.Nodes[QDS.database.ToString()].ImageIndex = 4;
-                            DatabaseTree.Nodes[QDS.database.ToString()].SelectedImageIndex = 4;
-                        }
-                    }
-                    foreach(DataRow row in QDS.tables.Rows) {
-                        if(DatabaseTree.Nodes[QDS.database.ToString()].Nodes.IndexOfKey(row["TABLE_NAME"].ToString()) == -1) {
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes.Add(row["TABLE_NAME"].ToString(), row["TABLE_NAME"].ToString());
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].ImageIndex = 5;
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].SelectedImageIndex = 5;
-                            foreach(DataRow col in QDS.columns.Rows) {
-                                if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
-                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
-                                    if(col.ItemArray.Contains("COLUMN_KEY") == true) {
-                                        if(col["COLUMN_KEY"].ToString() == "PRI") {
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
-                                        } else {
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
-                                        }
-                                    } else {
-                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
-                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                reloadSchema();
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
@@ -184,21 +109,29 @@ namespace QueryIT {
             try {
                 if(DatabaseTree.SelectedNode != null) {
                     if(DatabaseTree.SelectedNode.ImageIndex == 3) {
+                        database = DatabaseTree.SelectedNode.Text.ToString();
                         //Switch Database
                         QDS.switchDatabase(DatabaseTree.SelectedNode.Text.ToString());
-                        reloadShema();
+                        reloadSchema();
                     } else if(DatabaseTree.SelectedNode.ImageIndex == 4) {
+                        database = DatabaseTree.SelectedNode.Text.ToString();
                         //Switch Database
                         QDS.switchDatabase(DatabaseTree.SelectedNode.Text.ToString());
-                        reloadShema();
+                        reloadSchema();
                     }
                     if(DatabaseTree.SelectedNode.ImageIndex == 5) {
-                        string query = "SELECT * FROM `" + DatabaseTree.SelectedNode.Text.ToString() + "`;";
-                        queryBox.Text += query;
+                        table = DatabaseTree.SelectedNode.Text.ToString();
+                        if(queryBox.Text.Length == 0) {
+                            string query = "SELECT * FROM `" + DatabaseTree.SelectedNode.Text.ToString() + "`;";
+                            queryBox.Text += query;
+                        }
                         QDS.table = DatabaseTree.SelectedNode.Text.ToString();
                     } else if(DatabaseTree.SelectedNode.ImageIndex == 6) {
-                        string querypart = DatabaseTree.SelectedNode.Text.ToString().Substring(0, DatabaseTree.SelectedNode.Text.IndexOf("("));
-                        queryBox.Text += querypart;
+                        column = DatabaseTree.SelectedNode.Text.ToString();
+                        if(queryBox.Text.Length == 0) {
+                            string querypart = DatabaseTree.SelectedNode.Text.ToString().Substring(0, DatabaseTree.SelectedNode.Text.IndexOf("("));
+                            queryBox.Text += querypart;
+                        }
                     }
                 }
             } catch(Exception err) {
@@ -251,6 +184,8 @@ namespace QueryIT {
                 if(queryBox.Text.Length > 0) {
                     DT = new DataTable();
                     DT.Clear();
+                    cellRow = -1;
+                    cellColumn = -1;
                     if(QDS.executeSql(queryBox.Text.ToString())) {
                         resultGrid.Columns.Clear();
                         resultGrid.DataSource = null;
@@ -560,6 +495,7 @@ namespace QueryIT {
         private void DatabaseTree_AfterSelect(object sender, TreeViewEventArgs e) {
             try {
                 if(DatabaseTree.SelectedNode.ImageIndex == 1 || DatabaseTree.SelectedNode.ImageIndex == 2) {
+                    database = DatabaseTree.SelectedNode.Text.ToString();
                     foreach(TreeNode node in DatabaseTree.Nodes) {
                         node.NodeFont = new Font(DatabaseTree.Font, FontStyle.Regular);
                     }
@@ -567,12 +503,27 @@ namespace QueryIT {
                         DatabaseTree.SelectedNode.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
                     }
                 }
+                if(DatabaseTree.SelectedNode.ImageIndex == 3 || DatabaseTree.SelectedNode.ImageIndex == 4) {
+                    database = DatabaseTree.SelectedNode.Text.ToString();
+                    foreach(TreeNode node in DatabaseTree.Nodes) {
+                        node.NodeFont = new Font(DatabaseTree.Font, FontStyle.Regular);
+                    }
+                    if(DatabaseTree.SelectedNode != null) {
+                        DatabaseTree.SelectedNode.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
+                    }
+                }
+                if(DatabaseTree.SelectedNode.ImageIndex == 5 ){
+                    table =  DatabaseTree.SelectedNode.Text.ToString();
+                }
+                if(DatabaseTree.SelectedNode.ImageIndex == 6) {
+                    column = DatabaseTree.SelectedNode.Text.ToString();
+                }
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        public void reloadShema() {
+        public void reloadSchema() {
             try {
                 if(QDS.databases.Rows.Count > 0) {
                     string database = QDS.database;
@@ -581,6 +532,9 @@ namespace QueryIT {
                         //QDS.getSchema();
                         if(DatabaseTree.Nodes.IndexOfKey(r.ItemArray[0].ToString()) == -1) {
                             DatabaseTree.Nodes.Add(r.ItemArray[0].ToString(), r.ItemArray[0].ToString());
+                            if(r.ItemArray[0].ToString() == database) {
+                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
+                            }
                             if(QDS.conectionString.Contains("Microsoft Text Driver")) {
                                 DatabaseTree.Nodes[r.ItemArray[0].ToString()].ImageIndex = 3;
                                 DatabaseTree.Nodes[r.ItemArray[0].ToString()].SelectedImageIndex = 3;
@@ -597,9 +551,20 @@ namespace QueryIT {
                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].SelectedImageIndex = 5;
                             foreach(DataRow col in QDS.columns.Rows) {
                                 if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
-                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["COLUMN_NAME"].GetType().ToString().Replace("System.", "") + ")");
-                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
-                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+
+                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
+                                    if(col.ItemArray.Contains("COLUMN_KEY") == true) {
+                                        if(col["COLUMN_KEY"].ToString() == "PRI") {
+                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
+                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
+                                        } else {
+                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
+                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                        }
+                                    } else {
+                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
+                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                    }
                                 }
                             }
                         }
@@ -608,6 +573,7 @@ namespace QueryIT {
                 } else {
                     if(DatabaseTree.Nodes.IndexOfKey(QDS.database.ToString()) == -1) {
                         DatabaseTree.Nodes.Add(QDS.database.ToString(), QDS.database.ToString());
+                        DatabaseTree.Nodes[QDS.database.ToString()].NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
                         if(QDS.conectionString.Contains("Microsoft Text Driver")) {
                             DatabaseTree.Nodes[QDS.database.ToString()].ImageIndex = 3;
                             DatabaseTree.Nodes[QDS.database.ToString()].SelectedImageIndex = 3;
@@ -623,9 +589,19 @@ namespace QueryIT {
                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].SelectedImageIndex = 5;
                             foreach(DataRow col in QDS.columns.Rows) {
                                 if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
-                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["COLUMN_NAME"].GetType().ToString().Replace("System.", "") + ")");
-                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
-                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
+                                    if(col.ItemArray.Contains("COLUMN_KEY") == true) {
+                                        if(col["COLUMN_KEY"].ToString() == "PRI") {
+                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
+                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
+                                        } else {
+                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
+                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                        }
+                                    } else {
+                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
+                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                    }
                                 }
                             }
                         }
@@ -806,6 +782,117 @@ namespace QueryIT {
             }
         }
 
+        public int doAutocase(string Autocase, int offset = 0, string[] columns = null) {
+            try {
+                int match = 0;
+                int loops = 0;
+                DateTime utcStart;
+                DateTime utcStop;
+                search = true;
+                run = true;
+                queryRunMenu.Enabled = false;
+                killToolStripMenuItem.Enabled = true;
+                resultGrid.CurrentCell = null;
+                utcStart = DateTime.UtcNow;
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+
+                foreach(DataGridViewRow r in resultGrid.Rows) {
+                    if(r.IsNewRow == false) {
+                        foreach(DataGridViewCell c in r.Cells) {
+                            if(columns.Contains(c.OwningColumn.Name.ToString())) {
+                                if(c.Value != null) {
+                                    if(Autocase == "to lower") {
+                                        c.Value = c.Value.ToString().ToLowerInvariant();
+                                    } else if(Autocase == "to UPPER") {
+                                        c.Value = c.Value.ToString().ToUpperInvariant();
+                                    } else if(Autocase == "to Title Case") {
+                                        c.Value = textInfo.ToTitleCase(c.Value.ToString());
+                                    }
+                                    match++;
+                                }
+                            }
+                        }
+                    }
+                    loops++;
+                    if(loops % 250 == 0) {
+                        Application.DoEvents();
+                    }
+                }
+                utcStop = DateTime.UtcNow;
+                search = false;
+                run = false;
+                queryRunMenu.Enabled = true;
+                killToolStripMenuItem.Enabled = false;
+                resultBox.Text = "Date: " + utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
+                                 "Result: " + match.ToString() + " Changed Records\n" +
+                                 "Tool: AutoCase(" + Autocase.ToString() + ")\n";
+
+                historyBox.Text = "Date: " + utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
+                                  "Result: " + match.ToString() + " Changed Records\n" +
+                                  "Tool: AutoCase(" + Autocase.ToString() + ")\n" +
+                                  "\n" + historyBox.Text.ToString();
+                return match;
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+                run = false;
+                queryRunMenu.Enabled = true;
+                killToolStripMenuItem.Enabled = false;
+                return 0;
+            }
+        }
+
+        public int doConcat(string column, int offset = 0, string before = "", string after = "") {
+            try {
+                int match = 0;
+                int loops = 0;
+                DateTime utcStart;
+                DateTime utcStop;
+                search = true;
+                run = true;
+                queryRunMenu.Enabled = false;
+                killToolStripMenuItem.Enabled = true;
+                resultGrid.CurrentCell = null;
+                utcStart = DateTime.UtcNow;
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+
+                foreach(DataGridViewRow r in resultGrid.Rows) {
+                    if(r.IsNewRow == false) {
+                        foreach(DataGridViewCell c in r.Cells) {
+                            if(column.Equals(c.OwningColumn.Name.ToString())) {
+                                if(c.Value != null) {
+                                    c.Value = before.ToString() + c.Value.ToString() + after.ToString();
+                                    match++;
+                                }
+                            }
+                        }
+                    }
+                    loops++;
+                    if(loops % 250 == 0) {
+                        Application.DoEvents();
+                    }
+                }
+                utcStop = DateTime.UtcNow;
+                search = false;
+                run = false;
+                queryRunMenu.Enabled = true;
+                killToolStripMenuItem.Enabled = false;
+                resultBox.Text = "Date: " + utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
+                                 "Result: " + match.ToString() + " Changed Records\n" +
+                                 "Tool: Concat(" + column.ToString() + ", " + before.ToString() + ", " + after.ToString() + ")\n";
+
+                historyBox.Text = "Date: " + utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
+                                  "Result: " + match.ToString() + " Changed Records\n" +
+                                  "Tool: Concat(" + column.ToString() + ", " + before.ToString() + ", " + after.ToString() + ")\n" +
+                                  "\n" + historyBox.Text.ToString();
+                return match;
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+                run = false;
+                queryRunMenu.Enabled = true;
+                killToolStripMenuItem.Enabled = false;
+                return 0;
+            }
+        }
 
         public int doReplace(string searchstring, string replacestring, int offset = 0, bool exact = false, bool casesensetive = false, string[] columns = null) {
             try {
@@ -865,11 +952,11 @@ namespace QueryIT {
                 killToolStripMenuItem.Enabled = false;
                 resultBox.Text = "Date: " + utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
                                  "Result: " + match.ToString() + " Replaced Records\n" +
-                                 "Tool:Filter(" + searchstring.ToString() + ", " + replacestring.ToString()+ ")\n";
+                                 "Tool: Filter(" + searchstring.ToString() + ", " + replacestring.ToString() + ")\n";
 
                 historyBox.Text = "Date: " + utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
                                   "Result: " + match.ToString() + " Replaced Records\n" +
-                                  "Tool: Filter(" + searchstring.ToString() + ", " + replacestring.ToString()+ ")\n" +
+                                  "Tool: Filter(" + searchstring.ToString() + ", " + replacestring.ToString() + ")\n" +
                                   "\n" + historyBox.Text.ToString();
                 return match;
             } catch(Exception err) {
@@ -893,7 +980,7 @@ namespace QueryIT {
                 killToolStripMenuItem.Enabled = true;
                 resultGrid.CurrentCell = null;
                 ProgressForm pform = new ProgressForm(this, "Progress [Filter]");
-                pform.update(0, resultGrid.Rows.Count , 0);
+                pform.update(0, resultGrid.Rows.Count, 0);
                 pform.Show();
                 utcStart = DateTime.UtcNow;
                 foreach(DataGridViewRow r in resultGrid.Rows) {
@@ -964,7 +1051,7 @@ namespace QueryIT {
             }
         }
 
-        public int doSearch(string searchstring, int offset = 0, bool exact = false, bool casesensetive = false,string[] columns = null) {
+        public int doSearch(string searchstring, int offset = 0, bool exact = false, bool casesensetive = false, string[] columns = null) {
             try {
                 int match = 0;
                 int loops = 0;
@@ -978,7 +1065,7 @@ namespace QueryIT {
                 foreach(DataGridViewRow r in resultGrid.Rows) {
                     if(r.IsNewRow == false) {
                         foreach(DataGridViewCell c in r.Cells) {
-                            if(columns.Contains(c.OwningColumn.Name.ToString())){
+                            if(columns.Contains(c.OwningColumn.Name.ToString())) {
                                 if(c.Value != null) {
                                     if(casesensetive == true) {
                                         if(exact == true) {
@@ -1056,7 +1143,7 @@ namespace QueryIT {
         }
 
         public int doUniq() {
-           try {
+            try {
                 int match = 0;
                 int loops = 0;
                 int indexS = 0;
@@ -1100,12 +1187,12 @@ namespace QueryIT {
                 killToolStripMenuItem.Enabled = false;
 
                 resultBox.Text = "Date: " + utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
-                                          "Result: " + DT.Rows.Count.ToString() + " Uniq Records\n" +
-                                          "Tool: Uniq()\n";
+                                          "Result: " + DT.Rows.Count.ToString() + " Unique Records\n" +
+                                          "Tool: Unique()\n";
 
                 historyBox.Text = "Date: " + utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
-                                         "Result: " + DT.Rows.Count.ToString() + " Uniq Records\n" +
-                                         "Tool: Uniq()\n" +
+                                         "Result: " + DT.Rows.Count.ToString() + " Unique Records\n" +
+                                         "Tool: Unique()\n" +
                                          "\n" + historyBox.Text.ToString();
                 return match;
             } catch(Exception err) {
@@ -1206,11 +1293,11 @@ namespace QueryIT {
         }
 
         private void resultGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {
-            
+
         }
 
         private void uniqToolStripMenuItem_Click(object sender, EventArgs e) {
-            try { 
+            try {
                 doUniq();
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
@@ -1220,6 +1307,103 @@ namespace QueryIT {
         private void doubleToolStripMenuItem_Click(object sender, EventArgs e) {
             try {
                 doDouble();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void autoCaseToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                AutoCaseForm casefrm = new AutoCaseForm(this);
+                casefrm.Show();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void resultGrid_CellClick(object sender, DataGridViewCellEventArgs e) {
+            cellColumn = e.ColumnIndex;
+            cellRow = e.RowIndex;
+        }
+
+        private void filterToolStripMenuItem1_Click(object sender, EventArgs e) {
+            try {
+                FilterForm filterfrm = new FilterForm(this);
+                filterfrm.Show();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void searchToolStripMenuItem1_Click(object sender, EventArgs e) {
+            try {
+                SearchForm searchfrm = new SearchForm(this);
+                searchfrm.Show();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void replaceToolStripMenuItem1_Click(object sender, EventArgs e) {
+            try {
+                ReplaceForm replacefrm = new ReplaceForm(this);
+                replacefrm.Show();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void autoCaseToolStripMenuItem1_Click(object sender, EventArgs e) {
+            try {
+                AutoCaseForm casefrm = new AutoCaseForm(this);
+                casefrm.Show();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void uniqueToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                doUniq();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void doubleToolStripMenuItem1_Click(object sender, EventArgs e) {
+            try {
+                doDouble();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void concatToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                ConcatForm concatfrm = new ConcatForm(this);
+                concatfrm.Show();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void concatToolStripMenuItem1_Click(object sender, EventArgs e) {
+            try {
+                ConcatForm concatfrm = new ConcatForm(this);
+                concatfrm.Show();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void alterTableToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
+                    if(DatabaseTree.SelectedNode != null) {
+                        TableForm tablefrm = new TableForm(this);
+                        tablefrm.Show();   
+                    }
+                }
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }

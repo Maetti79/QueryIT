@@ -30,7 +30,15 @@ namespace QueryIT
         private void SearchForm_Load(object sender, EventArgs e)
         {
             foreach(DataColumn col in SearchParent.DT.Columns) {
-                columnBox.Items.Add(col.Caption.ToString(), true);
+                if(SearchParent.cellColumn <= 0) {
+                    columnBox.Items.Add(col.Caption.ToString(), true);
+                } else {
+                    if(SearchParent.cellColumn == col.Ordinal) {
+                        columnBox.Items.Add(col.Caption.ToString(), true);
+                    } else {
+                        columnBox.Items.Add(col.Caption.ToString(), false);
+                    }
+                }
             }
         }
 

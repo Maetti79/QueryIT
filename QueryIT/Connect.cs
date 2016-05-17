@@ -105,7 +105,7 @@ namespace QueryIT {
                 Database = DatabaseTxt.Text.ToString();
                 Username = UsernameTxt.Text.ToString();
                 Password = PasswordTxt.Text.ToString();
-                conStr = "SERVER=" + ServerIP.ToString() + ";DATABASE=" + Database.ToString() + ";UID=" + Username.ToString() + ";PASSWORD=" + Password.ToString() + ";";
+                conStr = "SERVER=" + ServerIP.ToString() + ";DATABASE=" + Database.ToString() + ";UID=" + Username.ToString() + ";PASSWORD=" + Password.ToString() + ";PORT=3306;";
             }
             //Microsoft (Transakt) SQL Server (97/2000)
             if(DriverSel.SelectedItem.ToString() == "ADO Microsoft SQL (IP)") {
@@ -268,7 +268,7 @@ namespace QueryIT {
                     }
                 }
             } catch(Exception err) {
-               
+                throw err;
             }
         }
 

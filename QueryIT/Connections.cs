@@ -88,14 +88,14 @@ namespace QueryIT
 
         private void connectionsView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(connectionsView.SelectedItems[0].Text.ToString() != "")
-            {
-                editToolStripMenuItem.Enabled = true;
-                deleteToolStripMenuItem.Enabled = true;
-            }
-            else {
-                editToolStripMenuItem.Enabled = false;
-                deleteToolStripMenuItem.Enabled = false;
+            if(connectionsView.SelectedItems.Count > 0) {
+                if(connectionsView.SelectedItems[0].Text.ToString() != "") {
+                    editToolStripMenuItem.Enabled = true;
+                    deleteToolStripMenuItem.Enabled = true;
+                } else {
+                    editToolStripMenuItem.Enabled = false;
+                    deleteToolStripMenuItem.Enabled = false;
+                }
             }
         }
     }

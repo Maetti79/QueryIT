@@ -63,7 +63,15 @@ namespace QueryIT
 
         private void FilterForm_Load(object sender, EventArgs e) {
             foreach(DataColumn col in FilterParent.DT.Columns) {
-                columnBox.Items.Add(col.Caption.ToString(), true);
+                if(FilterParent.cellColumn <= 0) {
+                    columnBox.Items.Add(col.Caption.ToString(), true);
+                } else {
+                    if(FilterParent.cellColumn == col.Ordinal) {
+                        columnBox.Items.Add(col.Caption.ToString(), true);
+                    } else {
+                        columnBox.Items.Add(col.Caption.ToString(), false);
+                    }
+                }
             }
         }
     }

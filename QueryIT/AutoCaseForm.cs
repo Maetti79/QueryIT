@@ -9,19 +9,19 @@ using System.Windows.Forms;
 
 namespace QueryIT
 {
-    public partial class SearchForm : Form
+    public partial class AutoCaseForm : Form
     {
 
         QueryForm SearchParent;
         public int offset = 0;
         string[] searchColumns;
 
-        public SearchForm()
+        public AutoCaseForm()
         {
             InitializeComponent();
         }
 
-        public SearchForm(QueryForm p)
+        public AutoCaseForm(QueryForm p)
         {
             SearchParent = p;
             InitializeComponent();
@@ -42,38 +42,38 @@ namespace QueryIT
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            offset = 0;
-            if(searchBox.Text.Length > 2) {
-                searchColumns = searchColumns.Clear();
-                foreach(object col in columnBox.CheckedItems) {
-                    searchColumns = searchColumns.AddItemToArray(col.ToString());
-                }
-                offset = SearchParent.doSearch(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked, searchColumns);
-            }
-        }
-
         private void SearchBtn_Click(object sender, EventArgs e) {
             searchColumns = searchColumns.Clear();
             foreach(object col in columnBox.CheckedItems) {
                 searchColumns = searchColumns.AddItemToArray(col.ToString());
             }
-            offset = SearchParent.doSearch(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked, searchColumns);
+            offset = SearchParent.doAutocase(caseBox.Text, offset, searchColumns);
         }
 
         private void SearchForm_KeyDown(object sender, KeyEventArgs e) {
-            if(e.Control && e.KeyCode == Keys.F) {
+            if(e.Control && e.KeyCode == Keys.R) {
                 searchColumns = searchColumns.Clear();
                 foreach(object col in columnBox.CheckedItems) {
                     searchColumns = searchColumns.AddItemToArray(col.ToString());
                 }
-                offset = SearchParent.doSearch(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked, searchColumns);
+                offset = SearchParent.doAutocase(caseBox.Text, offset, searchColumns);
             } 
             if( e.KeyCode == Keys.Escape) {
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+        }
+
+        private void searchBox_TextChanged(object sender, EventArgs e) {
+
+        }
+
+        private void exactChk_CheckedChanged(object sender, EventArgs e) {
+
+        }
+
+        private void caseBox_SelectedIndexChanged(object sender, EventArgs e) {
+
         }
     }
 }

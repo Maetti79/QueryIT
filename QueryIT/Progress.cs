@@ -14,6 +14,7 @@ namespace QueryIT {
         CompareForm CParent;
         DateTime utcStart;
         int rps = 0;
+        string Error;
 
         public ProgressForm() {
             InitializeComponent();
@@ -75,7 +76,7 @@ namespace QueryIT {
                 }
                 //Application.DoEvents();
             } catch(Exception e) {
-
+                Error = e.Message;
             }
         }
 
@@ -92,7 +93,7 @@ namespace QueryIT {
                     QParent.run = false;
                 }
             } catch(Exception err) {
-            
+                Error = err.Message;
             }
         }
     }

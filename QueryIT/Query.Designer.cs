@@ -37,10 +37,20 @@
             this.queryTab = new System.Windows.Forms.TabPage();
             this.querySplitV = new System.Windows.Forms.SplitContainer();
             this.DatabaseTree = new System.Windows.Forms.TreeView();
+            this.schemaContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.alterTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QueryIcons = new System.Windows.Forms.ImageList(this.components);
             this.querySplitH = new System.Windows.Forms.SplitContainer();
             this.queryBox = new System.Windows.Forms.RichTextBox();
             this.resultGrid = new System.Windows.Forms.DataGridView();
+            this.resultContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.filterToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.replaceToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoCaseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.concatToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.uniqueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.doubleToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.resultTab = new System.Windows.Forms.TabPage();
             this.resultBox = new System.Windows.Forms.RichTextBox();
             this.historyTab = new System.Windows.Forms.TabPage();
@@ -60,9 +70,12 @@
             this.killToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dateTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoCaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.concatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uniqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.doubleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,11 +92,13 @@
             this.querySplitV.Panel1.SuspendLayout();
             this.querySplitV.Panel2.SuspendLayout();
             this.querySplitV.SuspendLayout();
+            this.schemaContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.querySplitH)).BeginInit();
             this.querySplitH.Panel1.SuspendLayout();
             this.querySplitH.Panel2.SuspendLayout();
             this.querySplitH.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.resultGrid)).BeginInit();
+            this.resultContextMenu.SuspendLayout();
             this.resultTab.SuspendLayout();
             this.historyTab.SuspendLayout();
             this.chartTab.SuspendLayout();
@@ -138,6 +153,7 @@
             // 
             // DatabaseTree
             // 
+            this.DatabaseTree.ContextMenuStrip = this.schemaContextMenu;
             this.DatabaseTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DatabaseTree.ImageIndex = 9;
             this.DatabaseTree.ImageList = this.QueryIcons;
@@ -148,6 +164,21 @@
             this.DatabaseTree.TabIndex = 0;
             this.DatabaseTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.DatabaseTree_AfterSelect);
             this.DatabaseTree.DoubleClick += new System.EventHandler(this.DatabaseTree_DoubleClick);
+            // 
+            // schemaContextMenu
+            // 
+            this.schemaContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.alterTableToolStripMenuItem});
+            this.schemaContextMenu.Name = "schemaContextMenu";
+            this.schemaContextMenu.Size = new System.Drawing.Size(153, 48);
+            // 
+            // alterTableToolStripMenuItem
+            // 
+            this.alterTableToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("alterTableToolStripMenuItem.Image")));
+            this.alterTableToolStripMenuItem.Name = "alterTableToolStripMenuItem";
+            this.alterTableToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.alterTableToolStripMenuItem.Text = "Alter Table";
+            this.alterTableToolStripMenuItem.Click += new System.EventHandler(this.alterTableToolStripMenuItem_Click);
             // 
             // QueryIcons
             // 
@@ -196,12 +227,82 @@
             // resultGrid
             // 
             this.resultGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.resultGrid.ContextMenuStrip = this.resultContextMenu;
             this.resultGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultGrid.Location = new System.Drawing.Point(0, 0);
             this.resultGrid.Name = "resultGrid";
             this.resultGrid.Size = new System.Drawing.Size(377, 205);
             this.resultGrid.TabIndex = 0;
-            this.resultGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.resultGrid_CellContentClick);
+            this.resultGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.resultGrid_CellClick);
+            // 
+            // resultContextMenu
+            // 
+            this.resultContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.filterToolStripMenuItem1,
+            this.searchToolStripMenuItem1,
+            this.replaceToolStripMenuItem1,
+            this.autoCaseToolStripMenuItem1,
+            this.concatToolStripMenuItem1,
+            this.uniqueToolStripMenuItem,
+            this.doubleToolStripMenuItem1});
+            this.resultContextMenu.Name = "resultContextMenu";
+            this.resultContextMenu.Size = new System.Drawing.Size(126, 158);
+            // 
+            // filterToolStripMenuItem1
+            // 
+            this.filterToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("filterToolStripMenuItem1.Image")));
+            this.filterToolStripMenuItem1.Name = "filterToolStripMenuItem1";
+            this.filterToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.filterToolStripMenuItem1.Text = "Filter";
+            this.filterToolStripMenuItem1.Click += new System.EventHandler(this.filterToolStripMenuItem1_Click);
+            // 
+            // searchToolStripMenuItem1
+            // 
+            this.searchToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("searchToolStripMenuItem1.Image")));
+            this.searchToolStripMenuItem1.Name = "searchToolStripMenuItem1";
+            this.searchToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.searchToolStripMenuItem1.Text = "Search";
+            this.searchToolStripMenuItem1.Click += new System.EventHandler(this.searchToolStripMenuItem1_Click);
+            // 
+            // replaceToolStripMenuItem1
+            // 
+            this.replaceToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("replaceToolStripMenuItem1.Image")));
+            this.replaceToolStripMenuItem1.Name = "replaceToolStripMenuItem1";
+            this.replaceToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.replaceToolStripMenuItem1.Text = "Replace";
+            this.replaceToolStripMenuItem1.Click += new System.EventHandler(this.replaceToolStripMenuItem1_Click);
+            // 
+            // autoCaseToolStripMenuItem1
+            // 
+            this.autoCaseToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("autoCaseToolStripMenuItem1.Image")));
+            this.autoCaseToolStripMenuItem1.Name = "autoCaseToolStripMenuItem1";
+            this.autoCaseToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.autoCaseToolStripMenuItem1.Text = "AutoCase";
+            this.autoCaseToolStripMenuItem1.Click += new System.EventHandler(this.autoCaseToolStripMenuItem1_Click);
+            // 
+            // concatToolStripMenuItem1
+            // 
+            this.concatToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("concatToolStripMenuItem1.Image")));
+            this.concatToolStripMenuItem1.Name = "concatToolStripMenuItem1";
+            this.concatToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.concatToolStripMenuItem1.Text = "Concat";
+            this.concatToolStripMenuItem1.Click += new System.EventHandler(this.concatToolStripMenuItem1_Click);
+            // 
+            // uniqueToolStripMenuItem
+            // 
+            this.uniqueToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("uniqueToolStripMenuItem.Image")));
+            this.uniqueToolStripMenuItem.Name = "uniqueToolStripMenuItem";
+            this.uniqueToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.uniqueToolStripMenuItem.Text = "Unique";
+            this.uniqueToolStripMenuItem.Click += new System.EventHandler(this.uniqueToolStripMenuItem_Click);
+            // 
+            // doubleToolStripMenuItem1
+            // 
+            this.doubleToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("doubleToolStripMenuItem1.Image")));
+            this.doubleToolStripMenuItem1.Name = "doubleToolStripMenuItem1";
+            this.doubleToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.doubleToolStripMenuItem1.Text = "Double";
+            this.doubleToolStripMenuItem1.Click += new System.EventHandler(this.doubleToolStripMenuItem1_Click);
             // 
             // resultTab
             // 
@@ -394,9 +495,12 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dateTimeToolStripMenuItem,
+            this.toolStripSeparator1,
             this.filterToolStripMenuItem,
             this.searchToolStripMenuItem,
             this.replaceToolStripMenuItem,
+            this.autoCaseToolStripMenuItem,
+            this.concatToolStripMenuItem,
             this.uniqToolStripMenuItem,
             this.doubleToolStripMenuItem});
             this.toolsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("toolsToolStripMenuItem.Image")));
@@ -410,10 +514,15 @@
             this.dateTimeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("dateTimeToolStripMenuItem.Image")));
             this.dateTimeToolStripMenuItem.Name = "dateTimeToolStripMenuItem";
             this.dateTimeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.dateTimeToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.dateTimeToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
             this.dateTimeToolStripMenuItem.Text = "DateTime";
             this.dateTimeToolStripMenuItem.ToolTipText = "DateTime Picker";
             this.dateTimeToolStripMenuItem.Click += new System.EventHandler(this.dateTimeToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(249, 6);
             // 
             // filterToolStripMenuItem
             // 
@@ -421,7 +530,7 @@
             this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
             this.filterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
                         | System.Windows.Forms.Keys.F)));
-            this.filterToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
             this.filterToolStripMenuItem.Text = "Filter";
             this.filterToolStripMenuItem.ToolTipText = "Filter Result";
             this.filterToolStripMenuItem.Click += new System.EventHandler(this.filterToolStripMenuItem_Click);
@@ -431,7 +540,7 @@
             this.searchToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("searchToolStripMenuItem.Image")));
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
             this.searchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
             this.searchToolStripMenuItem.Text = "Search";
             this.searchToolStripMenuItem.ToolTipText = "Search in Result";
             this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
@@ -441,17 +550,37 @@
             this.replaceToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("replaceToolStripMenuItem.Image")));
             this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
             this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
             this.replaceToolStripMenuItem.Text = "Replace";
             this.replaceToolStripMenuItem.ToolTipText = "Replace in Result";
             this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
+            // 
+            // autoCaseToolStripMenuItem
+            // 
+            this.autoCaseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("autoCaseToolStripMenuItem.Image")));
+            this.autoCaseToolStripMenuItem.Name = "autoCaseToolStripMenuItem";
+            this.autoCaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.A)));
+            this.autoCaseToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
+            this.autoCaseToolStripMenuItem.Text = "AutoCase";
+            this.autoCaseToolStripMenuItem.Click += new System.EventHandler(this.autoCaseToolStripMenuItem_Click);
+            // 
+            // concatToolStripMenuItem
+            // 
+            this.concatToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("concatToolStripMenuItem.Image")));
+            this.concatToolStripMenuItem.Name = "concatToolStripMenuItem";
+            this.concatToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.C)));
+            this.concatToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
+            this.concatToolStripMenuItem.Text = "Concat";
+            this.concatToolStripMenuItem.Click += new System.EventHandler(this.concatToolStripMenuItem_Click);
             // 
             // uniqToolStripMenuItem
             // 
             this.uniqToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("uniqToolStripMenuItem.Image")));
             this.uniqToolStripMenuItem.Name = "uniqToolStripMenuItem";
             this.uniqToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-            this.uniqToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.uniqToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
             this.uniqToolStripMenuItem.Text = "Unique";
             this.uniqToolStripMenuItem.ToolTipText = "Delete duplicates in Result";
             this.uniqToolStripMenuItem.Click += new System.EventHandler(this.uniqToolStripMenuItem_Click);
@@ -462,7 +591,7 @@
             this.doubleToolStripMenuItem.Name = "doubleToolStripMenuItem";
             this.doubleToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
                         | System.Windows.Forms.Keys.D)));
-            this.doubleToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.doubleToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
             this.doubleToolStripMenuItem.Text = "Double";
             this.doubleToolStripMenuItem.Click += new System.EventHandler(this.doubleToolStripMenuItem_Click);
             // 
@@ -560,11 +689,13 @@
             this.querySplitV.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.querySplitV)).EndInit();
             this.querySplitV.ResumeLayout(false);
+            this.schemaContextMenu.ResumeLayout(false);
             this.querySplitH.Panel1.ResumeLayout(false);
             this.querySplitH.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.querySplitH)).EndInit();
             this.querySplitH.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.resultGrid)).EndInit();
+            this.resultContextMenu.ResumeLayout(false);
             this.resultTab.ResumeLayout(false);
             this.historyTab.ResumeLayout(false);
             this.chartTab.ResumeLayout(false);
@@ -618,6 +749,19 @@
         private System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uniqToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem doubleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoCaseToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip resultContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem autoCaseToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem uniqueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem doubleToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem concatToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem concatToolStripMenuItem1;
+        private System.Windows.Forms.ContextMenuStrip schemaContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem alterTableToolStripMenuItem;
 
     }
 }

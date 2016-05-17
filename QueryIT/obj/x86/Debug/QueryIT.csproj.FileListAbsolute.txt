@@ -95,3 +95,6 @@ C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryI
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.TrustInfo.xml
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.exe.manifest
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.application
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.AutoCaseForm.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.ConcatForm.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.TableForm.resources
