@@ -14,6 +14,7 @@ namespace QueryIT
 
         QueryForm SearchParent;
         public int offset = 0;
+        string[] searchColumns;
 
         public SearchForm()
         {
@@ -28,24 +29,38 @@ namespace QueryIT
 
         private void SearchForm_Load(object sender, EventArgs e)
         {
-
+            foreach(DataColumn col in SearchParent.DT.Columns) {
+                columnBox.Items.Add(col.Caption.ToString(),true);
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             offset = 0;
             if(searchBox.Text.Length > 2) {
-                offset = SearchParent.doSearch(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked);
+                searchColumns = searchColumns.Clear();
+                foreach(object col in columnBox.CheckedItems) {
+                    searchColumns = searchColumns.AddItemToArray(col.ToString());
+                }
+                offset = SearchParent.doSearch(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked, searchColumns);
             }
         }
 
         private void SearchBtn_Click(object sender, EventArgs e) {
-            offset = SearchParent.doSearch(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked);
+            searchColumns = searchColumns.Clear();
+            foreach(object col in columnBox.CheckedItems) {
+                searchColumns = searchColumns.AddItemToArray(col.ToString());
+            }
+            offset = SearchParent.doSearch(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked, searchColumns);
         }
 
         private void SearchForm_KeyDown(object sender, KeyEventArgs e) {
             if(e.Control && e.KeyCode == Keys.F) {
-                offset = SearchParent.doSearch(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked);
+                searchColumns = searchColumns.Clear();
+                foreach(object col in columnBox.CheckedItems) {
+                    searchColumns = searchColumns.AddItemToArray(col.ToString());
+                }
+                offset = SearchParent.doSearch(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked, searchColumns);
             } 
             if( e.KeyCode == Keys.Escape) {
                 this.DialogResult = DialogResult.OK;

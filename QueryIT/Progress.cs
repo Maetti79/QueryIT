@@ -73,13 +73,11 @@ namespace QueryIT {
                 if(this.Focused == false) {
                     this.Focus();
                 }
-                Application.DoEvents();
+                //Application.DoEvents();
             } catch(Exception e) {
 
             }
         }
-
-
 
         private void ProgressForm_Load(object sender, EventArgs e) {
 

@@ -49,7 +49,7 @@ namespace QueryIT
                     client.Timeout = 10000;
                     client.DeliveryMethod = SmtpDeliveryMethod.Network;
                     client.UseDefaultCredentials = false;
-                    client.Credentials = new System.Net.NetworkCredential("dennismittmann79@gmail.com", "deltatbb12");
+                    client.Credentials = new System.Net.NetworkCredential("", "");
 
                     MailMessage mm = new MailMessage("dennismittmann79@gmail.com", "dennismittmann79@gmail.com");
                     mm.Subject = "QueryIT - BugReport";

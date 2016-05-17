@@ -30,6 +30,8 @@
             this.replaceBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.columnBox = new System.Windows.Forms.CheckedListBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // searchBox
@@ -38,14 +40,14 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.searchBox.Location = new System.Drawing.Point(73, 12);
             this.searchBox.Name = "searchBox";
-            this.searchBox.Size = new System.Drawing.Size(300, 20);
+            this.searchBox.Size = new System.Drawing.Size(299, 20);
             this.searchBox.TabIndex = 0;
             this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
             // 
             // SearchBtn
             // 
-            this.SearchBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SearchBtn.Location = new System.Drawing.Point(273, 64);
+            this.SearchBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SearchBtn.Location = new System.Drawing.Point(272, 120);
             this.SearchBtn.Name = "SearchBtn";
             this.SearchBtn.Size = new System.Drawing.Size(100, 23);
             this.SearchBtn.TabIndex = 4;
@@ -55,8 +57,9 @@
             // 
             // caseSensetiveChk
             // 
+            this.caseSensetiveChk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.caseSensetiveChk.AutoSize = true;
-            this.caseSensetiveChk.Location = new System.Drawing.Point(165, 68);
+            this.caseSensetiveChk.Location = new System.Drawing.Point(270, 87);
             this.caseSensetiveChk.Name = "caseSensetiveChk";
             this.caseSensetiveChk.Size = new System.Drawing.Size(100, 17);
             this.caseSensetiveChk.TabIndex = 3;
@@ -65,8 +68,9 @@
             // 
             // exactChk
             // 
+            this.exactChk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.exactChk.AutoSize = true;
-            this.exactChk.Location = new System.Drawing.Point(73, 68);
+            this.exactChk.Location = new System.Drawing.Point(270, 64);
             this.exactChk.Name = "exactChk";
             this.exactChk.Size = new System.Drawing.Size(86, 17);
             this.exactChk.TabIndex = 2;
@@ -79,7 +83,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.replaceBox.Location = new System.Drawing.Point(73, 38);
             this.replaceBox.Name = "replaceBox";
-            this.replaceBox.Size = new System.Drawing.Size(300, 20);
+            this.replaceBox.Size = new System.Drawing.Size(299, 20);
             this.replaceBox.TabIndex = 1;
             // 
             // label1
@@ -100,12 +104,33 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Replace";
             // 
+            // columnBox
+            // 
+            this.columnBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.columnBox.FormattingEnabled = true;
+            this.columnBox.Location = new System.Drawing.Point(73, 64);
+            this.columnBox.Name = "columnBox";
+            this.columnBox.Size = new System.Drawing.Size(189, 79);
+            this.columnBox.TabIndex = 8;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 65);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Columns";
+            // 
             // ReplaceForm
             // 
             this.AcceptButton = this.SearchBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(385, 96);
+            this.ClientSize = new System.Drawing.Size(384, 153);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.columnBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.replaceBox);
@@ -136,5 +161,7 @@
         private System.Windows.Forms.TextBox replaceBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckedListBox columnBox;
+        private System.Windows.Forms.Label label3;
     }
 }

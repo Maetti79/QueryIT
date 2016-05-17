@@ -807,7 +807,7 @@ namespace QueryIT {
         }
 
 
-        public int doReplace(string searchstring, string replacestring, int offset = 0, bool exact = false, bool casesensetive = false) {
+        public int doReplace(string searchstring, string replacestring, int offset = 0, bool exact = false, bool casesensetive = false, string[] columns = null) {
             try {
                 int match = 0;
                 int loops = 0;
@@ -822,29 +822,31 @@ namespace QueryIT {
                 foreach(DataGridViewRow r in resultGrid.Rows) {
                     if(r.IsNewRow == false) {
                         foreach(DataGridViewCell c in r.Cells) {
-                            if(c.Value != null) {
-                                if(casesensetive == true) {
-                                    if(exact == true) {
-                                        if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true) {
-                                            c.Value = replacestring.ToString();
-                                            match++;
+                            if(columns.Contains(c.OwningColumn.Name.ToString())) {
+                                if(c.Value != null) {
+                                    if(casesensetive == true) {
+                                        if(exact == true) {
+                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true) {
+                                                c.Value = replacestring.ToString();
+                                                match++;
+                                            }
+                                        } else {
+                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0) {
+                                                c.Value = c.Value.ToString().Replace(searchstring.ToString(), replacestring.ToString());
+                                                match++;
+                                            }
                                         }
                                     } else {
-                                        if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0) {
-                                            c.Value = c.Value.ToString().Replace(searchstring.ToString(), replacestring.ToString());
-                                            match++;
-                                        }
-                                    }
-                                } else {
-                                    if(exact == true) {
-                                        if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true) {
-                                            c.Value = replacestring.ToString();
-                                            match++;
-                                        }
-                                    } else {
-                                        if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0) {
-                                            c.Value = c.Value.ToString().Replace(searchstring.ToString(), replacestring.ToString());
-                                            match++;
+                                        if(exact == true) {
+                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true) {
+                                                c.Value = replacestring.ToString();
+                                                match++;
+                                            }
+                                        } else {
+                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0) {
+                                                c.Value = c.Value.ToString().Replace(searchstring.ToString(), replacestring.ToString());
+                                                match++;
+                                            }
                                         }
                                     }
                                 }
@@ -879,7 +881,7 @@ namespace QueryIT {
             }
         }
 
-        public int doFilter(string searchstring, int offset = 0, bool exact = false, bool casesensetive = false) {
+        public int doFilter(string searchstring, int offset = 0, bool exact = false, bool casesensetive = false, string[] columns = null) {
             try {
                 int match = 0;
                 int loops = 0;
@@ -898,29 +900,31 @@ namespace QueryIT {
                     if(r.IsNewRow == false) {
                         r.Visible = false;
                         foreach(DataGridViewCell c in r.Cells) {
-                            if(c.Value != null) {
-                                if(casesensetive == true) {
-                                    if(exact == true) {
-                                        if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true) {
-                                            r.Visible = true;
-                                            match++;
+                            if(columns.Contains(c.OwningColumn.Name.ToString())) {
+                                if(c.Value != null) {
+                                    if(casesensetive == true) {
+                                        if(exact == true) {
+                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true) {
+                                                r.Visible = true;
+                                                match++;
+                                            }
+                                        } else {
+                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0) {
+                                                r.Visible = true;
+                                                match++;
+                                            }
                                         }
                                     } else {
-                                        if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0) {
-                                            r.Visible = true;
-                                            match++;
-                                        }
-                                    }
-                                } else {
-                                    if(exact == true) {
-                                        if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true) {
-                                            r.Visible = true;
-                                            match++;
-                                        }
-                                    } else {
-                                        if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0) {
-                                            r.Visible = true;
-                                            match++;
+                                        if(exact == true) {
+                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true) {
+                                                r.Visible = true;
+                                                match++;
+                                            }
+                                        } else {
+                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0) {
+                                                r.Visible = true;
+                                                match++;
+                                            }
                                         }
                                     }
                                 }
@@ -960,7 +964,7 @@ namespace QueryIT {
             }
         }
 
-        public int doSearch(string searchstring, int offset = 0, bool exact = false, bool casesensetive = false) {
+        public int doSearch(string searchstring, int offset = 0, bool exact = false, bool casesensetive = false,string[] columns = null) {
             try {
                 int match = 0;
                 int loops = 0;
@@ -974,52 +978,54 @@ namespace QueryIT {
                 foreach(DataGridViewRow r in resultGrid.Rows) {
                     if(r.IsNewRow == false) {
                         foreach(DataGridViewCell c in r.Cells) {
-                            if(c.Value != null) {
-                                if(casesensetive == true) {
-                                    if(exact == true) {
-                                        if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true) {
-                                            if(match == offset) {
-                                                resultGrid.CurrentCell = resultGrid.Rows[c.RowIndex].Cells[c.ColumnIndex];
-                                                search = false;
-                                                match++;
-                                                break;
-                                            } else {
-                                                match++;
+                            if(columns.Contains(c.OwningColumn.Name.ToString())){
+                                if(c.Value != null) {
+                                    if(casesensetive == true) {
+                                        if(exact == true) {
+                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true) {
+                                                if(match == offset) {
+                                                    resultGrid.CurrentCell = resultGrid.Rows[c.RowIndex].Cells[c.ColumnIndex];
+                                                    search = false;
+                                                    match++;
+                                                    break;
+                                                } else {
+                                                    match++;
+                                                }
+                                            }
+                                        } else {
+                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0) {
+                                                if(match == offset) {
+                                                    resultGrid.CurrentCell = resultGrid.Rows[c.RowIndex].Cells[c.ColumnIndex];
+                                                    search = false;
+                                                    match++;
+                                                    break;
+                                                } else {
+                                                    match++;
+                                                }
                                             }
                                         }
                                     } else {
-                                        if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0) {
-                                            if(match == offset) {
-                                                resultGrid.CurrentCell = resultGrid.Rows[c.RowIndex].Cells[c.ColumnIndex];
-                                                search = false;
-                                                match++;
-                                                break;
-                                            } else {
-                                                match++;
+                                        if(exact == true) {
+                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true) {
+                                                if(match == offset) {
+                                                    resultGrid.CurrentCell = resultGrid.Rows[c.RowIndex].Cells[c.ColumnIndex];
+                                                    search = false;
+                                                    match++;
+                                                    break;
+                                                } else {
+                                                    match++;
+                                                }
                                             }
-                                        }
-                                    }
-                                } else {
-                                    if(exact == true) {
-                                        if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true) {
-                                            if(match == offset) {
-                                                resultGrid.CurrentCell = resultGrid.Rows[c.RowIndex].Cells[c.ColumnIndex];
-                                                search = false;
-                                                match++;
-                                                break;
-                                            } else {
-                                                match++;
-                                            }
-                                        }
-                                    } else {
-                                        if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0) {
-                                            if(match == offset) {
-                                                resultGrid.CurrentCell = resultGrid.Rows[c.RowIndex].Cells[c.ColumnIndex];
-                                                search = false;
-                                                match++;
-                                                break;
-                                            } else {
-                                                match++;
+                                        } else {
+                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0) {
+                                                if(match == offset) {
+                                                    resultGrid.CurrentCell = resultGrid.Rows[c.RowIndex].Cells[c.ColumnIndex];
+                                                    search = false;
+                                                    match++;
+                                                    break;
+                                                } else {
+                                                    match++;
+                                                }
                                             }
                                         }
                                     }
@@ -1057,7 +1063,7 @@ namespace QueryIT {
                 int indexD = 0;
                 DateTime utcStart;
                 DateTime utcStop;
-                ProgressForm pform = new ProgressForm(this, "Progress [Uniq]");
+                ProgressForm pform = new ProgressForm(this, "Progress [Unique]");
                 pform.update(0, DT.Rows.Count, 0);
                 pform.Show();
                 run = true;

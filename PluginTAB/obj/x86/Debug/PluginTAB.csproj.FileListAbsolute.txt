@@ -27,3 +27,13 @@ C:\Users\Dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.Proper
 C:\Users\Dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.csproj.GenerateResource.Cache
 C:\Users\Dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.dll
 C:\Users\Dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.pdb
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\bin\Debug\PluginTAB.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\bin\Debug\PluginTAB.pdb
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\bin\Debug\IPlugin.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\bin\Debug\IPlugin.pdb
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.csprojResolveAssemblyReference.cache
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.ExportForm.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.Properties.Resources.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.csproj.GenerateResource.Cache
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.pdb

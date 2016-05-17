@@ -14,6 +14,7 @@ namespace QueryIT
 
         QueryForm FilterParent;
         public int offset = 0;
+        string[] searchColumns;
 
         public FilterForm()
         {
@@ -30,17 +31,29 @@ namespace QueryIT
         {
             offset = 0;
             //if(searchBox.Text.Length > 2) {
-            //    offset = FilterParent.doFilter(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked);
+            //      searchColumns = searchColumns.Clear();
+            //foreach(object col in columnBox.CheckedItems) {
+            //    searchColumns = searchColumns.AddItemToArray(col.ToString());
+            //}
+            //    offset = FilterParent.doFilter(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked, searchColumns);
             //}
         }
 
         private void SearchBtn_Click(object sender, EventArgs e) {
-            offset = FilterParent.doFilter(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked);
+            searchColumns = searchColumns.Clear();
+            foreach(object col in columnBox.CheckedItems) {
+                searchColumns = searchColumns.AddItemToArray(col.ToString());
+            }
+            offset = FilterParent.doFilter(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked, searchColumns);
         }
 
         private void SearchForm_KeyDown(object sender, KeyEventArgs e) {
             if(e.Control && e.KeyCode == Keys.F) {
-                offset = FilterParent.doFilter(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked);
+                searchColumns = searchColumns.Clear();
+                foreach(object col in columnBox.CheckedItems) {
+                    searchColumns = searchColumns.AddItemToArray(col.ToString());
+                }
+                offset = FilterParent.doFilter(searchBox.Text.ToString(), offset, exactChk.Checked, caseSensetiveChk.Checked, searchColumns);
             } 
             if( e.KeyCode == Keys.Escape) {
                 this.DialogResult = DialogResult.OK;
@@ -49,7 +62,9 @@ namespace QueryIT
         }
 
         private void FilterForm_Load(object sender, EventArgs e) {
-
+            foreach(DataColumn col in FilterParent.DT.Columns) {
+                columnBox.Items.Add(col.Caption.ToString(), true);
+            }
         }
     }
 }

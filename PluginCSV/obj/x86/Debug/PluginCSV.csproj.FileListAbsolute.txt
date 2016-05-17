@@ -26,3 +26,12 @@ C:\Users\Dennis\Desktop\QueryIT\QueryIT\PluginCSV\obj\x86\Debug\PluginCSV.Proper
 C:\Users\Dennis\Desktop\QueryIT\QueryIT\PluginCSV\obj\x86\Debug\PluginCSV.csproj.GenerateResource.Cache
 C:\Users\Dennis\Desktop\QueryIT\QueryIT\PluginCSV\obj\x86\Debug\PluginCSV.dll
 C:\Users\Dennis\Desktop\QueryIT\QueryIT\PluginCSV\obj\x86\Debug\PluginCSV.pdb
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginCSV\bin\Debug\PluginCSV.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginCSV\bin\Debug\PluginCSV.pdb
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginCSV\bin\Debug\IPlugin.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginCSV\bin\Debug\IPlugin.pdb
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginCSV\obj\x86\Debug\PluginCSV.csprojResolveAssemblyReference.cache
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginCSV\obj\x86\Debug\PluginCSV.Properties.Resources.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginCSV\obj\x86\Debug\PluginCSV.csproj.GenerateResource.Cache
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginCSV\obj\x86\Debug\PluginCSV.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginCSV\obj\x86\Debug\PluginCSV.pdb

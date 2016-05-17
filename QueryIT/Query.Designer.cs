@@ -64,6 +64,7 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uniqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.doubleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,7 +73,6 @@
             this.newQueryerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QueryerTimer = new System.Windows.Forms.Timer(this.components);
-            this.doubleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QueryTabs.SuspendLayout();
             this.queryTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.querySplitV)).BeginInit();
@@ -452,9 +452,19 @@
             this.uniqToolStripMenuItem.Name = "uniqToolStripMenuItem";
             this.uniqToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
             this.uniqToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
-            this.uniqToolStripMenuItem.Text = "Uniq";
+            this.uniqToolStripMenuItem.Text = "Unique";
             this.uniqToolStripMenuItem.ToolTipText = "Delete duplicates in Result";
             this.uniqToolStripMenuItem.Click += new System.EventHandler(this.uniqToolStripMenuItem_Click);
+            // 
+            // doubleToolStripMenuItem
+            // 
+            this.doubleToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("doubleToolStripMenuItem.Image")));
+            this.doubleToolStripMenuItem.Name = "doubleToolStripMenuItem";
+            this.doubleToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.D)));
+            this.doubleToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.doubleToolStripMenuItem.Text = "Double";
+            this.doubleToolStripMenuItem.Click += new System.EventHandler(this.doubleToolStripMenuItem_Click);
             // 
             // connectionToolStripMenuItem
             // 
@@ -529,16 +539,6 @@
             this.QueryerTimer.Enabled = true;
             this.QueryerTimer.Interval = 1000;
             this.QueryerTimer.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // doubleToolStripMenuItem
-            // 
-            this.doubleToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("doubleToolStripMenuItem.Image")));
-            this.doubleToolStripMenuItem.Name = "doubleToolStripMenuItem";
-            this.doubleToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.D)));
-            this.doubleToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
-            this.doubleToolStripMenuItem.Text = "Double";
-            this.doubleToolStripMenuItem.Click += new System.EventHandler(this.doubleToolStripMenuItem_Click);
             // 
             // QueryForm
             // 

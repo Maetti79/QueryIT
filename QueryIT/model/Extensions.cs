@@ -22,6 +22,12 @@ using System.Text;
             }
         }
 
+
+        public static T[] Clear<T>(this T[] original) {
+                T[] finalArray = new T[0];
+                return finalArray;
+        }
+
         public static T[] RemoveAt<T>(this T[] original, int index)
         {
             if (original != null)
