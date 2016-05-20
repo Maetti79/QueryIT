@@ -17,13 +17,13 @@ namespace QueryIT {
 
     public partial class MainForm : Form {
 
-        public Core plugincore = new Core(Environment.CurrentDirectory);
+        public PluginCore plugincore = new PluginCore(Environment.CurrentDirectory);
         public String SerialManager = Serial.GetSerialNumber();
         public String LicenseInformation = "";
 
         public ProcessorUsage pu = new ProcessorUsage();
         public Datasource[] QueryerADS;
-        public QueryForm[] QueryerQS;
+        public QueryerForm[] QueryerQS;
 
         public Datasource LeftDS = new Datasource();
         public QueryForm LeftQ;
@@ -34,6 +34,7 @@ namespace QueryIT {
         public MoveForm CenterQ;
         public CompareForm CenterC;
         public CrossJoin CenterCJ;
+        public ForeachForm CenterFE;
 
         public String[] Error;
 
@@ -94,7 +95,7 @@ namespace QueryIT {
             try {
                 Datasource QueryerDS = new Datasource(conectionString);
                 if(QueryerDS.isConnected() == true) {
-                    QueryForm QueryerQ = new QueryForm(QueryerDS, "mid");
+                    QueryerForm QueryerQ = new QueryerForm(QueryerDS, "mid");
                     if(QueryerQS != null) {
                         QueryerQ.index = QueryerQS.Length;
                     }
@@ -287,7 +288,7 @@ namespace QueryIT {
                     string conStr = rform.conStr;
                     Datasource QueryerDS = new Datasource(conStr);
                     if(QueryerDS.isConnected() == true) {
-                        QueryForm QueryerQ = new QueryForm(QueryerDS, "mid");
+                        QueryerForm QueryerQ = new QueryerForm(QueryerDS, "mid");
                         if(QueryerQS != null) {
                             QueryerQ.index = QueryerQS.Length;
                         }
@@ -314,15 +315,27 @@ namespace QueryIT {
                     moveColumnMappingToolStripMenuItem.Enabled = true;
                     compareToolStripMenuItem1.Enabled = true;
                     crossJoinToolStripMenuItem1.Enabled = true;
+                    forEachToolStripMenuItem.Enabled = true;
                 } else {
                     moveColumnMappingToolStripMenuItem.Enabled = false;
                     compareToolStripMenuItem1.Enabled = false;
                     crossJoinToolStripMenuItem1.Enabled = false;
+                    forEachToolStripMenuItem.Enabled = false;
+                }
+                if(LeftDS.run == true && DateTime.UtcNow.Subtract(LeftDS.utcStart).Seconds > 0) {
+                    leftStatus.Text = "Source [" + DateTime.UtcNow.Subtract(LeftDS.utcStart).Seconds + "s]";
+                } else {
+                    leftStatus.Text = "Source";
                 }
                 if(LeftDS.isConnected() == true) {
                     leftStatus.Image = MainIcons.Images[1];
                 } else {
                     leftStatus.Image = MainIcons.Images[2];
+                }
+                if(RightDS.run == true && DateTime.UtcNow.Subtract(RightDS.utcStart).Seconds > 0) {
+                    rightStatus.Text = "Destination [" + DateTime.UtcNow.Subtract(RightDS.utcStart).Seconds + "s]";
+                } else {
+                    rightStatus.Text = "Destination";
                 }
                 if(RightDS.isConnected() == true) {
                     rightStatus.Image = MainIcons.Images[1];
@@ -333,6 +346,11 @@ namespace QueryIT {
                 if(QueryerADS != null) {
                     foreach(Datasource QueryerDS in QueryerADS) {
                         if(MainStatus.Items.ContainsKey("Queryer" + QueryerDS.index.ToString()) == true) {
+                            if(QueryerDS.run == true && DateTime.UtcNow.Subtract(QueryerDS.utcStart).Seconds > 0) {
+                                MainStatus.Items[MainStatus.Items.IndexOfKey("Queryer" + QueryerDS.index.ToString())].Text = "Queryer" + QueryerDS.index.ToString() + " [" + DateTime.UtcNow.Subtract(QueryerDS.utcStart).Seconds + "s]";
+                            }  else {
+                                MainStatus.Items[MainStatus.Items.IndexOfKey("Queryer" + QueryerDS.index.ToString())].Text = "Queryer" + QueryerDS.index.ToString();
+                            }
                             if(QueryerDS.isConnected() == true) {
                                 MainStatus.Items[MainStatus.Items.IndexOfKey("Queryer" + QueryerDS.index.ToString())].Image = MainIcons.Images[1];
                             } else {
@@ -348,10 +366,10 @@ namespace QueryIT {
                             MainStatus.Items.Add(Qstatus);
                         }
                     }
-                }
+                } 
 
                 if(QueryerQS != null) {
-                    foreach(QueryForm qf in QueryerQS) {
+                    foreach(QueryerForm qf in QueryerQS) {
                         if(qf.Visible == false) {
                             int idx = qf.index;
                             QueryerADS = QueryerADS.RemoveAt(idx);
@@ -379,28 +397,67 @@ namespace QueryIT {
 
         private void Main_DragDrop(object sender, DragEventArgs e) {
             try {
+                string schema = "";
+                string path = "";
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                foreach(string file in files) {
+                path = Path.GetDirectoryName(files[0]);
+                if(File.Exists(path + "\\Schema.ini")) {
+                    schema = File.ReadAllText(path + "\\Schema.ini");
+                }
+
+                foreach(string file in Directory.GetFiles(path)) {
                     if(file.Contains(".csv")) {
-                        string conStr = "Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=" + Path.GetDirectoryName(file) + ";Extensions=asc,csv,tab,txt;";
-                        Datasource QueryerDS = new Datasource(conStr);
-                        if(QueryerDS.isConnected() == true) {
-                            QueryForm QueryerQ = new QueryForm(QueryerDS, "mid");
-                            if(QueryerQS != null) {
-                                QueryerQ.index = QueryerQS.Length;
+                        if(schema.Contains(Path.GetFileName(file).ToString()) == false) {
+                            System.IO.StreamReader tmpf = new System.IO.StreamReader(file);
+                            string line = tmpf.ReadLine();
+                            string delimiter = "";
+                            if(line != "") {
+                                if(line.Contains(" ")) {
+                                    delimiter = "Delimited( )";
+                                }
+                                if(line.Contains("|")) {
+                                    delimiter = "Delimited(|)";
+                                }
+                                if(line.Contains("\t")) {
+                                    delimiter = "TabDelimited";
+                                }
+                                if(line.Contains(";")) {
+                                    delimiter = "Delimited(;)";
+                                }
+                                
                             }
-                            if(QueryerADS != null) {
-                                QueryerDS.index = QueryerADS.Length;
+                            tmpf.Close();
+                            if(delimiter != "") {
+                                schema = schema + "[" + Path.GetFileName(file).ToString() + "]\r\n";
+                                schema = schema + "Format=" + delimiter + "\r\n\r\n";
                             }
-                            QueryerQ.nameindex = "Queryer" + QueryerQ.index;
-                            QueryerQ.MdiParent = this;
-                            QueryerQ.Show();
-                            QueryerQ.Focus();
-                            QueryerQS = QueryerQS.AddItemToArray(QueryerQ);
-                            QueryerADS = QueryerADS.AddItemToArray(QueryerDS);
                         }
                     }
                 }
+                if(schema != "") {
+                    File.WriteAllText(path + "\\Schema.ini", schema);
+                }
+
+                if(path != "") {
+                    string conStr = "Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=" + path + ";Extensions=asc,csv,tab,txt;";
+                    Datasource QueryerDS = new Datasource(conStr);
+                    if(QueryerDS.isConnected() == true) {
+                        QueryerForm QueryerQ = new QueryerForm(QueryerDS, "mid");
+                        if(QueryerQS != null) {
+                            QueryerQ.index = QueryerQS.Length;
+                        }
+                        if(QueryerADS != null) {
+                            QueryerDS.index = QueryerADS.Length;
+                        }
+                        QueryerQ.nameindex = "Queryer" + QueryerQ.index;
+                        QueryerQ.MdiParent = this;
+                        QueryerQ.Show();
+                        QueryerQ.Focus();
+                        QueryerQS = QueryerQS.AddItemToArray(QueryerQ);
+                        QueryerADS = QueryerADS.AddItemToArray(QueryerDS);
+                    }
+                }
+
             } catch(Exception err) {
                 errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
@@ -568,6 +625,23 @@ namespace QueryIT {
                     CenterCJ.MdiParent = this;
                     CenterCJ.Show();
                     CenterCJ.Focus();
+                }
+            } catch(Exception err) {
+                errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void forEachToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                if(LeftDS.isConnected() == true && RightDS.isConnected() == true) {
+                    if(CenterFE == null) {
+                        CenterFE = new ForeachForm(LeftDS, RightDS);
+                    } else if(CenterFE.Visible == false) {
+                        CenterFE = new ForeachForm(LeftDS, RightDS);
+                    }
+                    CenterFE.MdiParent = this;
+                    CenterFE.Show();
+                    CenterFE.Focus();
                 }
             } catch(Exception err) {
                 errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);

@@ -43,6 +43,7 @@
             this.moveColumnMappingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.compareToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.crossJoinToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.forEachToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectRightMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -150,7 +151,8 @@
             this.modulesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.moveColumnMappingToolStripMenuItem,
             this.compareToolStripMenuItem1,
-            this.crossJoinToolStripMenuItem1});
+            this.crossJoinToolStripMenuItem1,
+            this.forEachToolStripMenuItem});
             this.modulesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("modulesToolStripMenuItem.Image")));
             this.modulesToolStripMenuItem.Name = "modulesToolStripMenuItem";
             this.modulesToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
@@ -185,6 +187,16 @@
             this.crossJoinToolStripMenuItem1.Text = "CrossJoin";
             this.crossJoinToolStripMenuItem1.ToolTipText = "CrossJoin Source with Destination";
             this.crossJoinToolStripMenuItem1.Click += new System.EventHandler(this.crossJoinToolStripMenuItem1_Click);
+            // 
+            // forEachToolStripMenuItem
+            // 
+            this.forEachToolStripMenuItem.Enabled = false;
+            this.forEachToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("forEachToolStripMenuItem.Image")));
+            this.forEachToolStripMenuItem.Name = "forEachToolStripMenuItem";
+            this.forEachToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.forEachToolStripMenuItem.Text = "ForEach";
+            this.forEachToolStripMenuItem.ToolTipText = "ForEach Record in Source Execute an SQL Statement in Destination";
+            this.forEachToolStripMenuItem.Click += new System.EventHandler(this.forEachToolStripMenuItem_Click);
             // 
             // connectRightMenu
             // 
@@ -323,6 +335,7 @@
         private System.Windows.Forms.ToolStripMenuItem moveColumnMappingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem compareToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem crossJoinToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem forEachToolStripMenuItem;
     }
 }
 

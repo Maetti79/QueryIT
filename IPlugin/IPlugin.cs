@@ -9,7 +9,7 @@ namespace IPlugin {
         Import,
         Export,
         Other,
-        none,
+        none
     }
 
     public enum pluginHook {
@@ -17,8 +17,10 @@ namespace IPlugin {
         Main,
         Queryer,
         Mover,
-        Other,
-        none,
+        Compare,
+        CrossJoin,
+        ForEach,
+        none
     }
 
     public interface IPlugin {

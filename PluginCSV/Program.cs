@@ -70,7 +70,6 @@ namespace PluginCSV {
 
                     } catch(Exception e) {
 
-
                     }
                 }
             }

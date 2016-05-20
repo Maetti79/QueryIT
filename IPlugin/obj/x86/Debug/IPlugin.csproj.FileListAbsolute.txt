@@ -17,3 +17,4 @@ C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugi
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.csproj.GenerateResource.Cache
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.dll
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.pdb
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\IPlugin\obj\x86\Debug\IPlugin.csprojResolveAssemblyReference.cache

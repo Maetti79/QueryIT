@@ -98,3 +98,7 @@ C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryI
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.AutoCaseForm.resources
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.ConcatForm.resources
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.TableForm.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.ForeachForm.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\Interop.ADODB.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.csproj.ResolveComReference.cache
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.QueryerForm.resources

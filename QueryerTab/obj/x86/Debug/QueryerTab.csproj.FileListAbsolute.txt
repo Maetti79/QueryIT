@@ -1,0 +1,10 @@
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryerTab\bin\Debug\QueryerTab.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryerTab\bin\Debug\QueryerTab.pdb
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryerTab\obj\x86\Debug\QueryTab.baml
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryerTab\obj\x86\Debug\QueryTab.g.cs
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryerTab\obj\x86\Debug\QueryerTab_MarkupCompile.cache
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryerTab\obj\x86\Debug\QueryerTab.g.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryerTab\obj\x86\Debug\QueryerTab.Properties.Resources.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryerTab\obj\x86\Debug\QueryerTab.csproj.GenerateResource.Cache
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryerTab\obj\x86\Debug\QueryerTab.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryerTab\obj\x86\Debug\QueryerTab.pdb
