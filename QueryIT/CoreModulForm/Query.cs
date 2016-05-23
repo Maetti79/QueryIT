@@ -11,6 +11,7 @@ using System.IO;
 using System.Globalization;
 using IPlugin;
 using QueryIT.model;
+using AutocompleteMenuNS;
 
 namespace QueryIT {
     public partial class QueryForm : Form {
@@ -366,6 +367,15 @@ namespace QueryIT {
 
         public void reloadSchema() {
             try {
+                var acitems = new List<AutocompleteItem>();
+                Array.Sort(SQLSyntax.SQLblue);
+                foreach(var key in SQLSyntax.SQLblue) {
+                    acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
+                }
+                Array.Sort(SQLSyntax.SQLmagenta);
+                foreach(var key in SQLSyntax.SQLmagenta) {
+                    acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
+                }
                 if(QDS.databases.Rows.Count > 0) {
                     string database = QDS.database;
                     foreach(DataRow r in QDS.databases.Rows) {
@@ -390,6 +400,7 @@ namespace QueryIT {
                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes.Add(row["TABLE_NAME"].ToString(), row["TABLE_NAME"].ToString());
                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].ImageIndex = 5;
                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].SelectedImageIndex = 5;
+                            acitems.Add(new AutocompleteItem(row["TABLE_NAME"].ToString()) { ImageIndex = 5 });
                             foreach(DataRow col in QDS.columns.Rows) {
                                 if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
 
@@ -398,13 +409,16 @@ namespace QueryIT {
                                         if(col["COLUMN_KEY"].ToString() == "PRI") {
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
+                                            acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 10 });
                                         } else {
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                            acitems.Add(new AutocompleteItem("`" + col["COLUMN_NAME"].ToString()) { ImageIndex = 6 });
                                         }
                                     } else {
                                         DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
                                         DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                        acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 6 });
                                     }
                                 }
                             }
@@ -428,6 +442,7 @@ namespace QueryIT {
                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes.Add(row["TABLE_NAME"].ToString(), row["TABLE_NAME"].ToString());
                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].ImageIndex = 5;
                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].SelectedImageIndex = 5;
+                            acitems.Add(new AutocompleteItem(row["TABLE_NAME"].ToString()) { ImageIndex = 5 });
                             foreach(DataRow col in QDS.columns.Rows) {
                                 if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
                                     DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
@@ -435,19 +450,23 @@ namespace QueryIT {
                                         if(col["COLUMN_KEY"].ToString() == "PRI") {
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
+                                            acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 10 });
                                         } else {
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                            acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 6 });
                                         }
                                     } else {
                                         DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
                                         DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                        acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 6 });
                                     }
                                 }
                             }
                         }
                     }
                 }
+                autocomplete.SetAutocompleteItems(acitems);
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }

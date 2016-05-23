@@ -42,7 +42,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>keyBag.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>QueryIT.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>false</DelaySign>
@@ -80,6 +80,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="QueryIT.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

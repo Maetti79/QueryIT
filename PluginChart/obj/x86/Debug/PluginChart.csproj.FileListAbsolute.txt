@@ -1,0 +1,10 @@
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.csproj.GenerateResource.Cache
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.csprojResolveAssemblyReference.cache
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\bin\Debug\IPlugin.dll
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\bin\Debug\IPlugin.pdb
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.Properties.Resources.resources
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\bin\Debug\PluginChart.dll
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\bin\Debug\PluginChart.pdb
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.dll
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.pdb
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.ChartForm.resources

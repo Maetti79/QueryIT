@@ -81,6 +81,7 @@
             this.newQueryerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QueryerTimer = new System.Windows.Forms.Timer(this.components);
+            this.autocomplete = new AutocompleteMenuNS.AutocompleteMenu();
             this.QueryTabs.SuspendLayout();
             this.queryTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.querySplitV)).BeginInit();
@@ -209,6 +210,7 @@
             // 
             // queryBox
             // 
+            this.autocomplete.SetAutocompleteMenu(this.queryBox, this.autocomplete);
             this.queryBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.queryBox.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.queryBox.Location = new System.Drawing.Point(0, 0);
@@ -312,6 +314,7 @@
             // 
             // resultBox
             // 
+            this.autocomplete.SetAutocompleteMenu(this.resultBox, null);
             this.resultBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultBox.Location = new System.Drawing.Point(3, 3);
             this.resultBox.Name = "resultBox";
@@ -335,6 +338,7 @@
             this.historyBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.autocomplete.SetAutocompleteMenu(this.historyBox, null);
             this.historyBox.Location = new System.Drawing.Point(3, 3);
             this.historyBox.Name = "historyBox";
             this.historyBox.Size = new System.Drawing.Size(578, 414);
@@ -634,6 +638,14 @@
             this.QueryerTimer.Interval = 1000;
             this.QueryerTimer.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // autocomplete
+            // 
+            this.autocomplete.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocomplete.Colors")));
+            this.autocomplete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.autocomplete.ImageList = this.QueryIcons;
+            this.autocomplete.Items = new string[0];
+            this.autocomplete.TargetControlWrapper = null;
+            // 
             // QueryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -723,6 +735,7 @@
         private System.Windows.Forms.ToolStripMenuItem concatToolStripMenuItem1;
         private System.Windows.Forms.ContextMenuStrip schemaContextMenu;
         private System.Windows.Forms.ToolStripMenuItem alterTableToolStripMenuItem;
+        private AutocompleteMenuNS.AutocompleteMenu autocomplete;
 
     }
 }

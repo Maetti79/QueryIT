@@ -31,7 +31,7 @@
     <SuiteName>QueryIT</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>11</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -358,9 +358,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutocompleteMenu\AutocompleteMenu.csproj">
+      <Project>{43CBC9AA-6A8E-463F-83A9-AFF3124AFDB6}</Project>
+      <Name>AutocompleteMenu</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </ProjectReference>
     <ProjectReference Include="..\IPlugin\IPlugin.csproj">
       <Project>{8054D858-7FD2-4334-9BBF-17015CD3BEA7}</Project>
       <Name>IPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginChart\PluginChart.csproj">
+      <Project>{17AD32EE-95B8-4904-8571-3A40D5A0EE8F}</Project>
+      <Name>PluginChart</Name>
     </ProjectReference>
     <ProjectReference Include="..\PluginCSV\PluginCSV.csproj">
       <Project>{641CBC8E-0636-4E1E-BBE1-203CCDA83A2D}</Project>

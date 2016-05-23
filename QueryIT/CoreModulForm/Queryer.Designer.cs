@@ -48,8 +48,9 @@
             this.savesqlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportcsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveSQLToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportcsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveHistoryhstToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.queryRunMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.killToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,7 +84,7 @@
             this.resultBox = new System.Windows.Forms.RichTextBox();
             this.resultHistoryTab = new System.Windows.Forms.TabPage();
             this.historyBox = new System.Windows.Forms.RichTextBox();
-            this.saveHistoryhstToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autocomplete = new AutocompleteMenuNS.AutocompleteMenu();
             this.schemaContextMenu.SuspendLayout();
             this.resultContextMenu.SuspendLayout();
             this.queryMenu.SuspendLayout();
@@ -287,6 +288,15 @@
             this.resultToolStripMenuItem.Text = "Result";
             this.resultToolStripMenuItem.Click += new System.EventHandler(this.resultToolStripMenuItem_Click);
             // 
+            // saveSQLToolStripMenuItem1
+            // 
+            this.saveSQLToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("saveSQLToolStripMenuItem1.Image")));
+            this.saveSQLToolStripMenuItem1.Name = "saveSQLToolStripMenuItem1";
+            this.saveSQLToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
+            this.saveSQLToolStripMenuItem1.Size = new System.Drawing.Size(237, 22);
+            this.saveSQLToolStripMenuItem1.Text = "Update Changes (SQL)";
+            this.saveSQLToolStripMenuItem1.Click += new System.EventHandler(this.saveSQLToolStripMenuItem1_Click);
+            // 
             // exportcsvToolStripMenuItem
             // 
             this.exportcsvToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exportcsvToolStripMenuItem.Image")));
@@ -296,14 +306,13 @@
             this.exportcsvToolStripMenuItem.Text = "Export Result (*.csv)";
             this.exportcsvToolStripMenuItem.Click += new System.EventHandler(this.exportcsvToolStripMenuItem_Click);
             // 
-            // saveSQLToolStripMenuItem1
+            // saveHistoryhstToolStripMenuItem
             // 
-            this.saveSQLToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("saveSQLToolStripMenuItem1.Image")));
-            this.saveSQLToolStripMenuItem1.Name = "saveSQLToolStripMenuItem1";
-            this.saveSQLToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.saveSQLToolStripMenuItem1.Size = new System.Drawing.Size(237, 22);
-            this.saveSQLToolStripMenuItem1.Text = "Update Changes (SQL)";
-            this.saveSQLToolStripMenuItem1.Click += new System.EventHandler(this.saveSQLToolStripMenuItem1_Click);
+            this.saveHistoryhstToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveHistoryhstToolStripMenuItem.Image")));
+            this.saveHistoryhstToolStripMenuItem.Name = "saveHistoryhstToolStripMenuItem";
+            this.saveHistoryhstToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.saveHistoryhstToolStripMenuItem.Text = "Save History (*.hst)";
+            this.saveHistoryhstToolStripMenuItem.Click += new System.EventHandler(this.saveHistoryhstToolStripMenuItem_Click);
             // 
             // queryRunMenu
             // 
@@ -584,6 +593,7 @@
             // 
             // queryBox
             // 
+            this.autocomplete.SetAutocompleteMenu(this.queryBox, this.autocomplete);
             this.queryBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.queryBox.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.queryBox.Location = new System.Drawing.Point(0, 0);
@@ -642,6 +652,7 @@
             // 
             // resultBox
             // 
+            this.autocomplete.SetAutocompleteMenu(this.resultBox, null);
             this.resultBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultBox.Location = new System.Drawing.Point(3, 3);
             this.resultBox.Name = "resultBox";
@@ -663,6 +674,7 @@
             // 
             // historyBox
             // 
+            this.autocomplete.SetAutocompleteMenu(this.historyBox, null);
             this.historyBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.historyBox.Location = new System.Drawing.Point(3, 3);
             this.historyBox.Name = "historyBox";
@@ -670,13 +682,14 @@
             this.historyBox.TabIndex = 1;
             this.historyBox.Text = "";
             // 
-            // saveHistoryhstToolStripMenuItem
+            // autocomplete
             // 
-            this.saveHistoryhstToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveHistoryhstToolStripMenuItem.Image")));
-            this.saveHistoryhstToolStripMenuItem.Name = "saveHistoryhstToolStripMenuItem";
-            this.saveHistoryhstToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-            this.saveHistoryhstToolStripMenuItem.Text = "Save History (*.hst)";
-            this.saveHistoryhstToolStripMenuItem.Click += new System.EventHandler(this.saveHistoryhstToolStripMenuItem_Click);
+            this.autocomplete.AppearInterval = 200;
+            this.autocomplete.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocomplete.Colors")));
+            this.autocomplete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.autocomplete.ImageList = this.QueryIcons;
+            this.autocomplete.Items = new string[0];
+            this.autocomplete.TargetControlWrapper = null;
             // 
             // QueryerForm
             // 
@@ -773,6 +786,6 @@
         private System.Windows.Forms.TabPage resultHistoryTab;
         private System.Windows.Forms.RichTextBox historyBox;
         private System.Windows.Forms.ToolStripMenuItem saveHistoryhstToolStripMenuItem;
-
+        private AutocompleteMenuNS.AutocompleteMenu autocomplete;
     }
 }

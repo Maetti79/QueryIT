@@ -68,7 +68,6 @@ C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\QueryIT.ap
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\QueryIT.exe
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\QueryIT.pdb
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\IPlugin.dll
-C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\MySql.Data.dll
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\PluginCSV.dll
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\PluginTAB.dll
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\IPlugin.pdb
@@ -102,3 +101,8 @@ C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryI
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\Interop.ADODB.dll
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.csproj.ResolveComReference.cache
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.QueryerForm.resources
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\PluginChart.dll
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\PluginChart.pdb
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\AutocompleteMenu.dll
+C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\AutocompleteMenu.pdb
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\MySql.Data.dll

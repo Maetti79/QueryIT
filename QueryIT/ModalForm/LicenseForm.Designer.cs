@@ -44,7 +44,7 @@
             // OkBtn
             // 
             this.OkBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.OkBtn.Location = new System.Drawing.Point(12, 533);
+            this.OkBtn.Location = new System.Drawing.Point(12, 433);
             this.OkBtn.Name = "OkBtn";
             this.OkBtn.Size = new System.Drawing.Size(75, 23);
             this.OkBtn.TabIndex = 1;
@@ -56,7 +56,7 @@
             // 
             this.CloseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CloseBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CloseBtn.Location = new System.Drawing.Point(700, 533);
+            this.CloseBtn.Location = new System.Drawing.Point(700, 433);
             this.CloseBtn.Name = "CloseBtn";
             this.CloseBtn.Size = new System.Drawing.Size(72, 23);
             this.CloseBtn.TabIndex = 2;
@@ -79,7 +79,7 @@
                         | System.Windows.Forms.AnchorStyles.Left)));
             this.LicenseBox.Location = new System.Drawing.Point(12, 56);
             this.LicenseBox.Name = "LicenseBox";
-            this.LicenseBox.Size = new System.Drawing.Size(271, 471);
+            this.LicenseBox.Size = new System.Drawing.Size(271, 371);
             this.LicenseBox.SmallImageList = this.licenseIcons;
             this.LicenseBox.TabIndex = 4;
             this.LicenseBox.UseCompatibleStateImageBehavior = false;
@@ -130,7 +130,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.EulaRtf.Location = new System.Drawing.Point(289, 56);
             this.EulaRtf.Name = "EulaRtf";
-            this.EulaRtf.Size = new System.Drawing.Size(483, 471);
+            this.EulaRtf.Size = new System.Drawing.Size(483, 371);
             this.EulaRtf.TabIndex = 8;
             this.EulaRtf.Text = "";
             // 
@@ -139,7 +139,7 @@
             this.AcceptButton = this.CloseBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.EulaRtf);
             this.Controls.Add(this.ExpiresLbl);
             this.Controls.Add(this.LicenseLab);
