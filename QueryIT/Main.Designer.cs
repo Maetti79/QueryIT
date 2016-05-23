@@ -54,6 +54,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statsTimer = new System.Windows.Forms.Timer(this.components);
+            this.chunkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainStatus.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
@@ -152,7 +153,8 @@
             this.moveColumnMappingToolStripMenuItem,
             this.compareToolStripMenuItem1,
             this.crossJoinToolStripMenuItem1,
-            this.forEachToolStripMenuItem});
+            this.forEachToolStripMenuItem,
+            this.chunkToolStripMenuItem});
             this.modulesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("modulesToolStripMenuItem.Image")));
             this.modulesToolStripMenuItem.Name = "modulesToolStripMenuItem";
             this.modulesToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
@@ -222,6 +224,7 @@
             this.pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
             this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.pluginsToolStripMenuItem.Text = "Plugins";
+            this.pluginsToolStripMenuItem.Visible = false;
             // 
             // aboutToolStripMenuItem
             // 
@@ -284,6 +287,15 @@
             this.statsTimer.Interval = 250;
             this.statsTimer.Tick += new System.EventHandler(this.statsTimer_Tick);
             // 
+            // chunkToolStripMenuItem
+            // 
+            this.chunkToolStripMenuItem.Enabled = false;
+            this.chunkToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("chunkToolStripMenuItem.Image")));
+            this.chunkToolStripMenuItem.Name = "chunkToolStripMenuItem";
+            this.chunkToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.chunkToolStripMenuItem.Text = "Chunk";
+            this.chunkToolStripMenuItem.Click += new System.EventHandler(this.chunkToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -336,6 +348,7 @@
         private System.Windows.Forms.ToolStripMenuItem compareToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem crossJoinToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem forEachToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem chunkToolStripMenuItem;
     }
 }
 

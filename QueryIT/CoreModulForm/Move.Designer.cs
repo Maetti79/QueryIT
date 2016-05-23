@@ -46,8 +46,6 @@
             this.ignoreCheck = new System.Windows.Forms.CheckBox();
             this.typecastCheck = new System.Windows.Forms.CheckBox();
             this.moveProgress = new System.Windows.Forms.ProgressBar();
-            this.sqlRTF = new System.Windows.Forms.RichTextBox();
-            this.moveMapGrid = new System.Windows.Forms.DataGridView();
             this.moveResultTab = new System.Windows.Forms.TabPage();
             this.moveResultBox = new System.Windows.Forms.RichTextBox();
             this.moveHistoryTab = new System.Windows.Forms.TabPage();
@@ -62,6 +60,9 @@
             this.killToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusTimer = new System.Windows.Forms.Timer(this.components);
+            this.moveSplitH = new System.Windows.Forms.SplitContainer();
+            this.moveMapGrid = new System.Windows.Forms.DataGridView();
+            this.sqlRTF = new System.Windows.Forms.RichTextBox();
             this.moveTabs.SuspendLayout();
             this.moveMapTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -69,10 +70,14 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.moveMapGroup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.moveMapGrid)).BeginInit();
             this.moveResultTab.SuspendLayout();
             this.moveHistoryTab.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.moveSplitH)).BeginInit();
+            this.moveSplitH.Panel1.SuspendLayout();
+            this.moveSplitH.Panel2.SuspendLayout();
+            this.moveSplitH.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.moveMapGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // moveTabs
@@ -112,8 +117,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.sqlRTF);
-            this.splitContainer1.Panel2.Controls.Add(this.moveMapGrid);
+            this.splitContainer1.Panel2.Controls.Add(this.moveSplitH);
             this.splitContainer1.Size = new System.Drawing.Size(570, 304);
             this.splitContainer1.SplitterDistance = 189;
             this.splitContainer1.TabIndex = 1;
@@ -253,31 +257,6 @@
             this.moveProgress.Name = "moveProgress";
             this.moveProgress.Size = new System.Drawing.Size(177, 20);
             this.moveProgress.TabIndex = 0;
-            // 
-            // sqlRTF
-            // 
-            this.sqlRTF.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.sqlRTF.Font = new System.Drawing.Font("Consolas", 12F);
-            this.sqlRTF.Location = new System.Drawing.Point(0, 256);
-            this.sqlRTF.Name = "sqlRTF";
-            this.sqlRTF.ReadOnly = true;
-            this.sqlRTF.Size = new System.Drawing.Size(380, 51);
-            this.sqlRTF.TabIndex = 3;
-            this.sqlRTF.Text = "";
-            this.sqlRTF.TextChanged += new System.EventHandler(this.sqlRTF_TextChanged);
-            // 
-            // moveMapGrid
-            // 
-            this.moveMapGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.moveMapGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.moveMapGrid.Location = new System.Drawing.Point(0, 0);
-            this.moveMapGrid.Name = "moveMapGrid";
-            this.moveMapGrid.Size = new System.Drawing.Size(377, 250);
-            this.moveMapGrid.TabIndex = 2;
-            this.moveMapGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.moveMapGrid_CellContentClick);
             // 
             // moveResultTab
             // 
@@ -421,6 +400,44 @@
             this.statusTimer.Interval = 1000;
             this.statusTimer.Tick += new System.EventHandler(this.statusTimer_Tick);
             // 
+            // moveSplitH
+            // 
+            this.moveSplitH.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.moveSplitH.Location = new System.Drawing.Point(0, 0);
+            this.moveSplitH.Name = "moveSplitH";
+            this.moveSplitH.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // moveSplitH.Panel1
+            // 
+            this.moveSplitH.Panel1.Controls.Add(this.moveMapGrid);
+            // 
+            // moveSplitH.Panel2
+            // 
+            this.moveSplitH.Panel2.Controls.Add(this.sqlRTF);
+            this.moveSplitH.Size = new System.Drawing.Size(377, 304);
+            this.moveSplitH.SplitterDistance = 202;
+            this.moveSplitH.TabIndex = 4;
+            // 
+            // moveMapGrid
+            // 
+            this.moveMapGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.moveMapGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.moveMapGrid.Location = new System.Drawing.Point(0, 0);
+            this.moveMapGrid.Name = "moveMapGrid";
+            this.moveMapGrid.Size = new System.Drawing.Size(377, 202);
+            this.moveMapGrid.TabIndex = 3;
+            // 
+            // sqlRTF
+            // 
+            this.sqlRTF.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sqlRTF.Font = new System.Drawing.Font("Consolas", 12F);
+            this.sqlRTF.Location = new System.Drawing.Point(0, 0);
+            this.sqlRTF.Name = "sqlRTF";
+            this.sqlRTF.ReadOnly = true;
+            this.sqlRTF.Size = new System.Drawing.Size(377, 98);
+            this.sqlRTF.TabIndex = 4;
+            this.sqlRTF.Text = "";
+            // 
             // MoveForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -445,11 +462,15 @@
             this.splitContainer1.ResumeLayout(false);
             this.moveMapGroup.ResumeLayout(false);
             this.moveMapGroup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.moveMapGrid)).EndInit();
             this.moveResultTab.ResumeLayout(false);
             this.moveHistoryTab.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.moveSplitH.Panel1.ResumeLayout(false);
+            this.moveSplitH.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.moveSplitH)).EndInit();
+            this.moveSplitH.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.moveMapGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -471,7 +492,6 @@
         private System.Windows.Forms.RichTextBox moveHistoryBox;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox moveMapGroup;
-        private System.Windows.Forms.DataGridView moveMapGrid;
         private System.Windows.Forms.ProgressBar moveProgress;
         private System.Windows.Forms.CheckBox typecastCheck;
         private System.Windows.Forms.CheckBox ignoreCheck;
@@ -488,6 +508,8 @@
         private System.Windows.Forms.ToolStripMenuItem pluginsToolStripMenuItem;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.SplitContainer moveSplitH;
+        private System.Windows.Forms.DataGridView moveMapGrid;
         private System.Windows.Forms.RichTextBox sqlRTF;
     }
 }

@@ -82,6 +82,8 @@
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QueryerTimer = new System.Windows.Forms.Timer(this.components);
             this.autocomplete = new AutocompleteMenuNS.AutocompleteMenu();
+            this.hashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hashToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.QueryTabs.SuspendLayout();
             this.queryTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.querySplitV)).BeginInit();
@@ -240,9 +242,10 @@
             this.autoCaseToolStripMenuItem1,
             this.concatToolStripMenuItem1,
             this.uniqueToolStripMenuItem,
-            this.doubleToolStripMenuItem1});
+            this.doubleToolStripMenuItem1,
+            this.hashToolStripMenuItem1});
             this.resultContextMenu.Name = "resultContextMenu";
-            this.resultContextMenu.Size = new System.Drawing.Size(126, 158);
+            this.resultContextMenu.Size = new System.Drawing.Size(153, 202);
             // 
             // filterToolStripMenuItem1
             // 
@@ -471,7 +474,8 @@
             this.autoCaseToolStripMenuItem,
             this.concatToolStripMenuItem,
             this.uniqToolStripMenuItem,
-            this.doubleToolStripMenuItem});
+            this.doubleToolStripMenuItem,
+            this.hashToolStripMenuItem});
             this.toolsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("toolsToolStripMenuItem.Image")));
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
@@ -646,6 +650,24 @@
             this.autocomplete.Items = new string[0];
             this.autocomplete.TargetControlWrapper = null;
             // 
+            // hashToolStripMenuItem
+            // 
+            this.hashToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("hashToolStripMenuItem.Image")));
+            this.hashToolStripMenuItem.Name = "hashToolStripMenuItem";
+            this.hashToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.H)));
+            this.hashToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
+            this.hashToolStripMenuItem.Text = "Hash";
+            this.hashToolStripMenuItem.Click += new System.EventHandler(this.hashToolStripMenuItem_Click);
+            // 
+            // hashToolStripMenuItem1
+            // 
+            this.hashToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("hashToolStripMenuItem1.Image")));
+            this.hashToolStripMenuItem1.Name = "hashToolStripMenuItem1";
+            this.hashToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.hashToolStripMenuItem1.Text = "Hash";
+            this.hashToolStripMenuItem1.Click += new System.EventHandler(this.hashToolStripMenuItem1_Click);
+            // 
             // QueryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -736,6 +758,8 @@
         private System.Windows.Forms.ContextMenuStrip schemaContextMenu;
         private System.Windows.Forms.ToolStripMenuItem alterTableToolStripMenuItem;
         private AutocompleteMenuNS.AutocompleteMenu autocomplete;
+        private System.Windows.Forms.ToolStripMenuItem hashToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hashToolStripMenuItem1;
 
     }
 }

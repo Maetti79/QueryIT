@@ -270,7 +270,7 @@ namespace QueryIT {
                 DataGridView rBox = getSelectedResultGridBox(qTab);
                 RichTextBox rtBox = getSelectedResultTextBox(qTab);
                 RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
-
+                TabControl rTabs = getSelectedResultTabs(qTab);
                 query = qBox.Text.ToString();
                 if(query.Length > 0) {
                     DT = new DataTable();
@@ -281,10 +281,15 @@ namespace QueryIT {
                         rBox.Columns.Clear();
                         rBox.DataSource = null;
                         if(QDS.hasResult() == true && QDS.hasErrors() == false) {
+                            rTabs.SelectTab(0);
                             //Needed to Copy for Cell Edit
                             if(QDS.row_count > 0) {
                                 DT = QDS.result.Copy();
+                            } else {
+                                rTabs.SelectTab(1);
                             }
+                        } else {
+                            rTabs.SelectTab(1);
                         }
                         rBox.DataSource = DT;
                         rBox.Refresh();
@@ -297,6 +302,7 @@ namespace QueryIT {
                         "\n" + rhBox.Text.ToString();
                     } else {
                         if(QDS.hasErrors() == true) {
+                            rTabs.SelectTab(1);
                             rtBox.Text = "Date: " + QDS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
                             "Query: '" + QDS.sql.ToString() + "'\n" +
                             "Error: " + QDS.error.ToString() + "\n";
@@ -312,6 +318,9 @@ namespace QueryIT {
                 killToolStripMenuItem.Enabled = false;
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+                run = false;
+                queryRunMenu.Enabled = true;
+                killToolStripMenuItem.Enabled = false;
             }
         }
 
@@ -500,7 +509,8 @@ namespace QueryIT {
                                 if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
 
                                     DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
-                                    if(col.ItemArray.Contains("COLUMN_KEY") == true) {
+                                    if(QDS.columns.Columns.Contains("COLUMN_KEY") == true) {
+                       
                                         if(col["COLUMN_KEY"].ToString() == "PRI") {
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
@@ -541,7 +551,7 @@ namespace QueryIT {
                             foreach(DataRow col in QDS.columns.Rows) {
                                 if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
                                     DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
-                                    if(col.ItemArray.Contains("COLUMN_KEY") == true) {
+                                    if(QDS.columns.Columns.Contains("COLUMN_KEY") == true) {
                                         if(col["COLUMN_KEY"].ToString() == "PRI") {
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
@@ -616,6 +626,13 @@ namespace QueryIT {
 
         private void saveSQLToolStripMenuItem1_Click(object sender, EventArgs e) {
             try {
+
+                TabPage qTab = getSelectedTab();
+                //RichTextBox qBox = getSelectedQueryBox(qTab);
+                DataGridView rBox = getSelectedResultGridBox(qTab);
+                //RichTextBox rtBox = getSelectedResultTextBox(qTab);
+                //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
+
                 string querys = "";
                 string queryUValues = "SET ";
                 string queryIValues = "";
@@ -652,7 +669,7 @@ namespace QueryIT {
                 queryI += ") ";
                 //update changes
                 string queryU = "UPDATE `" + QDS.table + "` ";
-                foreach(DataGridViewRow r in resultGrid.Rows) {
+                foreach(DataGridViewRow r in rBox.Rows) {
                     if(r.Index < QDS.result.Rows.Count) {
                         //Updates
                         queryUValues = "SET ";
@@ -799,6 +816,69 @@ namespace QueryIT {
                 rhBox.Text = "Date: " + utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
                                   "Result: " + match.ToString() + " Changed Records\n" +
                                   "Tool: AutoCase(" + Autocase.ToString() + ")\n" +
+                                  "\n" + rhBox.Text.ToString();
+                return match;
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+                run = false;
+                queryRunMenu.Enabled = true;
+                killToolStripMenuItem.Enabled = false;
+                return 0;
+            }
+        }
+
+        public int doHash(string Hash, int offset = 0, string[] columns = null) {
+            try {
+                int match = 0;
+                int loops = 0;
+                DateTime utcStart;
+                DateTime utcStop;
+                TabPage qTab = getSelectedTab();
+                ProgressForm pform = new ProgressForm(this, "Progress [Hash - " + qTab.Text + "]");
+                //RichTextBox qBox = getSelectedQueryBox(qTab);
+                DataGridView rBox = getSelectedResultGridBox(qTab);
+                RichTextBox rtBox = getSelectedResultTextBox(qTab);
+                RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
+                search = true;
+                run = true;
+                queryRunMenu.Enabled = false;
+                killToolStripMenuItem.Enabled = true;
+                resultGrid.CurrentCell = null;
+                utcStart = DateTime.UtcNow;
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                rBox.CurrentCell = null;
+                foreach(DataGridViewRow r in rBox.Rows) {
+                    if(r.IsNewRow == false) {
+                        foreach(DataGridViewCell c in r.Cells) {
+                            if(columns.Contains(c.OwningColumn.Name.ToString())) {
+                                if(c.Value != null) {
+                                    if(Hash == "MD5") {
+                                        c.Value = c.Value.ToString().checksum();
+                                    } else if(Hash == "SHA-1") {
+                                        c.Value = c.Value.ToString().checksum();
+                                    }
+                                    match++;
+                                }
+                            }
+                        }
+                    }
+                    loops++;
+                    if(loops % 250 == 0) {
+                        Application.DoEvents();
+                    }
+                }
+                utcStop = DateTime.UtcNow;
+                search = false;
+                run = false;
+                queryRunMenu.Enabled = true;
+                killToolStripMenuItem.Enabled = false;
+                rtBox.Text = "Date: " + utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
+                                 "Result: " + match.ToString() + " Hashed Records\n" +
+                                 "Tool: AutoCase(" + Hash.ToString() + ")\n";
+
+                rhBox.Text = "Date: " + utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
+                                  "Result: " + match.ToString() + " Hashed Records\n" +
+                                  "Tool: AutoCase(" + Hash.ToString() + ")\n" +
                                   "\n" + rhBox.Text.ToString();
                 return match;
             } catch(Exception err) {
@@ -1552,6 +1632,20 @@ namespace QueryIT {
             }
         }
 
+        public TabControl getSelectedResultTabs(TabPage qTab) {
+            try {
+                foreach(SplitContainer qSplit in qTab.Controls) {
+                    foreach(TabControl rTabsC in qSplit.Panel2.Controls) {
+                        return rTabsC;
+                    }
+                }
+                return null;
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+                return null;
+            }
+        }
+
         public RichTextBox getSelectedResultTextBox(TabPage qTab) {
             try {
                 foreach(SplitContainer qSplit in qTab.Controls) {
@@ -1574,6 +1668,7 @@ namespace QueryIT {
                 return null;
             }
         }
+
         public RichTextBox getSelectedResultHistoryBox(TabPage qTab) {
             try {
                 foreach(SplitContainer qSplit in qTab.Controls) {
@@ -1603,6 +1698,34 @@ namespace QueryIT {
 
         private void toolsToolStripMenuItem_Click(object sender, EventArgs e) {
 
+        }
+
+        private void hashToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                TabPage qTab = getSelectedTab();
+                //RichTextBox qBox = getSelectedQueryBox(qTab);
+                DataGridView rBox = getSelectedResultGridBox(qTab);
+                //RichTextBox rtBox = getSelectedResultTextBox(qTab);
+                //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
+                HashForm hashFrm = new HashForm(rBox);
+                hashFrm.Show();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void hashToolStripMenuItem1_Click(object sender, EventArgs e) {
+            try {
+                TabPage qTab = getSelectedTab();
+                //RichTextBox qBox = getSelectedQueryBox(qTab);
+                DataGridView rBox = getSelectedResultGridBox(qTab);
+                //RichTextBox rtBox = getSelectedResultTextBox(qTab);
+                //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
+                HashForm hashFrm = new HashForm(rBox);
+                hashFrm.Show();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
         }
 
     }

@@ -184,6 +184,9 @@ namespace QueryIT {
                 killToolStripMenuItem.Enabled = false;
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+                run = false;
+                crossJoinToolStripMenuItem.Enabled = true;
+                killToolStripMenuItem.Enabled = false;
             }
         }
 

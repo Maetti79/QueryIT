@@ -35,6 +35,8 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.DatabaseTree = new System.Windows.Forms.TreeView();
+            this.QueryIcons = new System.Windows.Forms.ImageList(this.components);
+            this.previewPosLbl = new System.Windows.Forms.Label();
             this.nextBtn = new System.Windows.Forms.Button();
             this.prevBtn = new System.Windows.Forms.Button();
             this.placeholderList = new System.Windows.Forms.ListBox();
@@ -54,8 +56,7 @@
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.killToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.QueryIcons = new System.Windows.Forms.ImageList(this.components);
-            this.previewPosLbl = new System.Windows.Forms.Label();
+            this.autocomplete = new AutocompleteMenuNS.AutocompleteMenu();
             this.loopTabs.SuspendLayout();
             this.moveMapTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -149,6 +150,36 @@
             this.DatabaseTree.Size = new System.Drawing.Size(189, 152);
             this.DatabaseTree.TabIndex = 13;
             // 
+            // QueryIcons
+            // 
+            this.QueryIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("QueryIcons.ImageStream")));
+            this.QueryIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.QueryIcons.Images.SetKeyName(0, "Database-Connecting.png");
+            this.QueryIcons.Images.SetKeyName(1, "Database-Connected.png");
+            this.QueryIcons.Images.SetKeyName(2, "Database-Disconnected.png");
+            this.QueryIcons.Images.SetKeyName(3, "1-csv.png");
+            this.QueryIcons.Images.SetKeyName(4, "1-DB.png");
+            this.QueryIcons.Images.SetKeyName(5, "2-Table.png");
+            this.QueryIcons.Images.SetKeyName(6, "3-Column.png");
+            this.QueryIcons.Images.SetKeyName(7, "chart_bar.png");
+            this.QueryIcons.Images.SetKeyName(8, "clock.png");
+            this.QueryIcons.Images.SetKeyName(9, "application_lightning.png");
+            this.QueryIcons.Images.SetKeyName(10, "key.png");
+            this.QueryIcons.Images.SetKeyName(11, "list.png");
+            this.QueryIcons.Images.SetKeyName(12, "text.png");
+            this.QueryIcons.Images.SetKeyName(13, "notepad.png");
+            this.QueryIcons.Images.SetKeyName(14, "checkbook.png");
+            // 
+            // previewPosLbl
+            // 
+            this.previewPosLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.previewPosLbl.AutoSize = true;
+            this.previewPosLbl.Location = new System.Drawing.Point(33, 130);
+            this.previewPosLbl.Name = "previewPosLbl";
+            this.previewPosLbl.Size = new System.Drawing.Size(43, 13);
+            this.previewPosLbl.TabIndex = 17;
+            this.previewPosLbl.Text = "0 / max";
+            // 
             // nextBtn
             // 
             this.nextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -202,6 +233,7 @@
             // 
             // sqlBox
             // 
+            this.autocomplete.SetAutocompleteMenu(this.sqlBox, this.autocomplete);
             this.sqlBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sqlBox.Font = new System.Drawing.Font("Consolas", 12F);
             this.sqlBox.Location = new System.Drawing.Point(0, 0);
@@ -213,10 +245,12 @@
             // 
             // sqlPreviewBox
             // 
+            this.autocomplete.SetAutocompleteMenu(this.sqlPreviewBox, null);
             this.sqlPreviewBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sqlPreviewBox.Font = new System.Drawing.Font("Consolas", 12F);
             this.sqlPreviewBox.Location = new System.Drawing.Point(0, 0);
             this.sqlPreviewBox.Name = "sqlPreviewBox";
+            this.sqlPreviewBox.ReadOnly = true;
             this.sqlPreviewBox.Size = new System.Drawing.Size(377, 152);
             this.sqlPreviewBox.TabIndex = 0;
             this.sqlPreviewBox.Text = "";
@@ -236,6 +270,7 @@
             // 
             // loopResultBox
             // 
+            this.autocomplete.SetAutocompleteMenu(this.loopResultBox, null);
             this.loopResultBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.loopResultBox.Location = new System.Drawing.Point(3, 3);
             this.loopResultBox.Name = "loopResultBox";
@@ -259,6 +294,7 @@
             this.loopHistoryBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.autocomplete.SetAutocompleteMenu(this.loopHistoryBox, null);
             this.loopHistoryBox.Location = new System.Drawing.Point(3, 3);
             this.loopHistoryBox.Name = "loopHistoryBox";
             this.loopHistoryBox.Size = new System.Drawing.Size(617, 407);
@@ -359,35 +395,13 @@
             this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.pluginsToolStripMenuItem.Text = "Plugins";
             // 
-            // QueryIcons
+            // autocomplete
             // 
-            this.QueryIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("QueryIcons.ImageStream")));
-            this.QueryIcons.TransparentColor = System.Drawing.Color.Transparent;
-            this.QueryIcons.Images.SetKeyName(0, "Database-Connecting.png");
-            this.QueryIcons.Images.SetKeyName(1, "Database-Connected.png");
-            this.QueryIcons.Images.SetKeyName(2, "Database-Disconnected.png");
-            this.QueryIcons.Images.SetKeyName(3, "1-csv.png");
-            this.QueryIcons.Images.SetKeyName(4, "1-DB.png");
-            this.QueryIcons.Images.SetKeyName(5, "2-Table.png");
-            this.QueryIcons.Images.SetKeyName(6, "3-Column.png");
-            this.QueryIcons.Images.SetKeyName(7, "chart_bar.png");
-            this.QueryIcons.Images.SetKeyName(8, "clock.png");
-            this.QueryIcons.Images.SetKeyName(9, "application_lightning.png");
-            this.QueryIcons.Images.SetKeyName(10, "key.png");
-            this.QueryIcons.Images.SetKeyName(11, "list.png");
-            this.QueryIcons.Images.SetKeyName(12, "text.png");
-            this.QueryIcons.Images.SetKeyName(13, "notepad.png");
-            this.QueryIcons.Images.SetKeyName(14, "checkbook.png");
-            // 
-            // previewPosLbl
-            // 
-            this.previewPosLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.previewPosLbl.AutoSize = true;
-            this.previewPosLbl.Location = new System.Drawing.Point(33, 130);
-            this.previewPosLbl.Name = "previewPosLbl";
-            this.previewPosLbl.Size = new System.Drawing.Size(43, 13);
-            this.previewPosLbl.TabIndex = 17;
-            this.previewPosLbl.Text = "0 / max";
+            this.autocomplete.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocomplete.Colors")));
+            this.autocomplete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.autocomplete.ImageList = this.QueryIcons;
+            this.autocomplete.Items = new string[0];
+            this.autocomplete.TargetControlWrapper = null;
             // 
             // ForeachForm
             // 
@@ -457,5 +471,6 @@
         private System.Windows.Forms.Button prevBtn;
         private System.Windows.Forms.ImageList QueryIcons;
         private System.Windows.Forms.Label previewPosLbl;
+        private AutocompleteMenuNS.AutocompleteMenu autocomplete;
     }
 }

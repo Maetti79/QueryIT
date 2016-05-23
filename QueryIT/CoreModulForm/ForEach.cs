@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using QueryIT.model;
 using IPlugin;
+using AutocompleteMenuNS;
 
 namespace QueryIT {
     public partial class ForeachForm : Form {
@@ -186,6 +187,9 @@ namespace QueryIT {
                 utcStop = DateTime.UtcNow;
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+                run = false;
+                runToolStripMenuItem.Enabled = true;
+                killToolStripMenuItem.Enabled = false;
             }
         }
 
@@ -297,6 +301,15 @@ namespace QueryIT {
 
         public void reloadSchema() {
             try {
+                var acitems = new List<AutocompleteItem>();
+                Array.Sort(SQLSyntax.SQLblue);
+                foreach(var key in SQLSyntax.SQLblue) {
+                    acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
+                }
+                Array.Sort(SQLSyntax.SQLmagenta);
+                foreach(var key in SQLSyntax.SQLmagenta) {
+                    acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
+                }
                 if(RDS.databases.Rows.Count > 0) {
                     string database = RDS.database;
                     foreach(DataRow r in RDS.databases.Rows) {
@@ -321,21 +334,25 @@ namespace QueryIT {
                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes.Add(row["TABLE_NAME"].ToString(), row["TABLE_NAME"].ToString());
                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].ImageIndex = 5;
                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].SelectedImageIndex = 5;
+                            acitems.Add(new AutocompleteItem(row["TABLE_NAME"].ToString()) { ImageIndex = 5 });
                             foreach(DataRow col in RDS.columns.Rows) {
                                 if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
 
                                     DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
-                                    if(col.ItemArray.Contains("COLUMN_KEY") == true) {
+                                    if(RDS.columns.Columns.Contains("COLUMN_KEY") == true) {
                                         if(col["COLUMN_KEY"].ToString() == "PRI") {
                                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
                                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
+                                            acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 10 });
                                         } else {
                                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
                                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                            acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 6 });
                                         }
                                     } else {
                                         DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
                                         DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                        acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 6 });
                                     }
                                 }
                             }
@@ -359,26 +376,31 @@ namespace QueryIT {
                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes.Add(row["TABLE_NAME"].ToString(), row["TABLE_NAME"].ToString());
                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].ImageIndex = 5;
                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].SelectedImageIndex = 5;
+                            acitems.Add(new AutocompleteItem(row["TABLE_NAME"].ToString()) { ImageIndex = 5 });
                             foreach(DataRow col in RDS.columns.Rows) {
                                 if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
                                     DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
-                                    if(col.ItemArray.Contains("COLUMN_KEY") == true) {
+                                    if(RDS.columns.Columns.Contains("COLUMN_KEY") == true) {
                                         if(col["COLUMN_KEY"].ToString() == "PRI") {
                                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
                                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
+                                            acitems.Add(new AutocompleteItem(col["TABLE_NAME"].ToString()) { ImageIndex = 10 });
                                         } else {
                                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
                                             DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                            acitems.Add(new AutocompleteItem(col["TABLE_NAME"].ToString()) { ImageIndex = 6 });
                                         }
                                     } else {
                                         DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
                                         DatabaseTree.Nodes[RDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
+                                        acitems.Add(new AutocompleteItem(col["TABLE_NAME"].ToString()) { ImageIndex = 6 });
                                     }
                                 }
                             }
                         }
                     }
                 }
+                autocomplete.SetAutocompleteItems(acitems);
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }

@@ -29,24 +29,26 @@ namespace QueryIT {
         }
 
         private void SearchBtn_Click(object sender, EventArgs e) {
-            if(SearchGrid.Parent.GetType() == typeof(QueryForm)) {
-                QueryForm SearchParent = (QueryForm)SearchGrid.Parent;
+            Form f = SearchGrid.FindForm();
+            if(f.GetType() == typeof(QueryForm)) {
+                QueryForm SearchParent = (QueryForm)f;
                 offset = SearchParent.doConcat(columnList.Text.ToString(), offset, beforeTxt.Text.ToString(), afterTxt.Text.ToString());
             }
-            if(SearchGrid.Parent.GetType() == typeof(QueryerForm)) {
-                QueryerForm SearchParent = (QueryerForm)SearchGrid.Parent;
+            if(f.GetType() == typeof(QueryerForm)) {
+                QueryerForm SearchParent = (QueryerForm)f;
                 offset = SearchParent.doConcat(columnList.Text.ToString(), offset, beforeTxt.Text.ToString(), afterTxt.Text.ToString());
             }
         }
 
         private void SearchForm_KeyDown(object sender, KeyEventArgs e) {
             if(e.Control && e.KeyCode == Keys.R) {
-                if(SearchGrid.Parent.GetType() == typeof(QueryForm)) {
-                    QueryForm SearchParent = (QueryForm)SearchGrid.Parent;
+                Form f = SearchGrid.FindForm();
+                if(f.GetType() == typeof(QueryForm)) {
+                    QueryForm SearchParent = (QueryForm)f;
                     offset = SearchParent.doConcat(columnList.Text.ToString(), offset, beforeTxt.Text.ToString(), afterTxt.Text.ToString());
                 }
-                if(SearchGrid.Parent.GetType() == typeof(QueryerForm)) {
-                    QueryerForm SearchParent = (QueryerForm)SearchGrid.Parent;
+                if(f.GetType() == typeof(QueryerForm)) {
+                    QueryerForm SearchParent = (QueryerForm)f;
                     offset = SearchParent.doConcat(columnList.Text.ToString(), offset, beforeTxt.Text.ToString(), afterTxt.Text.ToString());
                 }
             }

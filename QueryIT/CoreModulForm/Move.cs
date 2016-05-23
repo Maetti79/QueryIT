@@ -304,6 +304,9 @@ namespace QueryIT {
                 statusTimer.Enabled = false;
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+                run = false;
+                runToolStripMenuItem.Enabled = true;
+                killToolStripMenuItem.Enabled = false;
             }
         }
 

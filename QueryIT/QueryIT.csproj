@@ -31,7 +31,7 @@
     <SuiteName>QueryIT</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>13</ApplicationRevision>
+    <ApplicationRevision>14</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -114,6 +114,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoreModulForm\Chunk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CoreModulForm\Chunk.Designer.cs">
+      <DependentUpon>Chunk.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModalForm\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,6 +194,12 @@
     <Compile Include="ModalForm\ProgressForm.Designer.cs">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolForm\HashForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ToolForm\HashForm.Designer.cs">
+      <DependentUpon>HashForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ToolForm\ReplaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -242,6 +254,9 @@
     <Compile Include="SubForms\TableForm.Designer.cs">
       <DependentUpon>TableForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CoreModulForm\Chunk.resx">
+      <DependentUpon>Chunk.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ModalForm\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -284,6 +299,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ModalForm\ProgressForm.resx">
       <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToolForm\HashForm.resx">
+      <DependentUpon>HashForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ToolForm\ReplaceForm.resx">
       <DependentUpon>ReplaceForm.cs</DependentUpon>

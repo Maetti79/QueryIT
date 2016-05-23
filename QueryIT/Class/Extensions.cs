@@ -60,6 +60,16 @@ public static class Extensions {
         }
     }
 
+    public static string checksum<T>(this T original) {
+
+        if(original != null) {
+            MD5 md5Hash = MD5.Create();
+            return GetMd5Hash(md5Hash, original.ToString());
+        } else {
+            return null;
+        }
+    }
+
     public static bool arrEquals<T>(this T[] original, T[] comparison) {
         bool equals = true;
         if(original != null && comparison != null) {

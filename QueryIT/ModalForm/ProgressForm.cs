@@ -16,6 +16,7 @@ namespace QueryIT {
         ForeachForm FEParent;
         MoveForm MParent;
         CrossJoin CJParent;
+        ChunkForm ChkParent;
 
         DateTime utcStart;
         int rps = 0;
@@ -80,6 +81,14 @@ namespace QueryIT {
             this.Text = Name;
         }
 
+
+        public ProgressForm(ChunkForm p, string Name) {
+            ChkParent = p;
+            utcStart = DateTime.UtcNow;
+            InitializeComponent();
+            this.Text = Name;
+        }
+
         public void update(int min, int max, int position) {
             try {
                 if(progress.Maximum != min) {
@@ -134,6 +143,9 @@ namespace QueryIT {
                 }
                 if(MParent != null) {
                     MParent.run = false;
+                }
+                if(ChkParent != null) {
+                    ChkParent.run = false;
                 }
             } catch(Exception err) {
                 Error = err.Message;

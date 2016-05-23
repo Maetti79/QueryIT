@@ -19,3 +19,4 @@ C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\A
 C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenu.dll
 C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenu.pdb
 C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenuNS.Properties.Resources.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenu.csprojResolveAssemblyReference.cache

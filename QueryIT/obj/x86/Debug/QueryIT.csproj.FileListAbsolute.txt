@@ -106,3 +106,5 @@ C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\PluginChar
 C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\AutocompleteMenu.dll
 C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\AutocompleteMenu.pdb
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\MySql.Data.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.HashForm.resources
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.ChunkForm.resources

@@ -129,6 +129,9 @@ namespace QueryIT {
                 destinationGrid.Refresh();
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+                run = false;
+                compareToolStripMenuItem.Enabled = true;
+                killToolStripMenuItem.Enabled = false;
             }
         }
 

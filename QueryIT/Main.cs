@@ -35,6 +35,7 @@ namespace QueryIT {
         public CompareForm CenterC;
         public CrossJoin CenterCJ;
         public ForeachForm CenterFE;
+        public ChunkForm CentercHK;
 
         public String[] Error;
 
@@ -316,11 +317,13 @@ namespace QueryIT {
                     compareToolStripMenuItem1.Enabled = true;
                     crossJoinToolStripMenuItem1.Enabled = true;
                     forEachToolStripMenuItem.Enabled = true;
+                    chunkToolStripMenuItem.Enabled = true;
                 } else {
                     moveColumnMappingToolStripMenuItem.Enabled = false;
                     compareToolStripMenuItem1.Enabled = false;
                     crossJoinToolStripMenuItem1.Enabled = false;
                     forEachToolStripMenuItem.Enabled = false;
+                    chunkToolStripMenuItem.Enabled = false;
                 }
                 if(LeftDS.run == true && DateTime.UtcNow.Subtract(LeftDS.utcStart).Seconds > 0) {
                     leftStatus.Text = "Source [" + DateTime.UtcNow.Subtract(LeftDS.utcStart).Seconds + "s]";
@@ -395,16 +398,29 @@ namespace QueryIT {
             }
         }
 
+        public static bool? IsDirectory(string path) {
+            if(Directory.Exists(path)) {
+                return true;
+            } else if(File.Exists(path)) {
+                return false;
+            } else {
+                return null;
+            }
+        }
+
         private void Main_DragDrop(object sender, DragEventArgs e) {
             try {
                 string schema = "";
                 string path = "";
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                path = Path.GetDirectoryName(files[0]);
+                if(IsDirectory(files[0]) == true) {
+                    path = files[0];
+                } else {
+                    path = Path.GetDirectoryName(files[0]);
+                }
                 if(File.Exists(path + "\\Schema.ini")) {
                     schema = File.ReadAllText(path + "\\Schema.ini");
                 }
-
                 foreach(string file in Directory.GetFiles(path)) {
                     if(file.Contains(".csv")) {
                         if(schema.Contains(Path.GetFileName(file).ToString()) == false) {
@@ -642,6 +658,23 @@ namespace QueryIT {
                     CenterFE.MdiParent = this;
                     CenterFE.Show();
                     CenterFE.Focus();
+                }
+            } catch(Exception err) {
+                errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void chunkToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                if(LeftDS.isConnected() == true && RightDS.isConnected() == true) {
+                    if(CentercHK == null) {
+                        CentercHK = new ChunkForm(LeftDS, RightDS);
+                    } else if(CenterFE.Visible == false) {
+                        CentercHK = new ChunkForm(LeftDS, RightDS);
+                    }
+                    CentercHK.MdiParent = this;
+                    CentercHK.Show();
+                    CentercHK.Focus();
                 }
             } catch(Exception err) {
                 errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);

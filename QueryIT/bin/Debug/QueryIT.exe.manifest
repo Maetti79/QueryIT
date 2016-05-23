@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="QueryIT.exe" version="1.0.0.12" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
+  <asmv1:assemblyIdentity name="QueryIT.exe" version="1.0.0.13" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
   <description asmv2:iconFile="logo.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>yLFppq3rMWzHrkfJ9jXdEx8bVXE=</dsig:DigestValue>
+        <dsig:DigestValue>BGBXzfzpLy806m++vKHtpDCysvw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>D8VJ7YDeQPcMwz3WN0654INC+io=</dsig:DigestValue>
+        <dsig:DigestValue>ydZNdP5zVrCGooe8qzhRALdNIdU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -98,7 +98,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>y5mYorsscwEleuT6o6RNAQJiNlI=</dsig:DigestValue>
+        <dsig:DigestValue>7VlK+g/kDssGsIkpa9Lo+3HK5uw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,19 +110,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>UlU9Lhxv9f2jTFVsvRl7mE6vGek=</dsig:DigestValue>
+        <dsig:DigestValue>ESB5CKTDDdPvqdrmCRS4CsiJvkU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="QueryIT.exe" size="549888">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="QueryIT.exe" size="582656">
       <assemblyIdentity name="QueryIT" version="1.0.0.0" publicKeyToken="E88ACE3C05C9EC05" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>XuPJBhEaSFtrPCH4hbFiDnGVCvU=</dsig:DigestValue>
+        <dsig:DigestValue>x2YOkqzHC9IF6hDWFMsAqi3VX1o=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
