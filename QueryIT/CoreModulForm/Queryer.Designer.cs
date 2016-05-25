@@ -41,6 +41,7 @@
             this.concatToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.uniqueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.doubleToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.hashToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.queryMenu = new System.Windows.Forms.MenuStrip();
             this.queryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newclearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,6 +64,7 @@
             this.concatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uniqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.doubleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,8 +87,12 @@
             this.resultHistoryTab = new System.Windows.Forms.TabPage();
             this.historyBox = new System.Windows.Forms.RichTextBox();
             this.autocomplete = new AutocompleteMenuNS.AutocompleteMenu();
-            this.hashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hashToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.createTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dropTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.truncateTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.schemaContextMenu.SuspendLayout();
             this.resultContextMenu.SuspendLayout();
             this.queryMenu.SuspendLayout();
@@ -110,16 +116,21 @@
             // schemaContextMenu
             // 
             this.schemaContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.alterTableToolStripMenuItem});
+            this.createTableToolStripMenuItem,
+            this.alterTableToolStripMenuItem,
+            this.truncateTableToolStripMenuItem,
+            this.dropTableToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.importToolStripMenuItem,
+            this.exportToolStripMenuItem});
             this.schemaContextMenu.Name = "schemaContextMenu";
-            this.schemaContextMenu.Size = new System.Drawing.Size(132, 26);
+            this.schemaContextMenu.Size = new System.Drawing.Size(154, 164);
             // 
             // alterTableToolStripMenuItem
             // 
-            this.alterTableToolStripMenuItem.Enabled = false;
             this.alterTableToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("alterTableToolStripMenuItem.Image")));
             this.alterTableToolStripMenuItem.Name = "alterTableToolStripMenuItem";
-            this.alterTableToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.alterTableToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.alterTableToolStripMenuItem.Text = "Alter Table";
             this.alterTableToolStripMenuItem.Click += new System.EventHandler(this.alterTableToolStripMenuItem_Click);
             // 
@@ -155,7 +166,7 @@
             this.doubleToolStripMenuItem1,
             this.hashToolStripMenuItem1});
             this.resultContextMenu.Name = "resultContextMenu";
-            this.resultContextMenu.Size = new System.Drawing.Size(153, 202);
+            this.resultContextMenu.Size = new System.Drawing.Size(126, 180);
             // 
             // filterToolStripMenuItem1
             // 
@@ -212,6 +223,14 @@
             this.doubleToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
             this.doubleToolStripMenuItem1.Text = "Double";
             this.doubleToolStripMenuItem1.Click += new System.EventHandler(this.doubleToolStripMenuItem1_Click);
+            // 
+            // hashToolStripMenuItem1
+            // 
+            this.hashToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("hashToolStripMenuItem1.Image")));
+            this.hashToolStripMenuItem1.Name = "hashToolStripMenuItem1";
+            this.hashToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.hashToolStripMenuItem1.Text = "Hash";
+            this.hashToolStripMenuItem1.Click += new System.EventHandler(this.hashToolStripMenuItem1_Click);
             // 
             // queryMenu
             // 
@@ -444,6 +463,16 @@
             this.doubleToolStripMenuItem.Text = "Double";
             this.doubleToolStripMenuItem.Click += new System.EventHandler(this.doubleToolStripMenuItem_Click);
             // 
+            // hashToolStripMenuItem
+            // 
+            this.hashToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("hashToolStripMenuItem.Image")));
+            this.hashToolStripMenuItem.Name = "hashToolStripMenuItem";
+            this.hashToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.H)));
+            this.hashToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
+            this.hashToolStripMenuItem.Text = "Hash";
+            this.hashToolStripMenuItem.Click += new System.EventHandler(this.hashToolStripMenuItem_Click);
+            // 
             // connectionToolStripMenuItem
             // 
             this.connectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -663,6 +692,7 @@
             this.resultBox.Size = new System.Drawing.Size(357, 197);
             this.resultBox.TabIndex = 1;
             this.resultBox.Text = "";
+            this.resultBox.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
             // 
             // resultHistoryTab
             // 
@@ -682,9 +712,11 @@
             this.historyBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.historyBox.Location = new System.Drawing.Point(3, 3);
             this.historyBox.Name = "historyBox";
+            this.historyBox.ReadOnly = true;
             this.historyBox.Size = new System.Drawing.Size(357, 197);
             this.historyBox.TabIndex = 1;
             this.historyBox.Text = "";
+            this.historyBox.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
             // 
             // autocomplete
             // 
@@ -695,23 +727,48 @@
             this.autocomplete.Items = new string[0];
             this.autocomplete.TargetControlWrapper = null;
             // 
-            // hashToolStripMenuItem
+            // createTableToolStripMenuItem
             // 
-            this.hashToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("hashToolStripMenuItem.Image")));
-            this.hashToolStripMenuItem.Name = "hashToolStripMenuItem";
-            this.hashToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.H)));
-            this.hashToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
-            this.hashToolStripMenuItem.Text = "Hash";
-            this.hashToolStripMenuItem.Click += new System.EventHandler(this.hashToolStripMenuItem_Click);
+            this.createTableToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createTableToolStripMenuItem.Image")));
+            this.createTableToolStripMenuItem.Name = "createTableToolStripMenuItem";
+            this.createTableToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.createTableToolStripMenuItem.Text = "Create Table";
+            this.createTableToolStripMenuItem.Click += new System.EventHandler(this.createTableToolStripMenuItem_Click);
             // 
-            // hashToolStripMenuItem1
+            // dropTableToolStripMenuItem
             // 
-            this.hashToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("hashToolStripMenuItem1.Image")));
-            this.hashToolStripMenuItem1.Name = "hashToolStripMenuItem1";
-            this.hashToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.hashToolStripMenuItem1.Text = "Hash";
-            this.hashToolStripMenuItem1.Click += new System.EventHandler(this.hashToolStripMenuItem1_Click);
+            this.dropTableToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("dropTableToolStripMenuItem.Image")));
+            this.dropTableToolStripMenuItem.Name = "dropTableToolStripMenuItem";
+            this.dropTableToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.dropTableToolStripMenuItem.Text = "Drop Table";
+            this.dropTableToolStripMenuItem.Click += new System.EventHandler(this.dropTableToolStripMenuItem_Click);
+            // 
+            // truncateTableToolStripMenuItem
+            // 
+            this.truncateTableToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("truncateTableToolStripMenuItem.Image")));
+            this.truncateTableToolStripMenuItem.Name = "truncateTableToolStripMenuItem";
+            this.truncateTableToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.truncateTableToolStripMenuItem.Text = "Truncate Table";
+            this.truncateTableToolStripMenuItem.Click += new System.EventHandler(this.truncateTableToolStripMenuItem_Click);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("importToolStripMenuItem.Image")));
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.importToolStripMenuItem.Text = "Import";
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exportToolStripMenuItem.Image")));
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(150, 6);
             // 
             // QueryerForm
             // 
@@ -811,5 +868,11 @@
         private AutocompleteMenuNS.AutocompleteMenu autocomplete;
         private System.Windows.Forms.ToolStripMenuItem hashToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem hashToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createTableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem truncateTableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dropTableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
     }
 }

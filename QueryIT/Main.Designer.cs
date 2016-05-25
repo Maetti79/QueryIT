@@ -44,6 +44,7 @@
             this.compareToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.crossJoinToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.forEachToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chunkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectRightMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +55,6 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statsTimer = new System.Windows.Forms.Timer(this.components);
-            this.chunkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainStatus.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
@@ -200,6 +200,15 @@
             this.forEachToolStripMenuItem.ToolTipText = "ForEach Record in Source Execute an SQL Statement in Destination";
             this.forEachToolStripMenuItem.Click += new System.EventHandler(this.forEachToolStripMenuItem_Click);
             // 
+            // chunkToolStripMenuItem
+            // 
+            this.chunkToolStripMenuItem.Enabled = false;
+            this.chunkToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("chunkToolStripMenuItem.Image")));
+            this.chunkToolStripMenuItem.Name = "chunkToolStripMenuItem";
+            this.chunkToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.chunkToolStripMenuItem.Text = "Chunk";
+            this.chunkToolStripMenuItem.Click += new System.EventHandler(this.chunkToolStripMenuItem_Click);
+            // 
             // connectRightMenu
             // 
             this.connectRightMenu.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -287,15 +296,6 @@
             this.statsTimer.Interval = 250;
             this.statsTimer.Tick += new System.EventHandler(this.statsTimer_Tick);
             // 
-            // chunkToolStripMenuItem
-            // 
-            this.chunkToolStripMenuItem.Enabled = false;
-            this.chunkToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("chunkToolStripMenuItem.Image")));
-            this.chunkToolStripMenuItem.Name = "chunkToolStripMenuItem";
-            this.chunkToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.chunkToolStripMenuItem.Text = "Chunk";
-            this.chunkToolStripMenuItem.Click += new System.EventHandler(this.chunkToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -304,6 +304,7 @@
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.MainStatus);
             this.Controls.Add(this.MainMenu);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.MainMenu;

@@ -33,6 +33,15 @@ namespace QueryIT.model {
         public int row_count = 0;
         public int column_count = 0;
 
+        public static string[] DBDataTypes = {
+            "INT(11)",
+            "FLOAT",
+            "DOUBLE",
+            "DATETIME",
+            "TIMESTAMP",
+            "VARCHAR(45)"
+        };
+
         public Datasource() {
             try {
 
@@ -318,6 +327,7 @@ namespace QueryIT.model {
             try {
                 disconnect();
                 string conStr = conectionString.Replace(database, databasename);
+                database = databasename;
                 if(conectionString.Contains("Provider=") == true) {
                     adocon = new ADODB.Connection(conStr);
                     adocon.Open();

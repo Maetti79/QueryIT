@@ -46,6 +46,9 @@
             this.ignoreCheck = new System.Windows.Forms.CheckBox();
             this.typecastCheck = new System.Windows.Forms.CheckBox();
             this.moveProgress = new System.Windows.Forms.ProgressBar();
+            this.moveSplitH = new System.Windows.Forms.SplitContainer();
+            this.moveMapGrid = new System.Windows.Forms.DataGridView();
+            this.sqlRTF = new System.Windows.Forms.RichTextBox();
             this.moveResultTab = new System.Windows.Forms.TabPage();
             this.moveResultBox = new System.Windows.Forms.RichTextBox();
             this.moveHistoryTab = new System.Windows.Forms.TabPage();
@@ -60,9 +63,6 @@
             this.killToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusTimer = new System.Windows.Forms.Timer(this.components);
-            this.moveSplitH = new System.Windows.Forms.SplitContainer();
-            this.moveMapGrid = new System.Windows.Forms.DataGridView();
-            this.sqlRTF = new System.Windows.Forms.RichTextBox();
             this.moveTabs.SuspendLayout();
             this.moveMapTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -70,14 +70,14 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.moveMapGroup.SuspendLayout();
-            this.moveResultTab.SuspendLayout();
-            this.moveHistoryTab.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.moveSplitH)).BeginInit();
             this.moveSplitH.Panel1.SuspendLayout();
             this.moveSplitH.Panel2.SuspendLayout();
             this.moveSplitH.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.moveMapGrid)).BeginInit();
+            this.moveResultTab.SuspendLayout();
+            this.moveHistoryTab.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // moveTabs
@@ -258,6 +258,44 @@
             this.moveProgress.Size = new System.Drawing.Size(177, 20);
             this.moveProgress.TabIndex = 0;
             // 
+            // moveSplitH
+            // 
+            this.moveSplitH.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.moveSplitH.Location = new System.Drawing.Point(0, 0);
+            this.moveSplitH.Name = "moveSplitH";
+            this.moveSplitH.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // moveSplitH.Panel1
+            // 
+            this.moveSplitH.Panel1.Controls.Add(this.moveMapGrid);
+            // 
+            // moveSplitH.Panel2
+            // 
+            this.moveSplitH.Panel2.Controls.Add(this.sqlRTF);
+            this.moveSplitH.Size = new System.Drawing.Size(377, 304);
+            this.moveSplitH.SplitterDistance = 202;
+            this.moveSplitH.TabIndex = 4;
+            // 
+            // moveMapGrid
+            // 
+            this.moveMapGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.moveMapGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.moveMapGrid.Location = new System.Drawing.Point(0, 0);
+            this.moveMapGrid.Name = "moveMapGrid";
+            this.moveMapGrid.Size = new System.Drawing.Size(377, 202);
+            this.moveMapGrid.TabIndex = 3;
+            // 
+            // sqlRTF
+            // 
+            this.sqlRTF.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sqlRTF.Font = new System.Drawing.Font("Consolas", 12F);
+            this.sqlRTF.Location = new System.Drawing.Point(0, 0);
+            this.sqlRTF.Name = "sqlRTF";
+            this.sqlRTF.ReadOnly = true;
+            this.sqlRTF.Size = new System.Drawing.Size(377, 98);
+            this.sqlRTF.TabIndex = 4;
+            this.sqlRTF.Text = "";
+            // 
             // moveResultTab
             // 
             this.moveResultTab.Controls.Add(this.moveResultBox);
@@ -400,44 +438,6 @@
             this.statusTimer.Interval = 1000;
             this.statusTimer.Tick += new System.EventHandler(this.statusTimer_Tick);
             // 
-            // moveSplitH
-            // 
-            this.moveSplitH.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.moveSplitH.Location = new System.Drawing.Point(0, 0);
-            this.moveSplitH.Name = "moveSplitH";
-            this.moveSplitH.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // moveSplitH.Panel1
-            // 
-            this.moveSplitH.Panel1.Controls.Add(this.moveMapGrid);
-            // 
-            // moveSplitH.Panel2
-            // 
-            this.moveSplitH.Panel2.Controls.Add(this.sqlRTF);
-            this.moveSplitH.Size = new System.Drawing.Size(377, 304);
-            this.moveSplitH.SplitterDistance = 202;
-            this.moveSplitH.TabIndex = 4;
-            // 
-            // moveMapGrid
-            // 
-            this.moveMapGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.moveMapGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.moveMapGrid.Location = new System.Drawing.Point(0, 0);
-            this.moveMapGrid.Name = "moveMapGrid";
-            this.moveMapGrid.Size = new System.Drawing.Size(377, 202);
-            this.moveMapGrid.TabIndex = 3;
-            // 
-            // sqlRTF
-            // 
-            this.sqlRTF.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sqlRTF.Font = new System.Drawing.Font("Consolas", 12F);
-            this.sqlRTF.Location = new System.Drawing.Point(0, 0);
-            this.sqlRTF.Name = "sqlRTF";
-            this.sqlRTF.ReadOnly = true;
-            this.sqlRTF.Size = new System.Drawing.Size(377, 98);
-            this.sqlRTF.TabIndex = 4;
-            this.sqlRTF.Text = "";
-            // 
             // MoveForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -462,15 +462,15 @@
             this.splitContainer1.ResumeLayout(false);
             this.moveMapGroup.ResumeLayout(false);
             this.moveMapGroup.PerformLayout();
-            this.moveResultTab.ResumeLayout(false);
-            this.moveHistoryTab.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.moveSplitH.Panel1.ResumeLayout(false);
             this.moveSplitH.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.moveSplitH)).EndInit();
             this.moveSplitH.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.moveMapGrid)).EndInit();
+            this.moveResultTab.ResumeLayout(false);
+            this.moveHistoryTab.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

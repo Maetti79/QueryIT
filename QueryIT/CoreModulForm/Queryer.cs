@@ -109,6 +109,13 @@ namespace QueryIT {
         private void DatabaseTree_DoubleClick(object sender, EventArgs e) {
             try {
                 if(DatabaseTree.SelectedNode != null) {
+                    foreach(TreeNode tn in DatabaseTree.Nodes) {
+                        if(tn.Text.ToString() == DatabaseTree.SelectedNode.Text.ToString()) {
+                            tn.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
+                        } else {
+                            tn.NodeFont = DatabaseTree.Font;
+                        }
+                    }
                     if(DatabaseTree.SelectedNode.ImageIndex == 3) {
                         database = DatabaseTree.SelectedNode.Text.ToString();
                         //Switch Database
@@ -187,6 +194,8 @@ namespace QueryIT {
                             rrtNew.Name = "resultTextBox" + table.Replace(".csv", "");
                             rrtNew.Dock = DockStyle.Fill;
                             rrtNew.Font = resultBox.Font;
+                            rrtNew.ReadOnly = true;
+                            //rrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
                             rttNew.Controls.Add(rrtNew);
                             tcNew.Controls.Add(rttNew);
                             //ResultTextTab -> Spliter2 -> Result Tabs
@@ -201,6 +210,8 @@ namespace QueryIT {
                             rhrtNew.Name = "resultHistoryTextBox" + table.Replace(".csv", "");
                             rhrtNew.Dock = DockStyle.Fill;
                             rhrtNew.Font = historyBox.Font;
+                            rhrtNew.ReadOnly = true;
+                            //rhrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
                             rhtNew.Controls.Add(rhrtNew);
                             tcNew.Controls.Add(rhtNew);
                             spNew.Panel2.Controls.Add(tcNew);
@@ -440,30 +451,7 @@ namespace QueryIT {
 
         private void DatabaseTree_AfterSelect(object sender, TreeViewEventArgs e) {
             try {
-                if(DatabaseTree.SelectedNode.ImageIndex == 1 || DatabaseTree.SelectedNode.ImageIndex == 2) {
-                    database = DatabaseTree.SelectedNode.Text.ToString();
-                    foreach(TreeNode node in DatabaseTree.Nodes) {
-                        node.NodeFont = new Font(DatabaseTree.Font, FontStyle.Regular);
-                    }
-                    if(DatabaseTree.SelectedNode != null) {
-                        DatabaseTree.SelectedNode.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
-                    }
-                }
-                if(DatabaseTree.SelectedNode.ImageIndex == 3 || DatabaseTree.SelectedNode.ImageIndex == 4) {
-                    database = DatabaseTree.SelectedNode.Text.ToString();
-                    foreach(TreeNode node in DatabaseTree.Nodes) {
-                        node.NodeFont = new Font(DatabaseTree.Font, FontStyle.Regular);
-                    }
-                    if(DatabaseTree.SelectedNode != null) {
-                        DatabaseTree.SelectedNode.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
-                    }
-                }
-                if(DatabaseTree.SelectedNode.ImageIndex == 5) {
-                    table = DatabaseTree.SelectedNode.Text.ToString();
-                }
-                if(DatabaseTree.SelectedNode.ImageIndex == 6) {
-                    column = DatabaseTree.SelectedNode.Text.ToString();
-                }
+  
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
@@ -1541,8 +1529,8 @@ namespace QueryIT {
             try {
                 if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
                     if(DatabaseTree.SelectedNode != null) {
-                        //TableForm tablefrm = new TableForm(this);
-                        //tablefrm.Show();   
+                        TableForm tablefrm = new TableForm(QDS,  DatabaseTree.SelectedNode.Text.ToString(), "alter");
+                        tablefrm.Show();   
                     }
                 }
             } catch(Exception err) {
@@ -1723,6 +1711,45 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 HashForm hashFrm = new HashForm(rBox);
                 hashFrm.Show();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void createTableToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
+                    if(DatabaseTree.SelectedNode != null) {
+                        TableForm tablefrm = new TableForm(QDS, "", "create");
+                        tablefrm.Show();
+                    }
+                }
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void truncateTableToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
+                    if(DatabaseTree.SelectedNode != null) {
+                        TableForm tablefrm = new TableForm(QDS, DatabaseTree.SelectedNode.Text.ToString(), "truncate");
+                        tablefrm.Show();
+                    }
+                }
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void dropTableToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
+                    if(DatabaseTree.SelectedNode != null) {
+                        TableForm tablefrm = new TableForm(QDS, DatabaseTree.SelectedNode.Text.ToString(), "drop");
+                        tablefrm.Show();
+                    }
+                }
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }

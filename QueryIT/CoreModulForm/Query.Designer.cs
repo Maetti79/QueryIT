@@ -48,6 +48,7 @@
             this.concatToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.uniqueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.doubleToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.hashToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.resultTab = new System.Windows.Forms.TabPage();
             this.resultBox = new System.Windows.Forms.RichTextBox();
             this.historyTab = new System.Windows.Forms.TabPage();
@@ -73,6 +74,7 @@
             this.concatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uniqToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.doubleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,8 +84,6 @@
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QueryerTimer = new System.Windows.Forms.Timer(this.components);
             this.autocomplete = new AutocompleteMenuNS.AutocompleteMenu();
-            this.hashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hashToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.QueryTabs.SuspendLayout();
             this.queryTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.querySplitV)).BeginInit();
@@ -245,7 +245,7 @@
             this.doubleToolStripMenuItem1,
             this.hashToolStripMenuItem1});
             this.resultContextMenu.Name = "resultContextMenu";
-            this.resultContextMenu.Size = new System.Drawing.Size(153, 202);
+            this.resultContextMenu.Size = new System.Drawing.Size(126, 180);
             // 
             // filterToolStripMenuItem1
             // 
@@ -303,6 +303,14 @@
             this.doubleToolStripMenuItem1.Text = "Double";
             this.doubleToolStripMenuItem1.Click += new System.EventHandler(this.doubleToolStripMenuItem1_Click);
             // 
+            // hashToolStripMenuItem1
+            // 
+            this.hashToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("hashToolStripMenuItem1.Image")));
+            this.hashToolStripMenuItem1.Name = "hashToolStripMenuItem1";
+            this.hashToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.hashToolStripMenuItem1.Text = "Hash";
+            this.hashToolStripMenuItem1.Click += new System.EventHandler(this.hashToolStripMenuItem1_Click);
+            // 
             // resultTab
             // 
             this.resultTab.Controls.Add(this.resultBox);
@@ -321,9 +329,11 @@
             this.resultBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultBox.Location = new System.Drawing.Point(3, 3);
             this.resultBox.Name = "resultBox";
+            this.resultBox.ReadOnly = true;
             this.resultBox.Size = new System.Drawing.Size(570, 301);
             this.resultBox.TabIndex = 0;
             this.resultBox.Text = "";
+            this.resultBox.TextChanged += new System.EventHandler(this.resultBox_TextChanged);
             // 
             // historyTab
             // 
@@ -344,9 +354,11 @@
             this.autocomplete.SetAutocompleteMenu(this.historyBox, null);
             this.historyBox.Location = new System.Drawing.Point(3, 3);
             this.historyBox.Name = "historyBox";
-            this.historyBox.Size = new System.Drawing.Size(578, 414);
+            this.historyBox.ReadOnly = true;
+            this.historyBox.Size = new System.Drawing.Size(578, 304);
             this.historyBox.TabIndex = 0;
             this.historyBox.Text = "";
+            this.historyBox.TextChanged += new System.EventHandler(this.historyBox_TextChanged);
             // 
             // queryMenu
             // 
@@ -568,6 +580,16 @@
             this.doubleToolStripMenuItem.Text = "Double";
             this.doubleToolStripMenuItem.Click += new System.EventHandler(this.doubleToolStripMenuItem_Click);
             // 
+            // hashToolStripMenuItem
+            // 
+            this.hashToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("hashToolStripMenuItem.Image")));
+            this.hashToolStripMenuItem.Name = "hashToolStripMenuItem";
+            this.hashToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.H)));
+            this.hashToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
+            this.hashToolStripMenuItem.Text = "Hash";
+            this.hashToolStripMenuItem.Click += new System.EventHandler(this.hashToolStripMenuItem_Click);
+            // 
             // connectionToolStripMenuItem
             // 
             this.connectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -649,24 +671,6 @@
             this.autocomplete.ImageList = this.QueryIcons;
             this.autocomplete.Items = new string[0];
             this.autocomplete.TargetControlWrapper = null;
-            // 
-            // hashToolStripMenuItem
-            // 
-            this.hashToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("hashToolStripMenuItem.Image")));
-            this.hashToolStripMenuItem.Name = "hashToolStripMenuItem";
-            this.hashToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.H)));
-            this.hashToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
-            this.hashToolStripMenuItem.Text = "Hash";
-            this.hashToolStripMenuItem.Click += new System.EventHandler(this.hashToolStripMenuItem_Click);
-            // 
-            // hashToolStripMenuItem1
-            // 
-            this.hashToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("hashToolStripMenuItem1.Image")));
-            this.hashToolStripMenuItem1.Name = "hashToolStripMenuItem1";
-            this.hashToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.hashToolStripMenuItem1.Text = "Hash";
-            this.hashToolStripMenuItem1.Click += new System.EventHandler(this.hashToolStripMenuItem1_Click);
             // 
             // QueryForm
             // 

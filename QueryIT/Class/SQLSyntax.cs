@@ -45,6 +45,7 @@ namespace QueryIT.model {
                 "and", 
                 "in", 
                 "as", 
+                "to", 
                 "use", 
                 "exec", 
                 "execute", 
@@ -60,7 +61,9 @@ namespace QueryIT.model {
                 "only",
                 "union",
                 "date_add",
-                "date_sub"
+                "date_sub",
+                "change",
+                "rename"
             };
 
         public static string[] SQLmagenta = {

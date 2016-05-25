@@ -107,8 +107,15 @@ namespace QueryIT {
         }
 
         private void DatabaseTree_DoubleClick(object sender, EventArgs e) {
-            try {
+            try {           
                 if(DatabaseTree.SelectedNode != null) {
+                    foreach(TreeNode tn in DatabaseTree.Nodes) {
+                        if(tn.Text.ToString() == DatabaseTree.SelectedNode.Text.ToString()) {
+                            tn.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
+                        } else {
+                            tn.NodeFont = DatabaseTree.Font;
+                        }
+                    }
                     if(DatabaseTree.SelectedNode.ImageIndex == 3) {
                         database = DatabaseTree.SelectedNode.Text.ToString();
                         //Switch Database
@@ -1327,7 +1334,7 @@ namespace QueryIT {
             try {
                 if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
                     if(DatabaseTree.SelectedNode != null) {
-                        TableForm tablefrm = new TableForm(this);
+                        TableForm tablefrm = new TableForm(QDS, DatabaseTree.SelectedNode.Text.ToString() );
                         tablefrm.Show();   
                     }
                 }
@@ -1360,6 +1367,14 @@ namespace QueryIT {
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
+        }
+
+        private void resultBox_TextChanged(object sender, EventArgs e) {
+       
+        }
+
+        private void historyBox_TextChanged(object sender, EventArgs e) {
+   
         }
 
     }
