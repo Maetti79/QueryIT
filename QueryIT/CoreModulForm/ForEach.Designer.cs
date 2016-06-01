@@ -413,7 +413,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ForeachForm";
-            this.Text = "ForEach";
+            this.Text = "ForEach [BETA]";
             this.Activated += new System.EventHandler(this.ForeachForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ForeachForm_FormClosing);
             this.Load += new System.EventHandler(this.ForeachForm_Load);

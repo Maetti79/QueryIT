@@ -35,6 +35,7 @@ namespace QueryIT {
                 LicenseBox.Items.Add("Compare", "Core: Compare", 0);
                 LicenseBox.Items.Add("CrossJoin", "Core: CrossJoin", 0);
                 LicenseBox.Items.Add("ForEach", "Core: ForEach", 0);
+                LicenseBox.Items.Add("Chunk", "Core: Chunk", 0);
                 Array pls = plugincore.getPlugins();
                 foreach(Object pl in pls) {
                     LicenseBox.Items.Add(pl.ToString(), "Plugin: " + plugincore.Hook(pl.ToString()) + ", " + plugincore.Type(pl.ToString()) + ", " + plugincore.Description(pl.ToString()), 0);

@@ -46,6 +46,23 @@ public static class Extensions {
         }
     }
 
+    public static T[] Update<T>(this T[] original, T itemToAdd) {
+            if(original != null) {
+                T[] finalArray = new T[original.Length];
+                for(int i = 0; i < original.Length; i++) {
+                    if(original[i].Equals(itemToAdd) == true) {
+                        finalArray[i] = itemToAdd;
+                    } else {
+                        finalArray[i] = original[i];
+                    }
+                }
+                return finalArray;
+            } else {
+                T[] finalArray = new T[0];
+                return finalArray;
+            }
+    }
+
     public static string checksum<T>(this T[] original) {
         string concat = "";
 
@@ -124,22 +141,21 @@ public static class Extensions {
                     } else {
                         rtf.Select(index, k.Length);
                     }
-                    if( rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + " ")
+                    if(rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + " ")
                         || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "\n")
                         || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "(")
                         || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "[")
                         || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + ",")
                         || rtf.Text.ToLower().StartsWith(k.ToString().ToLower() + " ")
                         || rtf.Text.ToLower().EndsWith(k.ToString().ToLower())
-                        )
-                    {
-                    rtf.Select((index), k.Length);
-                    rtf.SelectionColor = Color.Blue;
-                    rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
-                    rtf.SelectedText = rtf.SelectedText.ToUpper();
-                    rtf.Select(selectStart, 0);
-                    rtf.SelectionFont = rtf.Font;
-                    rtf.SelectionColor = Color.Black;
+                        ) {
+                        rtf.Select((index), k.Length);
+                        rtf.SelectionColor = Color.Blue;
+                        rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
+                        rtf.SelectedText = rtf.SelectedText.ToUpper();
+                        rtf.Select(selectStart, 0);
+                        rtf.SelectionFont = rtf.Font;
+                        rtf.SelectionColor = Color.Black;
                     }
                 }
             }
@@ -239,7 +255,7 @@ public static class Extensions {
                 if(sindex == -1) {
                     sindex = i;
                 } else {
-                    rtf.Select((sindex)+1, i - sindex-1);
+                    rtf.Select((sindex) + 1, i - sindex - 1);
                     rtf.SelectionColor = Color.DarkGreen;
                     rtf.SelectionFont = new Font(rtf.Font, FontStyle.Italic);
                     rtf.Select(sselectStart, 0);

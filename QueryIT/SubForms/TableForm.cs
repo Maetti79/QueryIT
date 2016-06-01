@@ -13,6 +13,9 @@ namespace QueryIT {
 
         public Datasource DS;
         public string table;
+        public TableSchema tmptbl;
+        public TableSchema orgtbl;
+        public string database;
         public string command;
 
         public TableForm() {
@@ -22,25 +25,33 @@ namespace QueryIT {
         public TableForm(Datasource QDS, string tbl) {
             DS = QDS;
             table = tbl;
+            database = DS.database;
+            tmptbl = DS.DBschema.D[database].T[table];
+            orgtbl = DS.DBschema.D[database].T[table];
             InitializeComponent();
         }
 
         public TableForm(Datasource QDS, string tbl, string cmd) {
             DS = QDS;
             table = tbl;
+            database = DS.database;
+            if(table != "") {
+                tmptbl = DS.DBschema.D[database].T[table];
+                orgtbl = DS.DBschema.D[database].T[table];
+            }
             command = cmd;
             InitializeComponent();
-             if(command.ToString() == "truncate") {
-                 tableTab.SelectedTab = sqlPage;
-             } else if(command.ToString() == "drop") {
-                 tableTab.SelectedTab = sqlPage;
-             } else if(command.ToString() == "create") {
-                 tableTab.SelectedTab = tablePage;
-             } else if(command.ToString() == "alter") {
-                 tableTab.SelectedTab = tablePage;
-             } else {
-                 tableTab.SelectedTab = tablePage;
-             }
+            if(command.ToString() == "truncate") {
+                tableTab.SelectedTab = sqlPage;
+            } else if(command.ToString() == "drop") {
+                tableTab.SelectedTab = sqlPage;
+            } else if(command.ToString() == "create") {
+                tableTab.SelectedTab = tablePage;
+            } else if(command.ToString() == "alter") {
+                tableTab.SelectedTab = tablePage;
+            } else {
+                tableTab.SelectedTab = tablePage;
+            }
         }
 
         private void Table_Load(object sender, EventArgs e) {
@@ -49,214 +60,148 @@ namespace QueryIT {
         }
 
         public void doLoad() {
-            try {
-                if(tableSchemaGrid.Columns.Count != DS.columns.Rows.Count) {
-                    tableBox.Text = table.ToString();
-                    tableSchemaGrid.Columns.Clear();
-                    tableSchemaGrid.Rows.Clear();
-                    tableSchemaGrid.Columns.Add("Index", "Position");    //0
-                    tableSchemaGrid.Columns.Add("Name", "Column Name");  //1
-                    tableSchemaGrid.Columns.Add("DT", "Data Type");      //2
-                    tableSchemaGrid.Columns.Add("PKey", "Primary Key");  //3
-                    tableSchemaGrid.Columns.Add("NN", "Not Null");       //4
-                    tableSchemaGrid.Columns.Add("Unique", "UN");         //5
-                    tableSchemaGrid.Columns.Add("AI", "Auto Increment"); //6
+ 
+                tableBox.Text = table.ToString();
+                tableSchemaGrid.Columns.Clear();
+                tableSchemaGrid.Rows.Clear();
+                tableSchemaGrid.Columns.Add("Name", "Column Name");  //1
+                tableSchemaGrid.Columns.Add("DT", "Data Type");      //2
+                tableSchemaGrid.Columns.Add("PK", "PK");  //3
+                tableSchemaGrid.Columns.Add("NN", "NN");       //4
+                tableSchemaGrid.Columns.Add("UN", "UN");         //5
+                tableSchemaGrid.Columns.Add("AI", "AI"); //6
+                tableSchemaGrid.Columns.Add("DV", "Default");
 
-                    //Width
-                    DataGridViewColumn column = tableSchemaGrid.Columns[0];
-                    column.Width = 40;
-                    column = tableSchemaGrid.Columns[1];
-                    column.Width = 120;
-                    column = tableSchemaGrid.Columns[2];
-                    column.Width = 90;
-                    column = tableSchemaGrid.Columns[3];
-                    column.Width = 40;
-                    column = tableSchemaGrid.Columns[4];
-                    column.Width = 40;
-                    column = tableSchemaGrid.Columns[5];
-                    column.Width = 40;
-                    column = tableSchemaGrid.Columns[6];
-                    column.Width = 40;
-
-                    foreach(DataRow lcol in DS.columns.Rows) {
-                        if(lcol["TABLE_NAME"].ToString() == table.ToString()) {
-                            DataGridViewRow row = (DataGridViewRow)tableSchemaGrid.Rows[0].Clone();
-                            //Cell 1
-                            row.Cells[0].Value = lcol["ORDINAL_POSITION"].ToString();
-                            //Cell 1
-                            row.Cells[1].Value = lcol["COLUMN_NAME"].ToString();
-                            //Cell 2
-                            DataGridViewComboBoxCell vCellComboDataType = new DataGridViewComboBoxCell();
-                            foreach(string dst in Datasource.DBDataTypes) {
-                                vCellComboDataType.Items.Add(dst.ToString());
-                            }
-                            if(vCellComboDataType.Items.Contains(lcol["COLUMN_TYPE"].ToString()) == false) {
-                                vCellComboDataType.Items.Add(lcol["COLUMN_TYPE"].ToString());
-                            }
-                            if(vCellComboDataType.Items.IndexOf(lcol["COLUMN_TYPE"].ToString()) != -1) {
-                                vCellComboDataType.Value = vCellComboDataType.Items[vCellComboDataType.Items.IndexOf(lcol["COLUMN_TYPE"].ToString())];
-                            } else {
-                                vCellComboDataType.Value = vCellComboDataType.Items[0];
-                            }
-                            vCellComboDataType.FlatStyle = FlatStyle.Standard;
-                            vCellComboDataType.MaxDropDownItems = vCellComboDataType.Items.Count;
-
-                            row.Cells[2].Value = vCellComboDataType.Value;
-                            row.Cells[2] = vCellComboDataType;
-                            //Cell 3
-                            DataGridViewCheckBoxCell vCheckPKey = new DataGridViewCheckBoxCell();
-                            if(DS.columns.Columns.Contains("COLUMN_KEY") == true) {
-                                if(lcol["COLUMN_KEY"].ToString() == "PRI") {
-                                    vCheckPKey.Value = 1;
-                                } else {
-                                    vCheckPKey.Value = 0;
-                                }
-                            } else {
-                                vCheckPKey.Value = 0;
-                            }
-                            row.Cells[3] = vCheckPKey;
-                            //Cell 4
-                            DataGridViewCheckBoxCell vCheckNN = new DataGridViewCheckBoxCell();
-                            if(DS.columns.Columns.Contains("IS_NULLABLE") == true) {
-                                if(lcol["IS_NULLABLE"].ToString() == "YES") {
-                                    vCheckNN.Value = 1;
-                                } else {
-                                    vCheckNN.Value = 0;
-                                }
-                            } else {
-                                vCheckNN.Value = 0;
-                            }
-                            row.Cells[4] = vCheckNN;
-                            //Cell 5
-                            DataGridViewCheckBoxCell vCheckUN = new DataGridViewCheckBoxCell();
-                            if(DS.columns.Columns.Contains("UNIQUE") == true) {
-                                if(lcol["UNIQUE"].ToString() == "YES") {
-                                    vCheckUN.Value = 1;
-                                } else {
-                                    vCheckUN.Value = 0;
-                                }
-                            } else {
-                                vCheckUN.Value = 0;
-                            }
-                            row.Cells[5] = vCheckUN;
-                            //Cell 6
-                            DataGridViewCheckBoxCell vCheckAI = new DataGridViewCheckBoxCell();
-                            if(DS.columns.Columns.Contains("EXTRA") == true) {
-                                if(lcol["EXTRA"].ToString() == "auto_increment") {
-                                    vCheckAI.Value = 1;
-                                } else {
-                                    vCheckAI.Value = 0;
-                                }
-                            } else {
-                                vCheckAI.Value = 0;
-                            }
-                            row.Cells[6] = vCheckAI;
-
-                            tableSchemaGrid.Rows.Add(row);
+                //Width
+                DataGridViewColumn column = tableSchemaGrid.Columns[0];
+                column.Width = 120;
+                column = tableSchemaGrid.Columns[1];
+                column.Width = 100;
+                column = tableSchemaGrid.Columns[2];
+                column.Width = 25;
+                column = tableSchemaGrid.Columns[3];
+                column.Width = 25;
+                column = tableSchemaGrid.Columns[4];
+                column.Width = 25;
+                column = tableSchemaGrid.Columns[5];
+                column.Width = 25;
+                column = tableSchemaGrid.Columns[6];
+                column.Width = 120;
+                if(command == "create") {
+                    addEmtpyRow();
+                } else {
+                    foreach(ColumnSchema col in tmptbl.Columns) {
+                        DataGridViewRow row = (DataGridViewRow)tableSchemaGrid.Rows[0].Clone();
+                        row.HeaderCell.Value = col.ColumnPosition;
+                        row.Cells[0].Value = col.ColumnName;
+                        DataGridViewComboBoxCell vCellComboDataType = new DataGridViewComboBoxCell();
+                        foreach(string dst in Datasource.DBDataTypes) {
+                            vCellComboDataType.Items.Add(dst.ToString());
                         }
+                        //Hack for custom Datatypes, fix this someday
+                        if(vCellComboDataType.Items.Contains(col.DataType) == false) {
+                            vCellComboDataType.Items.Add(col.DataType);
+                        }
+                        if(vCellComboDataType.Items.IndexOf(col.DataType) != -1) {
+                            vCellComboDataType.Value = vCellComboDataType.Items[vCellComboDataType.Items.IndexOf(col.DataType)];
+                        } else {
+                            vCellComboDataType.Value = vCellComboDataType.Items[0];
+                        }
+                        vCellComboDataType.FlatStyle = FlatStyle.Standard;
+                        vCellComboDataType.MaxDropDownItems = vCellComboDataType.Items.Count;
+                        row.Cells[1].Value = vCellComboDataType.Value;
+                        row.Cells[1] = vCellComboDataType;
+                        DataGridViewCheckBoxCell vCheckPKey = new DataGridViewCheckBoxCell();
+                        vCheckPKey.Value = col.PrimaryKey;
+                        row.Cells[2] = vCheckPKey;
+                        DataGridViewCheckBoxCell vCheckNN = new DataGridViewCheckBoxCell();
+                        vCheckNN.Value = col.NotNull;
+                        row.Cells[3] = vCheckNN;
+                        DataGridViewCheckBoxCell vCheckUN = new DataGridViewCheckBoxCell();
+                        vCheckUN.Value = col.Unique;
+                        row.Cells[4] = vCheckUN;
+                        DataGridViewCheckBoxCell vCheckAI = new DataGridViewCheckBoxCell();
+                        vCheckAI.Value = col.AutoIncrement;
+                        row.Cells[5] = vCheckAI;
+                        row.Cells[6].Value = col.DefaultValue.ToString();
+                        tableSchemaGrid.Rows.Add(row);
                     }
                 }
-            } catch(Exception err) {
-
-            }
-
         }
 
         public void buildSQL() {
+            TableSchema tbl = new TableSchema(tableBox.Text.ToString());
+            if(command == "create") {
+                tbl.ConnectionName = DS.DBschema.ConnectionName;
+                tbl.DatabaseName = database;
+                foreach(DataGridViewRow row in tableSchemaGrid.Rows) {
+                    if(row.Cells[0].Value != null) {
+                        if(row.Cells[0].Value.ToString() != "") {
+                            ColumnSchema col = new ColumnSchema(row.Cells[0].Value.ToString());
+                            col.ConnectionName = tbl.ConnectionName;
+                            col.DatabaseName = tbl.DatabaseName;
+                            col.TableName = tbl.TableName;
+                            col.ColumnPosition = int.Parse(row.HeaderCell.Value.ToString());
+                            col.DataType = row.Cells[1].Value.ToString();
+                            col.PrimaryKey = (bool)row.Cells[2].Value;
+                            col.NotNull = (bool)row.Cells[3].Value;
+                            col.Unique = (bool)row.Cells[4].Value;
+                            col.AutoIncrement = (bool)row.Cells[5].Value;
+                            col.DefaultValue = row.Cells[6].Value.ToString();
+                            tbl.addColumn(col);
+                        }
+                    }
+                }
+            } else {
+                tbl.ConnectionName = tmptbl.ConnectionName;
+                tbl.DatabaseName = tmptbl.DatabaseName;
+                foreach(DataGridViewRow row in tableSchemaGrid.Rows) {
+                    if(row.Cells[0].Value != null) {
+                        if(row.Cells[0].Value.ToString() != "") {
+                            ColumnSchema col = new ColumnSchema(row.Cells[0].Value.ToString());
+                            col.ConnectionName = tmptbl.ConnectionName;
+                            col.DatabaseName = tmptbl.DatabaseName;
+                            col.TableName = tmptbl.TableName;
+                            col.ColumnPosition = int.Parse(row.HeaderCell.Value.ToString());
+                            col.DataType = row.Cells[1].Value.ToString();
+                            col.PrimaryKey = (bool)row.Cells[2].Value;
+                            col.NotNull = (bool)row.Cells[3].Value;
+                            col.Unique = (bool)row.Cells[4].Value;
+                            col.AutoIncrement = (bool)row.Cells[5].Value;
+                            col.DefaultValue = row.Cells[6].Value.ToString();
+                            tbl.addColumn(col);
+                        }
+                    }
+                }
+            }
+
             string sql = "";
             if(command.ToString() == "truncate") {
-                sql = "TRUNCATE `" + DS.database + "`.`" + table + "`\n";
+                sql += orgtbl.SQLTruncateTable();
             } else if(command.ToString() == "drop") {
-                sql = "DROP TABLE `" + DS.database + "`.`" + table + "`\n";
+                sql += orgtbl.SQLDropTable();
             } else if(command.ToString() == "create") {
-                sql = "CREATE TABLE `" + DS.database + "`.`" + tableBox.Text.ToString() + "` (\n";
-                foreach(DataGridViewRow col in tableSchemaGrid.Rows) {
-                    if(col.Cells[1].Value != null) {
-                        if(col.Cells[1].Value.ToString() != DS.columns.Rows[col.Index]["COLUMN_NAME"].ToString()) {
-                            sql += "`" + DS.columns.Rows[col.Index]["COLUMN_NAME"].ToString() + "` ";
-                            sql += "`" + col.Cells[1].Value.ToString() + "` ";
-                            sql += col.Cells[2].Value.ToString() + " ";
-                            if(col.Cells[4].Value.ToString() == "1") {
-                                sql += "NULL ";
-                            } else {
-                                sql += "NOT NULL ";
-                            }
-                            if(col.Cells[6].Value.ToString() == "1") {
-                                sql += "AUTO INCREMENT ";
-                            }
-                            sql += ",\n";
-                        }
-                    }
-                }
-                foreach(DataGridViewRow col in tableSchemaGrid.Rows) {
-                    if(col.Cells[1].Value != null) {
-                        if(col.Cells[3].Value.ToString() == "1") {
-                            sql += "PRIMARY KEY (`" + col.Cells[1].Value.ToString() + "`),\n";
-                        }
-                        if(col.Cells[5].Value.ToString() == "1") {
-                            sql += "UNIQUE KEY `" + col.Cells[1].Value.ToString() + "`,\n";
-                        }
-                    }
-                }
-                sql = sql.Substring(0, sql.Length - 2);
-                sql += ") ENGINE=MyISAM DEFAULT CHARSET=latin1;\n";
+                sql += tbl.SQLCreateTable();
             } else if(command.ToString() == "alter" || command.ToString() == "") {
                 if(tableBox.Text != table) {
-                    sql = "RENAME TABLE `" + DS.database + "`.`" + table + "` TO `" + DS.database + "`.`" + tableBox.Text.ToString() + "`\n";
-                } else {
-                    sql = "ALTER TABLE `" + DS.database + "`.`" + table + "`\n";
-                    foreach(DataGridViewRow col in tableSchemaGrid.Rows) {
-                        if(col.Cells[1].Value != null) {
-                            if(col.Cells[1].Value.ToString() != DS.columns.Rows[col.Index]["COLUMN_NAME"].ToString()) {
-                                sql += "CHANGE COLUMN ";
-                                sql += "`" + DS.columns.Rows[col.Index]["COLUMN_NAME"].ToString() + "` ";
-                                sql += "`" + col.Cells[1].Value.ToString() + "` ";
-                                sql += col.Cells[2].Value.ToString() + " ";
-                                if(col.Cells[4].Value.ToString() == "1") {
-                                    sql += "NULL ";
-                                } else {
-                                    sql += "NOT NULL ";
-                                }
-                                if(col.Cells[6].Value.ToString() == "1") {
-                                    sql += "AUTO INCREMENT ";
-                                }
-                                sql += "\n";
-                            }
-                        }
-                    }
+                    sql += orgtbl.SQLRenameTable(tbl);
                 }
+                sql += orgtbl.SQLAlterTable(tbl);
             }
             sqlRtf.Text = sql.ToString();
             sqlRtf.SyntaxHighlight();
         }
 
         private void tableSchemaGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {
-            buildSQL();
+            //buildSQL();
         }
 
         private void sqlRtf_TextChanged(object sender, EventArgs e) {
-
+            //buildSQL();
         }
 
         public void typeColumnDataGridView_OnCurrentCellDirtyStateChanged(object sender, EventArgs e) {
-            DataGridView dataGridView = sender as DataGridView;
-            if(dataGridView == null || dataGridView.CurrentCell.ColumnIndex != 0) {
-                return;
-            }
-            var dataGridViewComboBoxCell = dataGridView.CurrentCell as DataGridViewComboBoxCell;
-            if(dataGridViewComboBoxCell != null) {
-                if(dataGridViewComboBoxCell.EditedFormattedValue.ToString() == "Custom") {
-                    //Here we move focus to second cell of current row
-                    dataGridView.CurrentCell = dataGridView.Rows[dataGridView.CurrentCell.RowIndex].Cells[1];
-                    //Return focus to Combobox cell
-                    dataGridView.CurrentCell = dataGridView.Rows[dataGridView.CurrentCell.RowIndex].Cells[0];
-                    //Initiate Edit mode
-                    dataGridView.BeginEdit(true);
-                    return;
-                }
-            }
-            dataGridView.CurrentCell = dataGridView.Rows[dataGridView.CurrentCell.RowIndex].Cells[1];
-            dataGridView.BeginEdit(true);
+        
         }
 
         public void typeColumnDataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
@@ -302,22 +247,67 @@ namespace QueryIT {
             try {
                 if(DS.executeSql(sqlRtf.Text.ToString())) {
                     resultBox.Text = "Date: " + DS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
-                                             "Result: " + DS.row_count.ToString() + " Records\n" +
-                                             "Query: '" + DS.sql.ToString() + "'\n";
+                                     "Result: " + DS.row_count.ToString() + " Records\n" +
+                                     "Query: '" + DS.sql.ToString() + "'\n";
                 } else {
                     resultBox.Text = "Date: " + DS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
-                                          "Result: " + DS.row_count.ToString() + " Records\n" +
-                                          "Query: '" + DS.sql.ToString() + "'\n";
+                                     "Result: " + DS.row_count.ToString() + " Records\n" +
+                                     "Query: '" + DS.sql.ToString() + "'\n";
                 }
                 tableTab.SelectedTab = sqlPage;
             } catch(Exception err) {
-
+                throw err;
             }
         }
 
         private void cancelToolStripMenuItem_Click(object sender, EventArgs e) {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        public void addEmtpyRow() {
+            DataGridViewRow row = (DataGridViewRow)tableSchemaGrid.Rows[0].Clone();
+            row.HeaderCell.Value = row.Index.ToString();
+            row.Cells[0].Value = "";
+            DataGridViewComboBoxCell vCellComboDataType = new DataGridViewComboBoxCell();
+            foreach(string dst in Datasource.DBDataTypes) {
+                vCellComboDataType.Items.Add(dst.ToString());
+            }
+            vCellComboDataType.Value = vCellComboDataType.Items[0];
+            vCellComboDataType.FlatStyle = FlatStyle.Standard;
+            vCellComboDataType.MaxDropDownItems = vCellComboDataType.Items.Count;
+            row.Cells[1].Value = vCellComboDataType.Value;
+            row.Cells[1] = vCellComboDataType;
+            DataGridViewCheckBoxCell vCheckPKey = new DataGridViewCheckBoxCell();
+            vCheckPKey.Value = false;
+            row.Cells[2] = vCheckPKey;
+            DataGridViewCheckBoxCell vCheckNN = new DataGridViewCheckBoxCell();
+            vCheckNN.Value = false;
+            row.Cells[3] = vCheckNN;
+            DataGridViewCheckBoxCell vCheckUN = new DataGridViewCheckBoxCell();
+            vCheckUN.Value = false;
+            row.Cells[4] = vCheckUN;
+            DataGridViewCheckBoxCell vCheckAI = new DataGridViewCheckBoxCell();
+            vCheckAI.Value = false;
+            row.Cells[5] = vCheckAI;
+            row.Cells[6].Value = "";
+            tableSchemaGrid.Rows.Add(row);
+        }
+
+        private void tableSchemaGrid_UserAddedRow(object sender, DataGridViewRowEventArgs e) {
+            addEmtpyRow();
+        }
+
+        private void tableSchemaGrid_Click(object sender, EventArgs e) {
+            //buildSQL();
+        }
+
+        private void tableSchemaGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
+            //buildSQL();
+        }
+
+        private void tableSchemaGrid_CellLeave(object sender, DataGridViewCellEventArgs e) {
+            buildSQL();
         }
     }
 }

@@ -117,9 +117,13 @@
             this.tableSchemaGrid.Size = new System.Drawing.Size(426, 265);
             this.tableSchemaGrid.TabIndex = 0;
             this.tableSchemaGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableSchemaGrid_CellContentClick);
+            this.tableSchemaGrid.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableSchemaGrid_CellLeave);
             this.tableSchemaGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.typeColumnDataGridView_CellValidating);
+            this.tableSchemaGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableSchemaGrid_CellValueChanged);
             this.tableSchemaGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.typeColumnDataGridView_OnCurrentCellDirtyStateChanged);
             this.tableSchemaGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.typeColumnDataGridView_EditingControlShowing);
+            this.tableSchemaGrid.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.tableSchemaGrid_UserAddedRow);
+            this.tableSchemaGrid.Click += new System.EventHandler(this.tableSchemaGrid_Click);
             // 
             // sqlPage
             // 
@@ -178,7 +182,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "TableForm";
-            this.Text = "Table (WIP, ALPHA)";
+            this.Text = "Table [ALPHA]";
             this.Load += new System.EventHandler(this.Table_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

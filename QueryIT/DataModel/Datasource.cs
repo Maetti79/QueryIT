@@ -14,32 +14,43 @@ namespace QueryIT.model {
 
     public class Datasource {
 
+        public string conectionString = "";
+
+        public ConnectionSchema DBschema = new ConnectionSchema();
+
         private OdbcConnection con = new OdbcConnection();
         private MySqlConnection mycon = new MySqlConnection();
         private ADODB.Connection adocon = new ADODB.Connection();
+
+        private DataTable tables = new DataTable();
+        private DataTable databases = new DataTable();
+        private DataTable columns = new DataTable();
+
         public string database = "";
-        public string conectionString = "";
-        public DataTable tables = new DataTable();
-        public DataTable databases = new DataTable();
-        public DataTable columns = new DataTable();
+        public string table = "";
         public DataTable result = new DataTable();
+        public string error = "";
+        public string sql = "";
+        public int row_count = 0;
+        public int column_count = 0;
+
         public int index = 0;
         public bool run = false;
         public DateTime utcStart;
         public DateTime utcStop;
-        public string error = "";
-        public string sql = "";
-        public string table = "";
-        public int row_count = 0;
-        public int column_count = 0;
-
+        
         public static string[] DBDataTypes = {
-            "INT(11)",
+            "INT",
             "FLOAT",
             "DOUBLE",
             "DATETIME",
             "TIMESTAMP",
-            "VARCHAR(45)"
+            "VARCHAR"
+        };
+
+        public static string[] DBCollations = {
+            "ISO8859",
+            "UTF-8"
         };
 
         public Datasource() {
@@ -202,18 +213,24 @@ namespace QueryIT.model {
                     columns.Clear();
                     tables = con.GetSchema("Tables");
                     columns = con.GetSchema("Columns");
-                    if(databases.Rows.Count <= 0) {
-                        OdbcCommand oCmd = new OdbcCommand("SHOW DATABASES", con);
-                        OdbcDataReader oDR = oCmd.ExecuteReader();
-                        if(oDR.HasRows == true) {
-                            while(oDR.Read()) {
-                                for(int i = 0; i < oDR.FieldCount; i++) {
-                                    databases.Rows.Add(oDR.GetValue(i).ToString());
+                    if(conectionString.Contains("Microsoft Text Driver")) {
+                        databases.Columns.Add("Database");
+                        databases.Rows.Add(database);
+                    } else {
+                        if(databases.Rows.Count <= 0) {
+                            databases.Columns.Add("Database");
+                            OdbcCommand oCmd = new OdbcCommand("SHOW DATABASES", con);
+                            OdbcDataReader oDR = oCmd.ExecuteReader();
+                            if(oDR.HasRows == true) {
+                                while(oDR.Read()) {
+                                    for(int i = 0; i < oDR.FieldCount; i++) {
+                                        databases.Rows.Add(oDR.GetValue(i).ToString());
+                                    }
                                 }
                             }
+                            oDR.Close();
+                            oCmd.Dispose();
                         }
-                        oDR.Close();
-                        oCmd.Dispose();
                     }
                 } else {
                     database = mycon.Database.ToString();
@@ -235,6 +252,164 @@ namespace QueryIT.model {
                         oDR.Close();
                         oCmd.Dispose();
                     }
+                }
+
+                if(conectionString.Contains("Microsoft Text Driver")) {
+                    DBschema.ConnectionName = "QDSCSV";
+                    //BEGIN SCHEMA INFO - own Classes Beta
+                    foreach(DataRow bd in databases.Rows) {
+                        //if(bd[0].ToString() == database) {
+                        DatabaseSchema tmpDB = new DatabaseSchema(bd[0].ToString());
+                        tmpDB.ConnectionName = DBschema.ConnectionName;
+                        foreach(DataRow tbl in tables.Rows) {
+                            if(tbl[0].ToString() == bd[0].ToString()) {
+                                TableSchema tmpTable = new TableSchema(tbl[2].ToString());
+                                tmpTable.ConnectionName = DBschema.ConnectionName;
+                                tmpTable.DatabaseName = tmpDB.DatabaseName;
+                                if(tables.Columns.Contains("ENGINE") == true) {
+                                    tmpTable.Engine = "CSV";
+                                }
+                                foreach(DataRow col in columns.Rows) {
+                                    if(tbl["TABLE_NAME"].ToString() == col["TABLE_NAME"].ToString()) {
+                                        if(columns.Columns.Contains("COLUMN_NAME") == true) {
+                                            ColumnSchema tmpCol = new ColumnSchema(col["COLUMN_NAME"].ToString());
+                                            tmpCol.ConnectionName = DBschema.ConnectionName;
+                                            tmpCol.DatabaseName = tmpDB.DatabaseName;
+                                            tmpCol.TableName = tmpTable.TableName;
+                                            if(columns.Columns.Contains("COLUMN_KEY") == true) {
+                                                if(col["COLUMN_KEY"].ToString() == "PRI") {
+                                                    tmpCol.PrimaryKey = true;
+                                                } else {
+                                                    tmpCol.PrimaryKey = false;
+                                                }
+                                            }
+                                            if(columns.Columns.Contains("ORDINAL_POSITION") == true) {
+                                                tmpCol.ColumnPosition = int.Parse(col["ORDINAL_POSITION"].ToString());
+                                            }
+                                            if(columns.Columns.Contains("TYPE_NAME") == true) {
+                                                tmpCol.DataType = col["TYPE_NAME"].ToString();
+                                            }
+                                            if(columns.Columns.Contains("COLUMN_DEFAULT") == true) {
+                                                tmpCol.DefaultValue = col["COLUMN_DEFAULT"].ToString();
+                                            }
+                                            if(columns.Columns.Contains("COLUMN_COMMENT") == true) {
+                                                tmpCol.Comment = col["COLUMN_COMMENT"].ToString();
+                                            }
+                                            if(columns.Columns.Contains("IS_NULLABLE") == true) {
+                                                if(col["IS_NULLABLE"].ToString() == "YES") {
+                                                    tmpCol.NotNull = false;
+                                                } else {
+                                                    tmpCol.NotNull = true;
+                                                }
+                                            }
+                                            if(columns.Columns.Contains("EXTRA") == true) {
+                                                if(col["EXTRA"].ToString() == "auto_increment") {
+                                                    tmpCol.AutoIncrement = true;
+                                                } else {
+                                                    tmpCol.AutoIncrement = false;
+                                                }
+                                            }
+
+                                            tmpTable.addColumn(tmpCol);
+
+                                        }
+                                    }
+                                }
+
+                                tmpDB.addTable(tmpTable);
+
+                            }//If Table = Table
+                        }//Foreach Table
+
+                        DBschema.addDatabase(tmpDB);
+
+                        //}
+                    }//Foreach Database
+                    //END SCHEMA INFO
+
+                } else {
+
+                    DBschema.ConnectionName = "QDS";
+                    //BEGIN SCHEMA INFO - own Classes Beta
+                    foreach(DataRow bd in databases.Rows) {
+                        //if(bd[0].ToString() == database) {
+                        DatabaseSchema tmpDB = new DatabaseSchema(bd[0].ToString());
+                        tmpDB.ConnectionName = DBschema.ConnectionName;
+                        foreach(DataRow tbl in tables.Rows) {
+                            if(tbl["TABLE_SCHEMA"].ToString() == bd[0].ToString()) {
+                                TableSchema tmpTable = new TableSchema(tbl["TABLE_NAME"].ToString());
+                                tmpTable.ConnectionName = DBschema.ConnectionName;
+                                tmpTable.DatabaseName = tmpDB.DatabaseName;
+                                if(tables.Columns.Contains("ENGINE") == true) {
+                                    tmpTable.Engine = tbl["ENGINE"].ToString();
+                                }
+                                if(tables.Columns.Contains("AUTO_INCREMENT") == true) {
+                                    int ai = 0;
+                                    Int32.TryParse(tbl["AUTO_INCREMENT"].ToString(), out ai);
+                                    tmpTable.AutoIncrement = ai;
+                                }
+                                foreach(DataRow col in columns.Rows) {
+                                    if(tbl["TABLE_NAME"].ToString() == col["TABLE_NAME"].ToString()) {
+                                        if(columns.Columns.Contains("COLUMN_NAME") == true) {
+                                            ColumnSchema tmpCol = new ColumnSchema(col["COLUMN_NAME"].ToString());
+                                            tmpCol.ConnectionName = DBschema.ConnectionName;
+                                            tmpCol.DatabaseName = tmpDB.DatabaseName;
+                                            tmpCol.TableName = tmpTable.TableName;
+                                            if(columns.Columns.Contains("COLUMN_KEY") == true) {
+                                                if(col["COLUMN_KEY"].ToString() == "PRI") {
+                                                    tmpCol.PrimaryKey = true;
+                                                } else {
+                                                    tmpCol.PrimaryKey = false;
+                                                }
+                                            }
+                                            if(columns.Columns.Contains("ORDINAL_POSITION") == true) {
+                                                int idx = 0;
+                                                Int32.TryParse(col["ORDINAL_POSITION"].ToString(), out idx);
+                                                tmpCol.ColumnPosition = idx;
+                                            }
+                                            //if(columns.Columns.Contains("DATA_TYPE") == true) {
+                                            //    tmpCol.DataType = col["DATA_TYPE"].ToString();
+                                            //}
+                                            if(columns.Columns.Contains("COLUMN_TYPE") == true) {
+                                                tmpCol.DataType = col["COLUMN_TYPE"].ToString();
+                                            }
+                                            if(columns.Columns.Contains("COLUMN_DEFAULT") == true) {
+                                                tmpCol.DefaultValue = col["COLUMN_DEFAULT"].ToString();
+                                            }
+                                            if(columns.Columns.Contains("COLUMN_COMMENT") == true) {
+                                                tmpCol.Comment = col["COLUMN_COMMENT"].ToString();
+                                            }
+                                            if(columns.Columns.Contains("IS_NULLABLE") == true) {
+                                                if(col["IS_NULLABLE"].ToString() == "YES") {
+                                                    tmpCol.NotNull = false;
+                                                } else {
+                                                    tmpCol.NotNull = true;
+                                                }
+                                            }
+                                            if(columns.Columns.Contains("EXTRA") == true) {
+                                                if(col["EXTRA"].ToString() == "auto_increment") {
+                                                    tmpCol.AutoIncrement = true;
+                                                } else {
+                                                    tmpCol.AutoIncrement = false;
+                                                }
+                                            }
+
+                                            tmpTable.addColumn(tmpCol);
+
+                                        }
+                                    }
+                                }
+
+                                tmpDB.addTable(tmpTable);
+
+                            }//If Table = Table
+                        }//Foreach Table
+
+                        DBschema.addDatabase(tmpDB);
+
+                        //}
+                    }//Foreach Database
+                    //END SCHEMA INFO
                 }
             } catch(Exception e) {
                 error = e.Message.ToString();

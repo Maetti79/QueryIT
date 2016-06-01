@@ -31,7 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QueryerForm));
             this.schemaContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.createTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.alterTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.truncateTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dropTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QueryIcons = new System.Windows.Forms.ImageList(this.components);
             this.resultContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.filterToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,16 +89,10 @@
             this.resultGridTab = new System.Windows.Forms.TabPage();
             this.resultGrid = new System.Windows.Forms.DataGridView();
             this.resultTextTab = new System.Windows.Forms.TabPage();
-            this.resultBox = new System.Windows.Forms.RichTextBox();
+            this.resultTextBox = new System.Windows.Forms.RichTextBox();
             this.resultHistoryTab = new System.Windows.Forms.TabPage();
-            this.historyBox = new System.Windows.Forms.RichTextBox();
+            this.resultHistoryTextBox = new System.Windows.Forms.RichTextBox();
             this.autocomplete = new AutocompleteMenuNS.AutocompleteMenu();
-            this.createTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dropTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.truncateTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.schemaContextMenu.SuspendLayout();
             this.resultContextMenu.SuspendLayout();
             this.queryMenu.SuspendLayout();
@@ -124,7 +124,15 @@
             this.importToolStripMenuItem,
             this.exportToolStripMenuItem});
             this.schemaContextMenu.Name = "schemaContextMenu";
-            this.schemaContextMenu.Size = new System.Drawing.Size(154, 164);
+            this.schemaContextMenu.Size = new System.Drawing.Size(154, 142);
+            // 
+            // createTableToolStripMenuItem
+            // 
+            this.createTableToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createTableToolStripMenuItem.Image")));
+            this.createTableToolStripMenuItem.Name = "createTableToolStripMenuItem";
+            this.createTableToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.createTableToolStripMenuItem.Text = "Create Table";
+            this.createTableToolStripMenuItem.Click += new System.EventHandler(this.createTableToolStripMenuItem_Click);
             // 
             // alterTableToolStripMenuItem
             // 
@@ -133,6 +141,43 @@
             this.alterTableToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.alterTableToolStripMenuItem.Text = "Alter Table";
             this.alterTableToolStripMenuItem.Click += new System.EventHandler(this.alterTableToolStripMenuItem_Click);
+            // 
+            // truncateTableToolStripMenuItem
+            // 
+            this.truncateTableToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("truncateTableToolStripMenuItem.Image")));
+            this.truncateTableToolStripMenuItem.Name = "truncateTableToolStripMenuItem";
+            this.truncateTableToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.truncateTableToolStripMenuItem.Text = "Truncate Table";
+            this.truncateTableToolStripMenuItem.Click += new System.EventHandler(this.truncateTableToolStripMenuItem_Click);
+            // 
+            // dropTableToolStripMenuItem
+            // 
+            this.dropTableToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("dropTableToolStripMenuItem.Image")));
+            this.dropTableToolStripMenuItem.Name = "dropTableToolStripMenuItem";
+            this.dropTableToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.dropTableToolStripMenuItem.Text = "Drop Table";
+            this.dropTableToolStripMenuItem.Click += new System.EventHandler(this.dropTableToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(150, 6);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("importToolStripMenuItem.Image")));
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.importToolStripMenuItem.Text = "Import";
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exportToolStripMenuItem.Image")));
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.exportToolStripMenuItem.Text = "Export";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // QueryIcons
             // 
@@ -673,7 +718,7 @@
             // 
             // resultTextTab
             // 
-            this.resultTextTab.Controls.Add(this.resultBox);
+            this.resultTextTab.Controls.Add(this.resultTextBox);
             this.resultTextTab.ImageIndex = 13;
             this.resultTextTab.Location = new System.Drawing.Point(4, 23);
             this.resultTextTab.Name = "resultTextTab";
@@ -683,20 +728,19 @@
             this.resultTextTab.Text = "Result Text";
             this.resultTextTab.UseVisualStyleBackColor = true;
             // 
-            // resultBox
+            // resultTextBox
             // 
-            this.autocomplete.SetAutocompleteMenu(this.resultBox, null);
-            this.resultBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.resultBox.Location = new System.Drawing.Point(3, 3);
-            this.resultBox.Name = "resultBox";
-            this.resultBox.Size = new System.Drawing.Size(357, 197);
-            this.resultBox.TabIndex = 1;
-            this.resultBox.Text = "";
-            this.resultBox.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
+            this.autocomplete.SetAutocompleteMenu(this.resultTextBox, null);
+            this.resultTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.resultTextBox.Location = new System.Drawing.Point(3, 3);
+            this.resultTextBox.Name = "resultTextBox";
+            this.resultTextBox.Size = new System.Drawing.Size(357, 197);
+            this.resultTextBox.TabIndex = 1;
+            this.resultTextBox.Text = "";
             // 
             // resultHistoryTab
             // 
-            this.resultHistoryTab.Controls.Add(this.historyBox);
+            this.resultHistoryTab.Controls.Add(this.resultHistoryTextBox);
             this.resultHistoryTab.ImageIndex = 8;
             this.resultHistoryTab.Location = new System.Drawing.Point(4, 23);
             this.resultHistoryTab.Name = "resultHistoryTab";
@@ -706,17 +750,16 @@
             this.resultHistoryTab.Text = "History";
             this.resultHistoryTab.UseVisualStyleBackColor = true;
             // 
-            // historyBox
+            // resultHistoryTextBox
             // 
-            this.autocomplete.SetAutocompleteMenu(this.historyBox, null);
-            this.historyBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.historyBox.Location = new System.Drawing.Point(3, 3);
-            this.historyBox.Name = "historyBox";
-            this.historyBox.ReadOnly = true;
-            this.historyBox.Size = new System.Drawing.Size(357, 197);
-            this.historyBox.TabIndex = 1;
-            this.historyBox.Text = "";
-            this.historyBox.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
+            this.autocomplete.SetAutocompleteMenu(this.resultHistoryTextBox, null);
+            this.resultHistoryTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.resultHistoryTextBox.Location = new System.Drawing.Point(3, 3);
+            this.resultHistoryTextBox.Name = "resultHistoryTextBox";
+            this.resultHistoryTextBox.ReadOnly = true;
+            this.resultHistoryTextBox.Size = new System.Drawing.Size(357, 197);
+            this.resultHistoryTextBox.TabIndex = 1;
+            this.resultHistoryTextBox.Text = "";
             // 
             // autocomplete
             // 
@@ -726,49 +769,6 @@
             this.autocomplete.ImageList = this.QueryIcons;
             this.autocomplete.Items = new string[0];
             this.autocomplete.TargetControlWrapper = null;
-            // 
-            // createTableToolStripMenuItem
-            // 
-            this.createTableToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createTableToolStripMenuItem.Image")));
-            this.createTableToolStripMenuItem.Name = "createTableToolStripMenuItem";
-            this.createTableToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.createTableToolStripMenuItem.Text = "Create Table";
-            this.createTableToolStripMenuItem.Click += new System.EventHandler(this.createTableToolStripMenuItem_Click);
-            // 
-            // dropTableToolStripMenuItem
-            // 
-            this.dropTableToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("dropTableToolStripMenuItem.Image")));
-            this.dropTableToolStripMenuItem.Name = "dropTableToolStripMenuItem";
-            this.dropTableToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.dropTableToolStripMenuItem.Text = "Drop Table";
-            this.dropTableToolStripMenuItem.Click += new System.EventHandler(this.dropTableToolStripMenuItem_Click);
-            // 
-            // truncateTableToolStripMenuItem
-            // 
-            this.truncateTableToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("truncateTableToolStripMenuItem.Image")));
-            this.truncateTableToolStripMenuItem.Name = "truncateTableToolStripMenuItem";
-            this.truncateTableToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.truncateTableToolStripMenuItem.Text = "Truncate Table";
-            this.truncateTableToolStripMenuItem.Click += new System.EventHandler(this.truncateTableToolStripMenuItem_Click);
-            // 
-            // importToolStripMenuItem
-            // 
-            this.importToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("importToolStripMenuItem.Image")));
-            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.importToolStripMenuItem.Text = "Import";
-            // 
-            // exportToolStripMenuItem
-            // 
-            this.exportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exportToolStripMenuItem.Image")));
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.exportToolStripMenuItem.Text = "Export";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(150, 6);
             // 
             // QueryerForm
             // 
@@ -861,9 +861,9 @@
         private System.Windows.Forms.TabPage resultGridTab;
         private System.Windows.Forms.DataGridView resultGrid;
         private System.Windows.Forms.TabPage resultTextTab;
-        private System.Windows.Forms.RichTextBox resultBox;
+        private System.Windows.Forms.RichTextBox resultTextBox;
         private System.Windows.Forms.TabPage resultHistoryTab;
-        private System.Windows.Forms.RichTextBox historyBox;
+        private System.Windows.Forms.RichTextBox resultHistoryTextBox;
         private System.Windows.Forms.ToolStripMenuItem saveHistoryhstToolStripMenuItem;
         private AutocompleteMenuNS.AutocompleteMenu autocomplete;
         private System.Windows.Forms.ToolStripMenuItem hashToolStripMenuItem1;

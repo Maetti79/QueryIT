@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using IPlugin;
 
 namespace QueryIT {
+    
     public class PluginCore {
 
         public PluginCore(String pPathToPlugins) {
@@ -154,4 +155,5 @@ namespace QueryIT {
         }
 
     }
+
 }

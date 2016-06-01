@@ -381,6 +381,7 @@ namespace QueryIT {
 
         public void reloadSchema() {
             try {
+                //AutoComplete
                 var acitems = new List<AutocompleteItem>();
                 Array.Sort(SQLSyntax.SQLblue);
                 foreach(var key in SQLSyntax.SQLblue) {
@@ -390,95 +391,71 @@ namespace QueryIT {
                 foreach(var key in SQLSyntax.SQLmagenta) {
                     acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
                 }
-                if(QDS.databases.Rows.Count > 0) {
-                    string database = QDS.database;
-                    foreach(DataRow r in QDS.databases.Rows) {
-                        //QDS.executeSql("USE " + r.ItemArray[0].ToString());
-                        //QDS.getSchema();
-                        if(DatabaseTree.Nodes.IndexOfKey(r.ItemArray[0].ToString()) == -1) {
-                            DatabaseTree.Nodes.Add(r.ItemArray[0].ToString(), r.ItemArray[0].ToString());
-                            if(r.ItemArray[0].ToString() == database) {
-                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
-                            }
-                            if(QDS.conectionString.Contains("Microsoft Text Driver")) {
-                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].ImageIndex = 3;
-                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].SelectedImageIndex = 3;
+                //TreeView
+                string database = QDS.database;
+                if(QDS.DBschema.Databases != null) {
+                    foreach(DatabaseSchema db in QDS.DBschema.Databases) {
+                        if(DatabaseTree.Nodes.IndexOfKey(db.DatabaseName) == -1) {
+                            //Add, Database to TreeView
+                            DatabaseTree.Nodes.Add(db.DatabaseName, db.DatabaseName);
+                            //Seelct Font
+                            if(db.DatabaseName == database) {
+                                DatabaseTree.Nodes[db.DatabaseName].NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
+                                DatabaseTree.Nodes[db.DatabaseName].Text = DatabaseTree.Nodes[db.DatabaseName].Text;
                             } else {
-                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].ImageIndex = 4;
-                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].SelectedImageIndex = 4;
+                                DatabaseTree.Nodes[db.DatabaseName].NodeFont = DatabaseTree.Font;
+                                DatabaseTree.Nodes[db.DatabaseName].Text = DatabaseTree.Nodes[db.DatabaseName].Text;
                             }
-                        }
-                    }
-                    foreach(DataRow row in QDS.tables.Rows) {
-                        if(DatabaseTree.Nodes[QDS.database.ToString()].Nodes.IndexOfKey(row["TABLE_NAME"].ToString()) == -1) {
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes.Add(row["TABLE_NAME"].ToString(), row["TABLE_NAME"].ToString());
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].ImageIndex = 5;
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].SelectedImageIndex = 5;
-                            acitems.Add(new AutocompleteItem(row["TABLE_NAME"].ToString()) { ImageIndex = 5 });
-                            foreach(DataRow col in QDS.columns.Rows) {
-                                if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
-
-                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
-                                    if(QDS.columns.Columns.Contains("COLUMN_KEY") == true) {
-                                        if(col["COLUMN_KEY"].ToString() == "PRI") {
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
-                                            acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 10 });
-                                        } else {
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
-                                            acitems.Add(new AutocompleteItem("`" + col["COLUMN_NAME"].ToString()) { ImageIndex = 6 });
-                                        }
-                                    } else {
-                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
-                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
-                                        acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 6 });
-                                    }
-                                }
+                            //Select Icon
+                            if(QDS.conectionString.Contains("Microsoft Text Driver")) {
+                                DatabaseTree.Nodes[db.DatabaseName].ImageIndex = 3;
+                                DatabaseTree.Nodes[db.DatabaseName].SelectedImageIndex = 3;
+                            } else {
+                                DatabaseTree.Nodes[db.DatabaseName].ImageIndex = 4;
+                                DatabaseTree.Nodes[db.DatabaseName].SelectedImageIndex = 4;
                             }
-                        }
-                    }
-                    //QDS.executeSql("USE " + database);
-                } else {
-                    if(DatabaseTree.Nodes.IndexOfKey(QDS.database.ToString()) == -1) {
-                        DatabaseTree.Nodes.Add(QDS.database.ToString(), QDS.database.ToString());
-                        DatabaseTree.Nodes[QDS.database.ToString()].NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
-                        if(QDS.conectionString.Contains("Microsoft Text Driver")) {
-                            DatabaseTree.Nodes[QDS.database.ToString()].ImageIndex = 3;
-                            DatabaseTree.Nodes[QDS.database.ToString()].SelectedImageIndex = 3;
                         } else {
-                            DatabaseTree.Nodes[QDS.database.ToString()].ImageIndex = 4;
-                            DatabaseTree.Nodes[QDS.database.ToString()].SelectedImageIndex = 4;
+                            //Skip, Database is already in TreeView
                         }
-                    }
-                    foreach(DataRow row in QDS.tables.Rows) {
-                        if(DatabaseTree.Nodes[QDS.database.ToString()].Nodes.IndexOfKey(row["TABLE_NAME"].ToString()) == -1) {
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes.Add(row["TABLE_NAME"].ToString(), row["TABLE_NAME"].ToString());
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].ImageIndex = 5;
-                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].SelectedImageIndex = 5;
-                            acitems.Add(new AutocompleteItem(row["TABLE_NAME"].ToString()) { ImageIndex = 5 });
-                            foreach(DataRow col in QDS.columns.Rows) {
-                                if(col["TABLE_NAME"].ToString() == row["TABLE_NAME"].ToString()) {
-                                    DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
-                                    if(QDS.columns.Columns.Contains("COLUMN_KEY") == true) {
-                                        if(col["COLUMN_KEY"].ToString() == "PRI") {
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
-                                            acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 10 });
-                                        } else {
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
-                                            DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
-                                            acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 6 });
-                                        }
-                                    } else {
-                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 6;
-                                        DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 6;
-                                        acitems.Add(new AutocompleteItem(col["COLUMN_NAME"].ToString()) { ImageIndex = 6 });
-                                    }
+                        if(db.Tables != null) {
+                            foreach(TableSchema tbl in db.Tables) {
+                                if(DatabaseTree.Nodes[db.DatabaseName].Nodes.IndexOfKey(tbl.TableName) == -1) {
+                                    //Add Table to Treeview
+                                    DatabaseTree.Nodes[db.DatabaseName].Nodes.Add(tbl.TableName, tbl.TableName);
+                                    //Image
+                                    DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].ImageIndex = 5;
+                                    DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].SelectedImageIndex = 5;
+                                    //AutoComplete
+                                    acitems.Add(new AutocompleteItem(tbl.TableName) { ImageIndex = 5 });
+                                } else {
+                                    //Skip, Table is already in Treeview
                                 }
-                            }
+                                if(tbl.Columns != null) {
+                                    foreach(ColumnSchema col in tbl.Columns) {
+                                        if(DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes.IndexOfKey(col.ColumnName) == -1) {
+                                            //Add Column to Treeview
+                                            DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes.Add(col.ColumnName, col.ColumnName + "   " + col.DataType + "");
+                                            if(col.PrimaryKey == true) {
+                                                //Image
+                                                DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].ImageIndex = 10;
+                                                DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].SelectedImageIndex = 10;
+                                                //AutoComplete
+                                                acitems.Add(new AutocompleteItem(col.ColumnName) { ImageIndex = 10 });
+                                            } else {
+                                                //Image
+                                                DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].ImageIndex = 6;
+                                                DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].SelectedImageIndex = 6;
+                                                //AutoComplete
+                                                acitems.Add(new AutocompleteItem("`" + col.ColumnName) { ImageIndex = 6 });
+                                            }
+                                        } else {
+                                            //Skip, Column is already in Treeview
+                                        }
+                                    }//foreach Column
+                                }
+                            }//Foreach Table
                         }
-                    }
+                    }//Foreach Database
                 }
                 autocomplete.SetAutocompleteItems(acitems);
             } catch(Exception err) {
@@ -531,7 +508,7 @@ namespace QueryIT {
         }
 
         private void saveSQLToolStripMenuItem1_Click(object sender, EventArgs e) {
-            try {
+            try {/*
                 string querys = "";
                 string queryUValues = "SET ";
                 string queryIValues = "";
@@ -614,7 +591,7 @@ namespace QueryIT {
                 //}
                 if(querys.Trim().ToString() != "") {
                     queryBox.Text = querys + "\n" + queryBox.Text.ToString();
-                }
+                }*/
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }

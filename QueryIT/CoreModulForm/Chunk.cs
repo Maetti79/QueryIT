@@ -21,6 +21,8 @@ namespace QueryIT {
         public PluginCore plugincore = new PluginCore(Environment.CurrentDirectory);
         public Datasource LDS;
         public Datasource RDS;
+        public DataTable DT;
+
         public bool run = false;
         public bool isMoved = false;
 
@@ -75,17 +77,6 @@ namespace QueryIT {
             }
         }
 
-        private void ForeachForm_Load(object sender, EventArgs e) {
-            parent = this.MdiParent as MainForm;
-            LicenseInformation = parent.LicenseInformation;
-            try {
-                loadPlugins();
-                doResize();
-            } catch(Exception err) {
-                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
-            }
-        }
-
         public void doResize() {
             try {
                 if(this.WindowState == FormWindowState.Normal && isMoved == false) {
@@ -101,7 +92,14 @@ namespace QueryIT {
 
         
         private void ChunkForm_Load(object sender, EventArgs e) {
-
+            parent = this.MdiParent as MainForm;
+            LicenseInformation = parent.LicenseInformation;
+            try {
+                loadPlugins();
+                doResize();
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
         }
 
         private void killToolStripMenuItem_Click_1(object sender, EventArgs e) {
@@ -121,7 +119,7 @@ namespace QueryIT {
                 run = true;
                 runToolStripMenuItem.Enabled = false;
                 killToolStripMenuItem.Enabled = true;
-                if(LicenseInformation.Contains("ForEach") == false) {
+                if(LicenseInformation.Contains("Chunk") == false) {
                     try {
                         using(var sform = new LicenseForm(parent)) {
                             var result = sform.ShowDialog();
@@ -134,9 +132,44 @@ namespace QueryIT {
                     }
                 }
                 utcStart = DateTime.UtcNow;
-                               ProgressForm pform = new ProgressForm(this, "Progress [Chunk]");
+                ProgressForm pform = new ProgressForm(this, "Progress [Chunk]");
                 pform.update(0, LDS.row_count, 0);
                 pform.Show();
+
+                string query = selectSQL.Text.Replace("%limit%", "LIMIT " + chunk.Text.ToString() + "," + offset.Text.ToString());
+                string queryv = insertupdateSQL.Text.ToString();
+                int pos = 0;
+                while(LDS.executeSql(query) && LDS.hasResult() == true && LDS.hasErrors() == false && run == true) {
+                    DT = new DataTable();
+                    DT.Clear();
+                    chunkResultGrid.Columns.Clear();
+                    chunkResultGrid.DataSource = null;
+                    if(LDS.hasResult() == true) {
+                        //Needed to Copy for Cell Edit
+                        DT = LDS.result.Copy();
+                    } else {
+                        run = false;
+                    }
+                    chunkResultGrid.DataSource = DT;
+                    chunkResultGrid.Refresh();
+                    foreach(DataRow row in LDS.result.Rows) {
+                        queryv = insertupdateSQL.Text.ToString();
+                        foreach(DataColumn col in LDS.result.Columns) {
+                            if(queryv.ToLower().Contains("#" + col.Caption.ToString().ToLower() + "#")) {
+                                queryv = queryv.Replace("#" + col.Caption.ToString().ToLower() + "#", row[col.Ordinal].ToString());
+                            }
+                        }
+                        pos++;
+                        if(pos % 250 == 0) {
+                            offset.Text = pos.ToString();
+                            pform.update(0, LDS.row_count, pos);
+                            Application.DoEvents();
+                        }
+                        if(run == false) {
+                            break;
+                        }
+                    }
+                }
 
                 pform.Hide();
                 pform.Dispose();
@@ -150,6 +183,10 @@ namespace QueryIT {
                   runToolStripMenuItem.Enabled = true;
                   killToolStripMenuItem.Enabled = false;
               }
+        }
+
+        private void runinChunksToolStripMenuItem_Click(object sender, EventArgs e) {
+
         }
 
     }

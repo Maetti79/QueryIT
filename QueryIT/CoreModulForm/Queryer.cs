@@ -112,10 +112,13 @@ namespace QueryIT {
                     foreach(TreeNode tn in DatabaseTree.Nodes) {
                         if(tn.Text.ToString() == DatabaseTree.SelectedNode.Text.ToString()) {
                             tn.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
+                            tn.Text = tn.Text;
                         } else {
                             tn.NodeFont = DatabaseTree.Font;
+                            tn.Text = tn.Text;
                         }
                     }
+                    database = QDS.database;
                     if(DatabaseTree.SelectedNode.ImageIndex == 3) {
                         database = DatabaseTree.SelectedNode.Text.ToString();
                         //Switch Database
@@ -129,7 +132,9 @@ namespace QueryIT {
                     }
                     if(DatabaseTree.SelectedNode.ImageIndex == 5) {
                         table = DatabaseTree.SelectedNode.Text.ToString();
-
+                        database = DatabaseTree.SelectedNode.Parent.Text.ToString();
+                        DatabaseTree.SelectedNode.Parent.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
+                        DatabaseTree.SelectedNode.Parent.Text = DatabaseTree.SelectedNode.Parent.Text;
                         if(QueryTabs.TabPages.ContainsKey("Tab" + table.Replace(".csv", "")) == true) {
                             QueryTabs.SelectedIndex = QueryTabs.TabPages.IndexOfKey("Tab" + table.Replace(".csv", ""));
                         } else {
@@ -152,11 +157,9 @@ namespace QueryIT {
                             qrtNew.Name = "queryBox" + table.Replace(".csv", "");
                             qrtNew.Font = queryBox.Font;
                             qrtNew.Dock = DockStyle.Fill;
-                            if(table.Contains(".csv")) {
-                                qrtNew.Text = "SELECT * FROM `" + DatabaseTree.SelectedNode.Text.ToString() + "`;";
-                            } else {
-                                qrtNew.Text = "SELECT * FROM `" + database + "`.`" + DatabaseTree.SelectedNode.Text.ToString() + "` LIMIT 100;";
-                            }
+
+                            qrtNew.Text = QDS.DBschema.D[database].T[table].SQLSelectTop();
+
                             qrtNew.SyntaxHighlight();
                             qrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
                             autocomplete.SetAutocompleteMenu(qrtNew, autocomplete);
@@ -193,7 +196,7 @@ namespace QueryIT {
                             RichTextBox rrtNew = new RichTextBox();
                             rrtNew.Name = "resultTextBox" + table.Replace(".csv", "");
                             rrtNew.Dock = DockStyle.Fill;
-                            rrtNew.Font = resultBox.Font;
+                            rrtNew.Font = resultTextBox.Font;
                             rrtNew.ReadOnly = true;
                             //rrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
                             rttNew.Controls.Add(rrtNew);
@@ -209,7 +212,7 @@ namespace QueryIT {
                             RichTextBox rhrtNew = new RichTextBox();
                             rhrtNew.Name = "resultHistoryTextBox" + table.Replace(".csv", "");
                             rhrtNew.Dock = DockStyle.Fill;
-                            rhrtNew.Font = historyBox.Font;
+                            rhrtNew.Font = resultHistoryTextBox.Font;
                             rhrtNew.ReadOnly = true;
                             //rhrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
                             rhtNew.Controls.Add(rhrtNew);
@@ -451,7 +454,7 @@ namespace QueryIT {
 
         private void DatabaseTree_AfterSelect(object sender, TreeViewEventArgs e) {
             try {
-  
+
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
@@ -459,9 +462,94 @@ namespace QueryIT {
 
         public void reloadSchema() {
             try {
+                //AutoComplete
                 var acitems = new List<AutocompleteItem>();
                 Array.Sort(SQLSyntax.SQLblue);
-                foreach (var key in SQLSyntax.SQLblue){
+                foreach(var key in SQLSyntax.SQLblue) {
+                    acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
+                }
+                Array.Sort(SQLSyntax.SQLmagenta);
+                foreach(var key in SQLSyntax.SQLmagenta) {
+                    acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
+                }
+                //TreeView
+                string database = QDS.database;
+                if(QDS.DBschema.Databases != null) {
+                    foreach(DatabaseSchema db in QDS.DBschema.Databases) {
+                        if(DatabaseTree.Nodes.IndexOfKey(db.DatabaseName) == -1) {
+                            //Add, Database to TreeView
+                            DatabaseTree.Nodes.Add(db.DatabaseName, db.DatabaseName);
+                            //Seelct Font
+                            if(db.DatabaseName == database) {
+                                DatabaseTree.Nodes[db.DatabaseName].NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
+                                DatabaseTree.Nodes[db.DatabaseName].Text = DatabaseTree.Nodes[db.DatabaseName].Text;
+                            } else {
+                                DatabaseTree.Nodes[db.DatabaseName].NodeFont = DatabaseTree.Font;
+                                DatabaseTree.Nodes[db.DatabaseName].Text = DatabaseTree.Nodes[db.DatabaseName].Text;
+                            }
+                            //Select Icon
+                            if(QDS.conectionString.Contains("Microsoft Text Driver")) {
+                                DatabaseTree.Nodes[db.DatabaseName].ImageIndex = 3;
+                                DatabaseTree.Nodes[db.DatabaseName].SelectedImageIndex = 3;
+                            } else {
+                                DatabaseTree.Nodes[db.DatabaseName].ImageIndex = 4;
+                                DatabaseTree.Nodes[db.DatabaseName].SelectedImageIndex = 4;
+                            }
+                        } else {
+                            //Skip, Database is already in TreeView
+                        }
+                        if(db.Tables != null) {
+                            foreach(TableSchema tbl in db.Tables) {
+                                if(DatabaseTree.Nodes[db.DatabaseName].Nodes.IndexOfKey(tbl.TableName) == -1) {
+                                    //Add Table to Treeview
+                                    DatabaseTree.Nodes[db.DatabaseName].Nodes.Add(tbl.TableName, tbl.TableName);
+                                    //Image
+                                    DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].ImageIndex = 5;
+                                    DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].SelectedImageIndex = 5;
+                                    //AutoComplete
+                                    acitems.Add(new AutocompleteItem(tbl.TableName) { ImageIndex = 5 });
+                                } else {
+                                    //Skip, Table is already in Treeview
+                                }
+                                if(tbl.Columns != null) {
+                                    foreach(ColumnSchema col in tbl.Columns) {
+                                        if(DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes.IndexOfKey(col.ColumnName) == -1) {
+                                            //Add Column to Treeview
+                                            DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes.Add(col.ColumnName, col.ColumnName + "   " + col.DataType + "");
+                                            if(col.PrimaryKey == true) {
+                                                //Image
+                                                DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].ImageIndex = 10;
+                                                DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].SelectedImageIndex = 10;
+                                                //AutoComplete
+                                                acitems.Add(new AutocompleteItem(col.ColumnName) { ImageIndex = 10 });
+                                            } else {
+                                                //Image
+                                                DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].ImageIndex = 6;
+                                                DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].SelectedImageIndex = 6;
+                                                //AutoComplete
+                                                acitems.Add(new AutocompleteItem("`" + col.ColumnName) { ImageIndex = 6 });
+                                            }
+                                        } else {
+                                            //Skip, Column is already in Treeview
+                                        }
+                                    }//foreach Column
+                                }
+                            }//Foreach Table
+                        }
+                    }//Foreach Database
+                }
+                autocomplete.SetAutocompleteItems(acitems);
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        public void reloadSchema2() {
+            try {
+                /*
+                var acitems = new List<AutocompleteItem>();
+                Array.Sort(SQLSyntax.SQLblue);
+                foreach(var key in SQLSyntax.SQLblue) {
                     acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
                 }
                 Array.Sort(SQLSyntax.SQLmagenta);
@@ -477,6 +565,7 @@ namespace QueryIT {
                             DatabaseTree.Nodes.Add(r.ItemArray[0].ToString(), r.ItemArray[0].ToString());
                             if(r.ItemArray[0].ToString() == database) {
                                 DatabaseTree.Nodes[r.ItemArray[0].ToString()].NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
+                                DatabaseTree.Nodes[r.ItemArray[0].ToString()].Text = DatabaseTree.Nodes[r.ItemArray[0].ToString()].Text;
                             }
                             if(QDS.conectionString.Contains("Microsoft Text Driver")) {
                                 DatabaseTree.Nodes[r.ItemArray[0].ToString()].ImageIndex = 3;
@@ -498,7 +587,7 @@ namespace QueryIT {
 
                                     DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes.Add(col["COLUMN_NAME"].ToString(), col["COLUMN_NAME"].ToString() + " (" + col["DATA_TYPE"].ToString() + ")");
                                     if(QDS.columns.Columns.Contains("COLUMN_KEY") == true) {
-                       
+
                                         if(col["COLUMN_KEY"].ToString() == "PRI") {
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].ImageIndex = 10;
                                             DatabaseTree.Nodes[QDS.database.ToString()].Nodes[row["TABLE_NAME"].ToString()].Nodes[col["COLUMN_NAME"].ToString()].SelectedImageIndex = 10;
@@ -522,6 +611,7 @@ namespace QueryIT {
                     if(DatabaseTree.Nodes.IndexOfKey(QDS.database.ToString()) == -1) {
                         DatabaseTree.Nodes.Add(QDS.database.ToString(), QDS.database.ToString());
                         DatabaseTree.Nodes[QDS.database.ToString()].NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
+                        DatabaseTree.Nodes[QDS.database.ToString()].Text = DatabaseTree.Nodes[QDS.database.ToString()].Text;
                         if(QDS.conectionString.Contains("Microsoft Text Driver")) {
                             DatabaseTree.Nodes[QDS.database.ToString()].ImageIndex = 3;
                             DatabaseTree.Nodes[QDS.database.ToString()].SelectedImageIndex = 3;
@@ -560,10 +650,12 @@ namespace QueryIT {
                     }
                 }
                 //acitems = acitems.Distinct().ToList();
-                autocomplete.SetAutocompleteItems(acitems);
+                autocomplete.SetAutocompleteItems(acitems);           
+                */
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
+   
         }
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -613,8 +705,9 @@ namespace QueryIT {
         }
 
         private void saveSQLToolStripMenuItem1_Click(object sender, EventArgs e) {
+            /*
             try {
-
+                
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -707,6 +800,7 @@ namespace QueryIT {
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
+            */
         }
 
         private void setAsSourceToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -1529,8 +1623,8 @@ namespace QueryIT {
             try {
                 if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
                     if(DatabaseTree.SelectedNode != null) {
-                        TableForm tablefrm = new TableForm(QDS,  DatabaseTree.SelectedNode.Text.ToString(), "alter");
-                        tablefrm.Show();   
+                        TableForm tablefrm = new TableForm(QDS, DatabaseTree.SelectedNode.Text.ToString(), "alter");
+                        tablefrm.Show();
                     }
                 }
             } catch(Exception err) {
@@ -1752,6 +1846,24 @@ namespace QueryIT {
                 }
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e) {
+            if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
+                if(DatabaseTree.SelectedNode != null) {
+                    ExportForm tablefrm = new ExportForm(QDS, DatabaseTree.SelectedNode.Text.ToString());
+                    tablefrm.Show();
+                }
+            }
+        }
+
+        private void importToolStripMenuItem_Click(object sender, EventArgs e) {
+            if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
+                if(DatabaseTree.SelectedNode != null) {
+                    ImportForm tablefrm = new ImportForm(QDS, DatabaseTree.SelectedNode.Text.ToString());
+                    tablefrm.Show();
+                }
             }
         }
 
