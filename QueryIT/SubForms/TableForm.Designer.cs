@@ -108,6 +108,7 @@
             // 
             // tableSchemaGrid
             // 
+            this.tableSchemaGrid.AllowDrop = true;
             this.tableSchemaGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
@@ -121,9 +122,14 @@
             this.tableSchemaGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.typeColumnDataGridView_CellValidating);
             this.tableSchemaGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.tableSchemaGrid_CellValueChanged);
             this.tableSchemaGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.typeColumnDataGridView_OnCurrentCellDirtyStateChanged);
+            this.tableSchemaGrid.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.tableSchemaGrid_DefaultValuesNeeded);
             this.tableSchemaGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.typeColumnDataGridView_EditingControlShowing);
             this.tableSchemaGrid.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.tableSchemaGrid_UserAddedRow);
             this.tableSchemaGrid.Click += new System.EventHandler(this.tableSchemaGrid_Click);
+            this.tableSchemaGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.tableSchemaGrid_DragDrop);
+            this.tableSchemaGrid.DragOver += new System.Windows.Forms.DragEventHandler(this.tableSchemaGrid_DragOver);
+            this.tableSchemaGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tableSchemaGrid_MouseDown);
+            this.tableSchemaGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.tableSchemaGrid_MouseMove);
             // 
             // sqlPage
             // 
@@ -182,7 +188,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "TableForm";
-            this.Text = "Table [ALPHA]";
+            this.Text = "Table [WIP]";
             this.Load += new System.EventHandler(this.Table_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

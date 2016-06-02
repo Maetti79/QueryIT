@@ -147,7 +147,8 @@ public static class Extensions {
                         || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "[")
                         || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + ",")
                         || rtf.Text.ToLower().StartsWith(k.ToString().ToLower() + " ")
-                        || rtf.Text.ToLower().EndsWith(k.ToString().ToLower())
+                        || rtf.Text.ToLower().EndsWith(k.ToString().ToLower()+ " ")
+                        || rtf.Text.ToLower().EndsWith(k.ToString().ToLower()+ ";")
                         ) {
                         rtf.Select((index), k.Length);
                         rtf.SelectionColor = Color.Blue;
@@ -179,7 +180,8 @@ public static class Extensions {
                         || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "]")
                         || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + ",")
                         || rtf.Text.ToLower().StartsWith(k.ToString().ToLower() + " ")
-                        || rtf.Text.ToLower().EndsWith(k.ToString().ToLower())
+                        || rtf.Text.ToLower().EndsWith(k.ToString().ToLower() + " ")
+                        || rtf.Text.ToLower().EndsWith(k.ToString().ToLower() + ";")
                         ) {
                         rtf.Select((index), k.Length);
                         rtf.SelectionColor = Color.Magenta;

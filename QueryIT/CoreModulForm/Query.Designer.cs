@@ -224,6 +224,7 @@
             // 
             // resultGrid
             // 
+            this.resultGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.resultGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.resultGrid.ContextMenuStrip = this.resultContextMenu;
             this.resultGrid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -681,7 +682,7 @@
             this.Controls.Add(this.QueryTabs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "QueryForm";
-            this.Text = "ODBC";
+            this.Text = "Not in use, deprecated";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QueryForm_FormClosing);
             this.Load += new System.EventHandler(this.QueryForm_Load);
             this.Move += new System.EventHandler(this.QueryForm_Move);

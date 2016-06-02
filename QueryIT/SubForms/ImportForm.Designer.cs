@@ -175,7 +175,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ImportForm";
-            this.Text = "Import";
+            this.Text = "Import (WIP)";
             this.Load += new System.EventHandler(this.ImportForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

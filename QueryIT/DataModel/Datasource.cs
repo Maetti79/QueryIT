@@ -15,6 +15,7 @@ namespace QueryIT.model {
     public class Datasource {
 
         public string conectionString = "";
+        public string connectionName = "";
 
         public ConnectionSchema DBschema = new ConnectionSchema();
 
@@ -64,6 +65,27 @@ namespace QueryIT.model {
         public Datasource(string conStr) {
             try {
                 conectionString = conStr;
+                connectionName = "UNNAMEDDB";
+                if(conectionString.Contains("Provider=") == true) {
+                    adocon = new ADODB.Connection(conStr);
+                    adocon.Open();
+                } else if(conectionString.Contains("Driver=") == true) {
+                    con = new OdbcConnection(conStr);
+                    con.Open();
+                } else {
+                    mycon = new MySqlConnection(conStr);
+                    mycon.Open();
+                }
+                this.getSchema();
+            } catch(Exception e) {
+                error = e.Message.ToString();
+            }
+        }
+
+        public Datasource(string conStr, string conName) {
+            try {
+                conectionString = conStr;
+                connectionName = conName;
                 if(conectionString.Contains("Provider=") == true) {
                     adocon = new ADODB.Connection(conStr);
                     adocon.Open();

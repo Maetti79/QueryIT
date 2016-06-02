@@ -13,9 +13,7 @@ namespace QueryIT
 
         //Use Schema in Table Manager Form, A Mess a real mess
         //Use Schema in Queryer (and Query)
-
-        //Table Schema Create Table Statment
-        //Table Schema Alter Table Statemant
+       
         //Table Schema Update
         //Table Schema Delete
         //Table Schema Insert 
@@ -43,11 +41,8 @@ namespace QueryIT
         //Export Local Outfile
         //Import Local Infile
 
-        //Auto Write Historys
-        //Auto Load Historys
-        //Clear Historys
-
-        //Improve  Progress for Chunks min max total
+        //Improve Progress for Chunks min max total
+        //Improve Converter
 
     }
 }

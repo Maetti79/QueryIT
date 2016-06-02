@@ -90,6 +90,58 @@ namespace QueryIT.model {
             return sql;
         }
 
+        public string SQLInsert() {
+            string sql = "";
+            if(TableName.Contains(".csv")) {
+                sql = "INSERT INTO TABLE `" + TableName + "` (";
+                foreach(ColumnSchema col in Columns) {
+                    sql += "`" + col.ColumnName + "`, ";
+                }
+                sql = sql.Substring(0, sql.Length - 2);
+                sql += ")\n";
+                sql += "VALUES(";
+                foreach(ColumnSchema col in Columns) {
+                    sql += "#" + col.ColumnName + "#, ";
+                }
+                sql = sql.Substring(0, sql.Length - 2);
+                sql += ") ;\n";
+            } else {
+                sql = "INSERT INTO TABLE `" + DatabaseName + "`.`" + TableName + "` (";
+                foreach(ColumnSchema col in Columns) {
+                    sql += "`" + col.ColumnName + "`, ";
+                }
+                sql = sql.Substring(0, sql.Length - 2);
+                sql += ")\n";
+                sql += "VALUES(";
+                foreach(ColumnSchema col in Columns) {
+                    sql += "#" + col.ColumnName + "#, ";
+                }
+                sql = sql.Substring(0, sql.Length - 2);
+                sql += ") ;\n";
+            }
+            return sql;
+        }
+
+        public string SQLUpdate() {
+            string sql = "";
+            if(TableName.Contains(".csv")) {
+                sql = "UPDATE `" + TableName + "` SET #column# = #value# WHERE #condition#;\n";
+            } else {
+                sql = "UPDATE `" + DatabaseName + "`.`" + TableName + "` SET #column# = #value# WHERE #condition#;\n";
+            }
+            return sql;
+        }
+
+        public string SQLDelete() {
+            string sql = "";
+            if(TableName.Contains(".csv")) {
+                sql = "DELETE FROM TABLE `" + TableName + "` WHERE #condition#;\n";
+            } else {
+                sql = "DELETE FROM TABLE `" + DatabaseName + "`.`" + TableName + "` WHERE #condition#;\n";
+            }
+            return sql;
+        }
+
         public string SQLTruncateTable() {
             string sql = "";
             if(TableName.Contains(".csv")) {
@@ -161,7 +213,11 @@ namespace QueryIT.model {
                         ColumnSchema col = newSchema.Columns[i];
                         if(C[col.ColumnName] == null) {
                             //ADD NEW COLUMN
-                            sql += sqlh + "ADD COLUMN ";
+                            if(sql == "") {
+                                sql += sqlh + "ADD COLUMN ";
+                            } else {
+                                sql += "ADD COLUMN ";
+                            }
                             sql += "`" + col.ColumnName + "` ";
                             sql += col.DataType + " ";
                             //NN
@@ -199,9 +255,13 @@ namespace QueryIT.model {
                                 || col.UnSigned != oldcol.UnSigned
                                 || col.Generated != oldcol.Generated
                                 || col.DefaultValue != oldcol.DefaultValue
-
+                                || col.ColumnPosition != oldcol.ColumnPosition
                               ) {
-                                sql += sqlh + "CHANGE COLUMN ";
+                                  if(sql == "") {
+                                      sql += sqlh + "CHANGE COLUMN ";
+                                  } else {
+                                      sql += "CHANGE COLUMN ";
+                                  }
                                 sql += "`" + col.ColumnName + "` ";
                                 sql += "`" + col.ColumnName + "` ";
                                 sql += col.DataType + " ";
@@ -220,6 +280,12 @@ namespace QueryIT.model {
                                 //AI
                                 if(col.AutoIncrement == true) {
                                     sql += "AUTO INCREMENT";
+                                }
+                                //Position
+                                if(col.ColumnPosition == oldcol.ColumnPosition) {
+                                    sql += "FIRST ";
+                                } else {
+                                    sql += "AFTER `" + newSchema.Columns[col.ColumnPosition - 1].ColumnName + "`";
                                 }
                                 sql += "\n";
                             }

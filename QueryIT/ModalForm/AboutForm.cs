@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Diagnostics;
 using QueryIT;
 
 namespace QueryIT
@@ -15,16 +16,16 @@ namespace QueryIT
     {
         public String SerialManager = Serial.GetSerialNumber();
         
-        public AboutForm()
-        {
+        public AboutForm() {
             InitializeComponent();
         }
 
-        private void AboutForm_Load(object sender, EventArgs e)
-        {
-            VersionLbl.Text = "Version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        private void AboutForm_Load(object sender, EventArgs e) {
+            string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString(); 
+            string fileVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion; 
+            string productVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
+            VersionLbl.Text = "Version: " + productVersion;
             SerialLbl.Text = "Serial: " + SerialManager.ToString();
-
         }
 
         private void button1_Click(object sender, EventArgs e)

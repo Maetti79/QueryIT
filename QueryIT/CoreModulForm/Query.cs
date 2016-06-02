@@ -600,7 +600,7 @@ namespace QueryIT {
         private void setAsSourceToolStripMenuItem_Click(object sender, EventArgs e) {
             try {
                 MainForm parent = this.MdiParent as MainForm;
-                parent.openSource(QDS.conectionString.ToString());
+                parent.openSource(QDS.conectionString.ToString(), QDS.connectionName.ToString());
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
@@ -609,7 +609,7 @@ namespace QueryIT {
         private void newQueryerToolStripMenuItem_Click(object sender, EventArgs e) {
             try {
                 MainForm parent = this.MdiParent as MainForm;
-                parent.openQueryer(QDS.conectionString.ToString());
+                parent.openQueryer(QDS.conectionString.ToString(), QDS.connectionName.ToString());
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
@@ -618,7 +618,7 @@ namespace QueryIT {
         private void setAsDestinationToolStripMenuItem_Click(object sender, EventArgs e) {
             try {
                 MainForm parent = this.MdiParent as MainForm;
-                parent.openDestination(QDS.conectionString.ToString());
+                parent.openDestination(QDS.conectionString.ToString(), QDS.connectionName.ToString());
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }

@@ -18,6 +18,10 @@ namespace QueryIT {
         public string database;
         public string command;
 
+        private Rectangle dragBoxFromMouseDown;
+        private int rowIndexFromMouseDown;
+        private int rowIndexOfItemUnderMouseToDrop;
+
         public TableForm() {
             InitializeComponent();
         }
@@ -71,7 +75,7 @@ namespace QueryIT {
                 tableSchemaGrid.Columns.Add("UN", "UN");         //5
                 tableSchemaGrid.Columns.Add("AI", "AI"); //6
                 tableSchemaGrid.Columns.Add("DV", "Default");
-
+                tableSchemaGrid.RowHeadersWidth = 65;
                 //Width
                 DataGridViewColumn column = tableSchemaGrid.Columns[0];
                 column.Width = 120;
@@ -88,11 +92,11 @@ namespace QueryIT {
                 column = tableSchemaGrid.Columns[6];
                 column.Width = 120;
                 if(command == "create") {
-                    addEmtpyRow();
+                 
                 } else {
                     foreach(ColumnSchema col in tmptbl.Columns) {
                         DataGridViewRow row = (DataGridViewRow)tableSchemaGrid.Rows[0].Clone();
-                        row.HeaderCell.Value = col.ColumnPosition;
+                        row.HeaderCell.Value = col.ColumnPosition.ToString();
                         row.Cells[0].Value = col.ColumnName;
                         DataGridViewComboBoxCell vCellComboDataType = new DataGridViewComboBoxCell();
                         foreach(string dst in Datasource.DBDataTypes) {
@@ -141,7 +145,7 @@ namespace QueryIT {
                             col.ConnectionName = tbl.ConnectionName;
                             col.DatabaseName = tbl.DatabaseName;
                             col.TableName = tbl.TableName;
-                            col.ColumnPosition = int.Parse(row.HeaderCell.Value.ToString());
+                            col.ColumnPosition = row.Index + 1;
                             col.DataType = row.Cells[1].Value.ToString();
                             col.PrimaryKey = (bool)row.Cells[2].Value;
                             col.NotNull = (bool)row.Cells[3].Value;
@@ -162,7 +166,7 @@ namespace QueryIT {
                             col.ConnectionName = tmptbl.ConnectionName;
                             col.DatabaseName = tmptbl.DatabaseName;
                             col.TableName = tmptbl.TableName;
-                            col.ColumnPosition = int.Parse(row.HeaderCell.Value.ToString());
+                            col.ColumnPosition = row.Index+1;
                             col.DataType = row.Cells[1].Value.ToString();
                             col.PrimaryKey = (bool)row.Cells[2].Value;
                             col.NotNull = (bool)row.Cells[3].Value;
@@ -265,37 +269,10 @@ namespace QueryIT {
             this.Close();
         }
 
-        public void addEmtpyRow() {
-            DataGridViewRow row = (DataGridViewRow)tableSchemaGrid.Rows[0].Clone();
-            row.HeaderCell.Value = row.Index.ToString();
-            row.Cells[0].Value = "";
-            DataGridViewComboBoxCell vCellComboDataType = new DataGridViewComboBoxCell();
-            foreach(string dst in Datasource.DBDataTypes) {
-                vCellComboDataType.Items.Add(dst.ToString());
-            }
-            vCellComboDataType.Value = vCellComboDataType.Items[0];
-            vCellComboDataType.FlatStyle = FlatStyle.Standard;
-            vCellComboDataType.MaxDropDownItems = vCellComboDataType.Items.Count;
-            row.Cells[1].Value = vCellComboDataType.Value;
-            row.Cells[1] = vCellComboDataType;
-            DataGridViewCheckBoxCell vCheckPKey = new DataGridViewCheckBoxCell();
-            vCheckPKey.Value = false;
-            row.Cells[2] = vCheckPKey;
-            DataGridViewCheckBoxCell vCheckNN = new DataGridViewCheckBoxCell();
-            vCheckNN.Value = false;
-            row.Cells[3] = vCheckNN;
-            DataGridViewCheckBoxCell vCheckUN = new DataGridViewCheckBoxCell();
-            vCheckUN.Value = false;
-            row.Cells[4] = vCheckUN;
-            DataGridViewCheckBoxCell vCheckAI = new DataGridViewCheckBoxCell();
-            vCheckAI.Value = false;
-            row.Cells[5] = vCheckAI;
-            row.Cells[6].Value = "";
-            tableSchemaGrid.Rows.Add(row);
-        }
+
 
         private void tableSchemaGrid_UserAddedRow(object sender, DataGridViewRowEventArgs e) {
-            addEmtpyRow();
+
         }
 
         private void tableSchemaGrid_Click(object sender, EventArgs e) {
@@ -308,6 +285,82 @@ namespace QueryIT {
 
         private void tableSchemaGrid_CellLeave(object sender, DataGridViewCellEventArgs e) {
             buildSQL();
+        }
+
+        private void tableSchemaGrid_MouseMove(object sender, MouseEventArgs e) {
+            if((e.Button & MouseButtons.Left) == MouseButtons.Left) {
+                // If the mouse moves outside the rectangle, start the drag.
+                if(dragBoxFromMouseDown != Rectangle.Empty && !dragBoxFromMouseDown.Contains(e.X, e.Y)) {
+                    // Proceed with the drag and drop, passing in the list item.                    
+                    DragDropEffects dropEffect = tableSchemaGrid.DoDragDrop( tableSchemaGrid.Rows[rowIndexFromMouseDown], DragDropEffects.Move);
+                }
+            }
+        }
+
+        private void tableSchemaGrid_MouseDown(object sender, MouseEventArgs e) {
+            // Get the index of the item the mouse is below.
+            rowIndexFromMouseDown = tableSchemaGrid.HitTest(e.X, e.Y).RowIndex;
+            if(rowIndexFromMouseDown != -1) {
+                // Remember the point where the mouse down occurred. 
+                // The DragSize indicates the size that the mouse can move 
+                // before a drag event should be started.                
+                Size dragSize = SystemInformation.DragSize;
+
+                // Create a rectangle using the DragSize, with the mouse position being
+                // at the center of the rectangle.
+                dragBoxFromMouseDown = new Rectangle(new Point(e.X - (dragSize.Width / 2), e.Y - (dragSize.Height / 2)), dragSize);
+            } else {
+                // Reset the rectangle if the mouse is not over an item in the ListBox.
+                dragBoxFromMouseDown = Rectangle.Empty;
+            }
+        }
+
+        private void tableSchemaGrid_DragOver(object sender, DragEventArgs e) {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        private void tableSchemaGrid_DragDrop(object sender, DragEventArgs e) {
+            // The mouse locations are relative to the screen, so they must be 
+            // converted to client coordinates.
+            Point clientPoint = tableSchemaGrid.PointToClient(new Point(e.X, e.Y));
+
+            // Get the row index of the item the mouse is below. 
+            rowIndexOfItemUnderMouseToDrop = tableSchemaGrid.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
+
+            // If the drag operation was a move then remove and insert the row.
+            if(e.Effect == DragDropEffects.Move) {
+                if(tableSchemaGrid.Rows[rowIndexFromMouseDown].IsNewRow == false && tableSchemaGrid.Rows[rowIndexOfItemUnderMouseToDrop].IsNewRow == false) {
+                DataGridViewRow rowToMove = e.Data.GetData(typeof(DataGridViewRow)) as DataGridViewRow;
+                tableSchemaGrid.Rows.RemoveAt(rowIndexFromMouseDown);
+                tableSchemaGrid.Rows.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
+                }
+            }
+        }
+
+        private void tableSchemaGrid_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e) {
+                e.Row.Cells[0].Value = "";
+                DataGridViewComboBoxCell vCellComboDataType = new DataGridViewComboBoxCell();
+                foreach(string dst in Datasource.DBDataTypes) {
+                    vCellComboDataType.Items.Add(dst.ToString());
+                }
+                vCellComboDataType.Value = vCellComboDataType.Items[0];
+                vCellComboDataType.FlatStyle = FlatStyle.Standard;
+                vCellComboDataType.MaxDropDownItems = vCellComboDataType.Items.Count;
+                e.Row.Cells[1].Value = vCellComboDataType.Value;
+                e.Row.Cells[1] = vCellComboDataType;
+                DataGridViewCheckBoxCell vCheckPKey = new DataGridViewCheckBoxCell();
+                vCheckPKey.Value = false;
+                e.Row.Cells[2] = vCheckPKey;
+                DataGridViewCheckBoxCell vCheckNN = new DataGridViewCheckBoxCell();
+                vCheckNN.Value = false;
+                e.Row.Cells[3] = vCheckNN;
+                DataGridViewCheckBoxCell vCheckUN = new DataGridViewCheckBoxCell();
+                vCheckUN.Value = false;
+                e.Row.Cells[4] = vCheckUN;
+                DataGridViewCheckBoxCell vCheckAI = new DataGridViewCheckBoxCell();
+                vCheckAI.Value = false;
+                e.Row.Cells[5] = vCheckAI;
+                e.Row.Cells[6].Value = "";
         }
     }
 }

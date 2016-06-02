@@ -121,6 +121,54 @@
     <value>527, 29</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="selectToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wQAADsEBuJFr7QAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAABTklEQVQ4T5WQ
+        64qCQBiGu4e9Ie9svQf/hUQgBf7wRsKyE6WlHTSJIDqflOJdvtn9Ytwalv3x4Dh8zzOjJQACTdPwFzwr
+        81z8DODxeCDPc9xuN1wuF5xOJxwOB+i6LqBZmULgfr8X5OPxiP1+j+12+wz8jhQCWZbher3ifD6LU3e7
+        nZDX63UhIH9OIcCnsrzZbIS8Wq2wXC6RpimSJFEH5CuTxLAcxzFms5k6ILNYLAqwHEWROjCfz1H6+BRP
+        fmem06mQx+Pxa0Ae5gDB+5PJRMij0Qi+778P0BBBAV7zfhiGQh4OhxgMBu8DdDWCArzm/SAIhNzv99Hr
+        9V4DHKE6BfgUejIkd7tdtNttdUCGBJlOpwPP89BsNtUB/st0ZboqQ3Kr1YLrumg0GuqA4ziwbRv1eh21
+        Wg2WZaFaraJSqcA0TZTLZRiGoQ78h28PpS+FTfAkQngSuwAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="insertToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wQAADsEBuJFr7QAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAABSUlEQVQ4T5WQ
+        26qCQBSGe5r9HL3Z7h26k4ggCrzoRaSTGZVp50IE0crOKP9mTXvJWA2bffHBzLC+b0YLAATFYhF/wbMy
+        2eJ3AGma4vF44Ha74XK54HQ64Xg8olQqCWhWJhdIkiQnx3GMw+GAKIqywGskF7jf77herzifz+LW/X4v
+        5CAIcgH5c3IBvpXlMAyF7Ps+PM/DbrfDZrNRB+Qnk8SwvF6vsVwu1QGZ7Xabg+XZbKYOrFarjNf9YrEQ
+        suM47wF5+Ou7kK35fD6fC3k6nWIymXwO0BDJDO353HVdIY/HY4xGo88BehpBMq/53LZtIQ+HQ1iW9R7g
+        CNWZ1z3Jg8EA/X5fHZAhQcY0TfR6PXQ6HXWA/zI9mZ7KkNztdtFut2EYhjrQarWg6zqazSYajQbq9Tpq
+        tRqq1SoqlQo0TUO5XFYH/sPTQ+EHIefwdLS9fMAAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="updateToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wQAADsEBuJFr7QAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAABQ0lEQVQ4T5WQ
+        26qCQBSGe6f9Ar3Z9h28CwkhErzoRcKORplldiQCqTx0xPg3M+0VM9aw2Rcf6LC+b5aWAHDK5TL+gmZF
+        Xg+/A3g8Hrjf77herzifz8iyDEmSQNM0DpsVkQJ5nktymqaI4xiHw+EVKEakwO12w+Vywel04rcej0cu
+        R1EkBcTPkQJ0K8n7/Z7Lu90O2+0Wm80Gq9VKHRBXZhJB8nK5xHw+VwdE1uu1BMlBEKgDi8XiRfE9DEMu
+        TyaT90BxmKDz2WzGZd/34Xne5wAb+v4qSdD5dDrl8mg0wnA4/BxgqxWh8/F4zOXBYADXdd8DFGF1ovjO
+        5H6/j263qw6IMEGk1+uh0+mg1WqpA/SX2cpsVYLJ7XYbjuOg2WyqA41GA7Ztw7Is1Ot11Go1mKaJarUK
+        wzBQqVSg67o68B+eHko/5yHynYJ8LpcAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="deleteToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wQAADsEBuJFr7QAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAABR0lEQVQ4T5WQ
+        26qCQBSGe7TebPsO3kWIIAVd+CLR0aKjdrBEgtCy0ori33tNe8VYDZt98aEzrO+b0QIAQbFYxF/wrMzz
+        5XcA9/sd1+sV5/MZaZrieDwiSRJomiagWZlc4Ha75eTD4YD9fo84jp+B10gucLlckGUZTqeTOHW32wl5
+        u93mAvLn5AJ8KstRFAl5s9kgDEMEQYDVaqUOyFcmiWHZ930sFgt1QGa9Xudg2fM8dWC5XD55Xc/ncyFP
+        p9P3AA9//SzlJ+/PZjMhTyYTjEajzwEaIkjmd953XVfIw+EQg8Hgc4CuRrL85P3xeCzkfr+PXq/3HuAI
+        1ZnXNcmO46DT6agDMiTIdLtdtNttNJtNdYD/Ml2ZrsqQ3Gq10Gg0UK/X1QHbtlGr1VCtVlGpVGBZFkzT
+        hGEYKJfLKJVK0HVdHfgPDw+Fb9qe77YIrDArAAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="createTableToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
@@ -215,7 +263,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADk
-        GAAAAk1TRnQBSQFMAgEBDwEAAcgBAQHIAQEBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        GAAAAk1TRnQBSQFMAgEBDwEAAdgBAQHYAQEBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAAUADAAEBAQABCAYAARAYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA

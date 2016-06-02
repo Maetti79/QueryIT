@@ -110,3 +110,4 @@ C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryI
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.ExportForm.resources
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.ImportForm.resources
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\bin\Debug\MySql.Data.dll
+C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\QueryIT\obj\x86\Debug\QueryIT.ConvertForm.resources

@@ -63,7 +63,10 @@ namespace QueryIT.model {
                 "date_add",
                 "date_sub",
                 "change",
-                "rename"
+                "rename",
+                "after",
+                "first",
+                "last"
             };
 
         public static string[] SQLmagenta = {

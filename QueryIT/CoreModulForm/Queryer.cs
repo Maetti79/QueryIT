@@ -135,93 +135,7 @@ namespace QueryIT {
                         database = DatabaseTree.SelectedNode.Parent.Text.ToString();
                         DatabaseTree.SelectedNode.Parent.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
                         DatabaseTree.SelectedNode.Parent.Text = DatabaseTree.SelectedNode.Parent.Text;
-                        if(QueryTabs.TabPages.ContainsKey("Tab" + table.Replace(".csv", "")) == true) {
-                            QueryTabs.SelectedIndex = QueryTabs.TabPages.IndexOfKey("Tab" + table.Replace(".csv", ""));
-                        } else {
-                            //New Tab
-                            TabPage tpNew = new TabPage();
-                            tpNew.Name = "Tab" + table.Replace(".csv", "");
-                            tpNew.Text = table.Replace(".csv", "");
-                            tpNew.Padding = queryTab.Padding;
-                            tpNew.Margin = queryTab.Margin;
-                            tpNew.ImageIndex = QueryTabs.TabPages[0].ImageIndex;
-                            //Splitter
-                            SplitContainer spNew = new SplitContainer();
-                            spNew.Name = "splitBox" + table.Replace(".csv", "");
-                            spNew.Orientation = querySplitH.Orientation;
-                            spNew.SplitterDistance = 25;
-                            spNew.Margin = querySplitH.Margin;
-                            spNew.Dock = DockStyle.Fill;
-                            //Query Box -> Splitter 1
-                            RichTextBox qrtNew = new RichTextBox();
-                            qrtNew.Name = "queryBox" + table.Replace(".csv", "");
-                            qrtNew.Font = queryBox.Font;
-                            qrtNew.Dock = DockStyle.Fill;
-
-                            qrtNew.Text = QDS.DBschema.D[database].T[table].SQLSelectTop();
-
-                            qrtNew.SyntaxHighlight();
-                            qrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
-                            autocomplete.SetAutocompleteMenu(qrtNew, autocomplete);
-                            spNew.Panel1.Controls.Add(qrtNew);
-                            //Result Tabs -> Spliter 2
-                            TabControl tcNew = new TabControl();
-                            tcNew.Name = "resultTabs" + table.Replace(".csv", "");
-                            tcNew.Dock = DockStyle.Fill;
-                            tcNew.ImageList = resultTabs.ImageList;
-                            tcNew.Padding = resultTabs.Padding;
-                            tcNew.Margin = resultTabs.Margin;
-                            //ResultGridTab -> Spliter2 -> Result Tabs
-                            TabPage rgtNew = new TabPage();
-                            rgtNew.Name = "resultGridTab" + table;
-                            rgtNew.ImageIndex = resultTabs.TabPages[0].ImageIndex;
-                            rgtNew.Text = resultTabs.TabPages[0].Text;
-                            rgtNew.Padding = resultTabs.TabPages[0].Padding;
-                            rgtNew.Margin = resultTabs.TabPages[0].Margin;
-                            rgtNew.Dock = DockStyle.Fill;
-                            DataGridView dgvNew = new DataGridView();
-                            dgvNew.Name = "resultGrid" + table.Replace(".csv", "");
-                            dgvNew.Dock = DockStyle.Fill;
-                            dgvNew.Margin = resultGrid.Margin;
-                            rgtNew.Controls.Add(dgvNew);
-                            tcNew.Controls.Add(rgtNew);
-                            //ResultTextTab -> Spliter2 -> Result Tabs
-                            TabPage rttNew = new TabPage();
-                            rttNew.Name = "resultTextTab" + table.Replace(".csv", "");
-                            rttNew.ImageIndex = resultTabs.TabPages[1].ImageIndex;
-                            rttNew.Text = resultTabs.TabPages[1].Text;
-                            rttNew.Padding = resultTabs.TabPages[1].Padding;
-                            rttNew.Margin = resultTabs.TabPages[1].Margin;
-                            rttNew.Dock = DockStyle.Fill;
-                            RichTextBox rrtNew = new RichTextBox();
-                            rrtNew.Name = "resultTextBox" + table.Replace(".csv", "");
-                            rrtNew.Dock = DockStyle.Fill;
-                            rrtNew.Font = resultTextBox.Font;
-                            rrtNew.ReadOnly = true;
-                            //rrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
-                            rttNew.Controls.Add(rrtNew);
-                            tcNew.Controls.Add(rttNew);
-                            //ResultTextTab -> Spliter2 -> Result Tabs
-                            TabPage rhtNew = new TabPage();
-                            rhtNew.ImageIndex = resultTabs.TabPages[2].ImageIndex;
-                            rhtNew.Text = resultTabs.TabPages[2].Text;
-                            rhtNew.Padding = resultTabs.TabPages[2].Padding;
-                            rhtNew.Margin = resultTabs.TabPages[2].Margin;
-                            rhtNew.Name = "resultHistoryTab" + table.Replace(".csv", "");
-                            rhtNew.Dock = DockStyle.Fill;
-                            RichTextBox rhrtNew = new RichTextBox();
-                            rhrtNew.Name = "resultHistoryTextBox" + table.Replace(".csv", "");
-                            rhrtNew.Dock = DockStyle.Fill;
-                            rhrtNew.Font = resultHistoryTextBox.Font;
-                            rhrtNew.ReadOnly = true;
-                            //rhrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
-                            rhtNew.Controls.Add(rhrtNew);
-                            tcNew.Controls.Add(rhtNew);
-                            spNew.Panel2.Controls.Add(tcNew);
-                            tpNew.Controls.Add(spNew);
-                            QueryTabs.TabPages.Add(tpNew);
-                            QueryTabs.SelectedIndex = QueryTabs.TabPages.IndexOfKey("Tab" + table.Replace(".csv", ""));
-                        }
+                        addQueryer(QDS.DBschema.D[database].T[table].SQLSelectTop());
                         QDS.table = DatabaseTree.SelectedNode.Text.ToString();
                     } else if(DatabaseTree.SelectedNode.ImageIndex == 6) {
                         column = DatabaseTree.SelectedNode.Text.ToString();
@@ -247,6 +161,7 @@ namespace QueryIT {
                     this.Icon = Icon.FromHandle(((Bitmap)QueryIcons.Images[4]).GetHicon());
                     this.Text = nameindex + " MySQL: " + QDS.database + "";
                 }
+                resultHistoryTextBox.Text = QLog.LoadlogHistory(QDS.connectionName, queryTab.Text);
                 if(nameindex.ToString() == "Source") {
                     setAsSourceToolStripMenuItem.Enabled = false;
                 }
@@ -308,22 +223,36 @@ namespace QueryIT {
                         rBox.DataSource = DT;
                         rBox.Refresh();
                         rtBox.Text = "Date: " + QDS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
-                        "Result: " + QDS.row_count.ToString() + " Records\n" +
-                        "Query: '" + QDS.sql.ToString() + "'\n";
+                                     "Result: " + QDS.row_count.ToString() + " Records\n" +
+                                     "Query: " + QDS.sql.ToString() + "\n";
+
                         rhBox.Text = "Date: " + QDS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
-                        "Result: " + QDS.row_count.ToString() + " Records\n" +
-                        "Query: '" + QDS.sql.ToString() + "'\n" +
-                        "\n" + rhBox.Text.ToString();
+                                     "Result: " + QDS.row_count.ToString() + " Records\n" +
+                                     "Query: " + QDS.sql.ToString() + "\n" +
+                                     "\n" + rhBox.Text.ToString();
+
+                        QLog.logHistory(QDS.connectionName, qTab.Text, 
+                            "Date: " + QDS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
+                            "Result: " + QDS.row_count.ToString() + " Records\n" +
+                            "Query: " + QDS.sql.ToString() + "\n" +
+                            "\n");
                     } else {
                         if(QDS.hasErrors() == true) {
                             rTabs.SelectTab(1);
                             rtBox.Text = "Date: " + QDS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
-                            "Query: '" + QDS.sql.ToString() + "'\n" +
-                            "Error: " + QDS.error.ToString() + "\n";
+                                         "Query: " + QDS.sql.ToString() + "\n" +
+                                         "Error: " + QDS.error.ToString() + "\n";
+
                             rhBox.Text = "Date: " + QDS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
-                            "Query: '" + QDS.sql.ToString() + "'\n" +
-                            "Error: " + QDS.error.ToString() + "\n" +
-                            "\n" + rhBox.Text.ToString();
+                                         "Query: " + QDS.sql.ToString() + "\n" +
+                                         "Error: " + QDS.error.ToString() + "\n" +
+                                         "\n" + rhBox.Text.ToString();
+
+                            QLog.logHistory(QDS.connectionName, qTab.Text,
+                                "Date: " + QDS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
+                                "Query: " + QDS.sql.ToString() + "\n" +
+                                "Error: " + QDS.error.ToString() + "\n" +
+                                "\n");
                         }
                     }
                 }
@@ -398,8 +327,10 @@ namespace QueryIT {
                     sfd.FilterIndex = 1;
 
                     if(sfd.ShowDialog() == DialogResult.OK) {
+                        string sql = File.ReadAllText(sfd.FileName);
                         sqlfilepath = sfd.FileName;
-                        qBox.Text = File.ReadAllText(sfd.FileName);
+                        table = Path.GetFileName(sfd.FileName).Replace(".sql","");
+                        addQueryer(sql);
                     }
                 }
             } catch(Exception err) {
@@ -655,7 +586,7 @@ namespace QueryIT {
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
-   
+
         }
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -806,7 +737,7 @@ namespace QueryIT {
         private void setAsSourceToolStripMenuItem_Click(object sender, EventArgs e) {
             try {
                 MainForm parent = this.MdiParent as MainForm;
-                parent.openSource(QDS.conectionString.ToString());
+                parent.openSource(QDS.conectionString.ToString(), QDS.connectionName.ToString());
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
@@ -815,7 +746,7 @@ namespace QueryIT {
         private void newQueryerToolStripMenuItem_Click(object sender, EventArgs e) {
             try {
                 MainForm parent = this.MdiParent as MainForm;
-                parent.openQueryer(QDS.conectionString.ToString());
+                parent.openQueryer(QDS.conectionString.ToString(), QDS.connectionName.ToString());
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
@@ -824,7 +755,7 @@ namespace QueryIT {
         private void setAsDestinationToolStripMenuItem_Click(object sender, EventArgs e) {
             try {
                 MainForm parent = this.MdiParent as MainForm;
-                parent.openDestination(QDS.conectionString.ToString());
+                parent.openDestination(QDS.conectionString.ToString(), QDS.connectionName.ToString());
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
@@ -1864,6 +1795,153 @@ namespace QueryIT {
                     ImportForm tablefrm = new ImportForm(QDS, DatabaseTree.SelectedNode.Text.ToString());
                     tablefrm.Show();
                 }
+            }
+        }
+
+        private void selectToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
+                    if(DatabaseTree.SelectedNode != null) {
+                        table = DatabaseTree.SelectedNode.Text.ToString();
+                        database = DatabaseTree.SelectedNode.Parent.Text.ToString();
+                        addQueryer(QDS.DBschema.D[database].T[table].SQLSelectTop());
+                    }
+                }
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+
+        public void addQueryer(string sql) {
+            if(QueryTabs.TabPages.ContainsKey("Tab" + table.Replace(".csv", "")) == true) {
+                QueryTabs.SelectedIndex = QueryTabs.TabPages.IndexOfKey("Tab" + table.Replace(".csv", ""));
+            } else {
+                //New Tab
+                TabPage tpNew = new TabPage();
+                tpNew.Name = "Tab" + table.Replace(".csv", "");
+                tpNew.Text = table.Replace(".csv", "");
+                tpNew.Padding = queryTab.Padding;
+                tpNew.Margin = queryTab.Margin;
+                tpNew.ImageIndex = QueryTabs.TabPages[0].ImageIndex;
+                //Splitter
+                SplitContainer spNew = new SplitContainer();
+                spNew.Name = "splitBox" + table.Replace(".csv", "");
+                spNew.Orientation = querySplitH.Orientation;
+                spNew.SplitterDistance = 25;
+                spNew.Margin = querySplitH.Margin;
+                spNew.Dock = DockStyle.Fill;
+                //Query Box -> Splitter 1
+                RichTextBox qrtNew = new RichTextBox();
+                qrtNew.Name = "queryBox" + table.Replace(".csv", "");
+                qrtNew.Font = queryBox.Font;
+                qrtNew.Dock = DockStyle.Fill;
+                qrtNew.Text = sql;
+                qrtNew.SyntaxHighlight();
+                qrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
+                autocomplete.SetAutocompleteMenu(qrtNew, autocomplete);
+                spNew.Panel1.Controls.Add(qrtNew);
+                //Result Tabs -> Spliter 2
+                TabControl tcNew = new TabControl();
+                tcNew.Name = "resultTabs" + table.Replace(".csv", "");
+                tcNew.Dock = DockStyle.Fill;
+                tcNew.ImageList = resultTabs.ImageList;
+                tcNew.Padding = resultTabs.Padding;
+                tcNew.Margin = resultTabs.Margin;
+                //ResultGridTab -> Spliter2 -> Result Tabs
+                TabPage rgtNew = new TabPage();
+                rgtNew.Name = "resultGridTab" + table.Replace(".csv", "");
+                rgtNew.ImageIndex = resultTabs.TabPages[0].ImageIndex;
+                rgtNew.Text = resultTabs.TabPages[0].Text;
+                rgtNew.Padding = resultTabs.TabPages[0].Padding;
+                rgtNew.Margin = resultTabs.TabPages[0].Margin;
+                rgtNew.Dock = DockStyle.Fill;
+                DataGridView dgvNew = new DataGridView();
+                dgvNew.Name = "resultGrid" + table.Replace(".csv", "");
+                dgvNew.AutoSizeColumnsMode = resultGrid.AutoSizeColumnsMode;
+                dgvNew.Dock = DockStyle.Fill;
+                dgvNew.Margin = resultGrid.Margin;
+                rgtNew.Controls.Add(dgvNew);
+                tcNew.Controls.Add(rgtNew);
+                //ResultTextTab -> Spliter2 -> Result Tabs
+                TabPage rttNew = new TabPage();
+                rttNew.Name = "resultTextTab" + table.Replace(".csv", "");
+                rttNew.ImageIndex = resultTabs.TabPages[1].ImageIndex;
+                rttNew.Text = resultTabs.TabPages[1].Text;
+                rttNew.Padding = resultTabs.TabPages[1].Padding;
+                rttNew.Margin = resultTabs.TabPages[1].Margin;
+                rttNew.Dock = DockStyle.Fill;
+                RichTextBox rrtNew = new RichTextBox();
+                rrtNew.Name = "resultTextBox" + table.Replace(".csv", "");
+                rrtNew.Dock = DockStyle.Fill;
+                rrtNew.Font = resultTextBox.Font;
+                rrtNew.ReadOnly = true;
+                //rrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
+                rttNew.Controls.Add(rrtNew);
+                tcNew.Controls.Add(rttNew);
+                //ResultTextTab -> Spliter2 -> Result Tabs
+                TabPage rhtNew = new TabPage();
+                rhtNew.ImageIndex = resultTabs.TabPages[2].ImageIndex;
+                rhtNew.Text = resultTabs.TabPages[2].Text;
+                rhtNew.Padding = resultTabs.TabPages[2].Padding;
+                rhtNew.Margin = resultTabs.TabPages[2].Margin;
+                rhtNew.Name = "resultHistoryTab" + table.Replace(".csv", "");
+                rhtNew.Dock = DockStyle.Fill;
+                RichTextBox rhrtNew = new RichTextBox();
+                rhrtNew.Name = "resultHistoryTextBox" + table.Replace(".csv", "");
+                rhrtNew.Dock = DockStyle.Fill;
+                rhrtNew.Font = resultHistoryTextBox.Font;
+                rhrtNew.Text = QLog.LoadlogHistory(QDS.connectionName, tpNew.Text);
+                rhrtNew.ReadOnly = true;
+                //rhrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
+                rhtNew.Controls.Add(rhrtNew);
+                tcNew.Controls.Add(rhtNew);
+                spNew.Panel2.Controls.Add(tcNew);
+                tpNew.Controls.Add(spNew);
+                QueryTabs.TabPages.Add(tpNew);
+                QueryTabs.SelectedIndex = QueryTabs.TabPages.IndexOfKey("Tab" + table.Replace(".csv", ""));
+            }
+        }
+
+        private void insertToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
+                    if(DatabaseTree.SelectedNode != null) {
+                        table = DatabaseTree.SelectedNode.Text.ToString();
+                        database = DatabaseTree.SelectedNode.Parent.Text.ToString();
+                        addQueryer(QDS.DBschema.D[database].T[table].SQLInsert());
+                    }
+                }
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void updateToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
+                    if(DatabaseTree.SelectedNode != null) {
+                        table = DatabaseTree.SelectedNode.Text.ToString();
+                        database = DatabaseTree.SelectedNode.Parent.Text.ToString();
+                        addQueryer(QDS.DBschema.D[database].T[table].SQLUpdate());
+                    }
+                }
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
+                    if(DatabaseTree.SelectedNode != null) {
+                        table = DatabaseTree.SelectedNode.Text.ToString();
+                        database = DatabaseTree.SelectedNode.Parent.Text.ToString();
+                        addQueryer(QDS.DBschema.D[database].T[table].SQLDelete());
+                    }
+                }
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 

@@ -175,7 +175,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ExportForm";
-            this.Text = "Export";
+            this.Text = "Export (WIP)";
             this.Load += new System.EventHandler(this.ExportForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

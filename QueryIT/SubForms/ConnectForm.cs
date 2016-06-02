@@ -133,7 +133,8 @@ namespace QueryIT {
         private void ODBCOkBtn_Click(object sender, EventArgs e) {
             buildConnectionString();
             TestConnectionBtn.ImageIndex = 0;
-            Datasource TestDS = new Datasource(conStr);
+            connectionName = ConnectionNameBox.Text.ToString();
+            Datasource TestDS = new Datasource(conStr, connectionName);
             if(TestDS.isConnected() == true) {
                 TestConnectionBtn.ImageIndex = 1;
                 TestDS.disconnect();
@@ -286,7 +287,8 @@ namespace QueryIT {
 
         private void TestConnectionBtn_Click(object sender, EventArgs e) {
                 TestConnectionBtn.ImageIndex = 0;
-                Datasource TestDS = new Datasource(conStr);
+                connectionName = ConnectionNameBox.Text.ToString();
+                Datasource TestDS = new Datasource(conStr, connectionName);
                 if(TestDS.isConnected() == true) {
                     TestConnectionBtn.ImageIndex = 1;
                 } else {

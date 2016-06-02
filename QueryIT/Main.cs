@@ -26,10 +26,10 @@ namespace QueryIT {
         public QueryerForm[] QueryerQS;
 
         public Datasource LeftDS = new Datasource();
-        public QueryForm LeftQ;
+        public QueryerForm LeftQ;
 
         public Datasource RightDS = new Datasource();
-        public QueryForm RightQ;
+        public QueryerForm RightQ;
 
         public MoveForm CenterQ;
         public CompareForm CenterC;
@@ -92,9 +92,9 @@ namespace QueryIT {
             }
         }
 
-        public void openQueryer(string conectionString) {
+        public void openQueryer(string conectionString, string conName) {
             try {
-                Datasource QueryerDS = new Datasource(conectionString);
+                Datasource QueryerDS = new Datasource(conectionString, conName);
                 if(QueryerDS.isConnected() == true) {
                     QueryerForm QueryerQ = new QueryerForm(QueryerDS, "mid");
                     if(QueryerQS != null) {
@@ -115,12 +115,12 @@ namespace QueryIT {
             }
         }
 
-        public void openSource(string conStr) {
+        public void openSource(string conStr, string conName) {
             try {
                 if(LeftDS.isConnected() == false) {
-                    LeftDS = new Datasource(conStr);
+                    LeftDS = new Datasource(conStr, conName);
                     if(LeftDS.isConnected() == true) {
-                        LeftQ = new QueryForm(LeftDS, "left");
+                        LeftQ = new QueryerForm(LeftDS, "left");
                         LeftQ.nameindex = "Source";
                         LeftQ.MdiParent = this;
                         LeftQ.Show();
@@ -128,7 +128,7 @@ namespace QueryIT {
                     }
                 } else {
                     if(LeftQ.Visible == false) {
-                        LeftQ = new QueryForm(LeftDS, "left");
+                        LeftQ = new QueryerForm(LeftDS, "left");
                     }
                     LeftQ.MdiParent = this;
                     LeftQ.Show();
@@ -139,12 +139,12 @@ namespace QueryIT {
             }
         }
 
-        public void openDestination(string conStr) {
+        public void openDestination(string conStr, string conName) {
             try {
                 if(RightDS.isConnected() == false) {
-                    RightDS = new Datasource(conStr);
+                    RightDS = new Datasource(conStr, conName);
                     if(RightDS.isConnected() == true) {
-                        RightQ = new QueryForm(RightDS, "right");
+                        RightQ = new QueryerForm(RightDS, "right");
                         RightQ.nameindex = "Destination";
                         RightQ.MdiParent = this;
                         RightQ.Show();
@@ -152,7 +152,7 @@ namespace QueryIT {
                     }
                 } else {
                     if(RightQ.Visible == false) {
-                        RightQ = new QueryForm(RightDS, "right");
+                        RightQ = new QueryerForm(RightDS, "right");
                     }
                     RightQ.MdiParent = this;
                     RightQ.Show();
@@ -193,9 +193,10 @@ namespace QueryIT {
                         var result = lform.ShowDialog();
                         if(result == DialogResult.OK) {
                             string conStr = lform.conStr;
-                            RightDS = new Datasource(conStr);
+                            string conName = lform.connectionName;
+                            RightDS = new Datasource(conStr, conName);
                             if(RightDS.isConnected() == true) {
-                                RightQ = new QueryForm(RightDS, "right");
+                                RightQ = new QueryerForm(RightDS, "right");
                                 RightQ.nameindex = "Destination";
                                 RightQ.MdiParent = this;
                                 RightQ.Show();
@@ -205,7 +206,7 @@ namespace QueryIT {
                     }
                 } else {
                     if(RightQ.Visible == false) {
-                        RightQ = new QueryForm(RightDS, "right");
+                        RightQ = new QueryerForm(RightDS, "right");
                     }
                     RightQ.MdiParent = this;
                     RightQ.Show();
@@ -223,9 +224,10 @@ namespace QueryIT {
                         var result = rform.ShowDialog();
                         if(result == DialogResult.OK) {
                             string conStr = rform.conStr;
-                            LeftDS = new Datasource(conStr);
+                            string conName = rform.connectionName;
+                            LeftDS = new Datasource(conStr, conName);
                             if(LeftDS.isConnected() == true) {
-                                LeftQ = new QueryForm(LeftDS, "left");
+                                LeftQ = new QueryerForm(LeftDS, "left");
                                 LeftQ.nameindex = "Source";
                                 LeftQ.MdiParent = this;
                                 LeftQ.Show();
@@ -235,7 +237,7 @@ namespace QueryIT {
                     }
                 } else {
                     if(LeftQ.Visible == false) {
-                        LeftQ = new QueryForm(LeftDS, "left");
+                        LeftQ = new QueryerForm(LeftDS, "left");
                     }
                     LeftQ.MdiParent = this;
                     LeftQ.Show();
@@ -287,7 +289,8 @@ namespace QueryIT {
                 var result = rform.ShowDialog();
                 if(result == DialogResult.OK) {
                     string conStr = rform.conStr;
-                    Datasource QueryerDS = new Datasource(conStr);
+                    string conName = rform.connectionName;
+                    Datasource QueryerDS = new Datasource(conStr, conName);
                     if(QueryerDS.isConnected() == true) {
                         QueryerForm QueryerQ = new QueryerForm(QueryerDS, "mid");
                         if(QueryerQS != null) {
@@ -409,10 +412,25 @@ namespace QueryIT {
         }
 
         private void Main_DragDrop(object sender, DragEventArgs e) {
-            try {
+            //try {
                 string schema = "";
                 string path = "";
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if(files.Count() == 1) {
+                    if(IsDirectory(files[0]) == false) {
+                        if(files[0].Contains(".log")) {
+                            using(var rform = new ConvertForm(files[0])) {
+                                var result = rform.ShowDialog();
+                                if(result == DialogResult.OK) {
+
+                                } else { 
+                                
+                                }
+                            }
+                        }
+                    }
+                }
+
                 if(IsDirectory(files[0]) == true) {
                     path = files[0];
                 } else {
@@ -456,7 +474,7 @@ namespace QueryIT {
 
                 if(path != "") {
                     string conStr = "Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=" + path + ";Extensions=asc,csv,tab,txt;";
-                    Datasource QueryerDS = new Datasource(conStr);
+                    Datasource QueryerDS = new Datasource(conStr, Path.GetFileName(path));
                     if(QueryerDS.isConnected() == true) {
                         QueryerForm QueryerQ = new QueryerForm(QueryerDS, "mid");
                         if(QueryerQS != null) {
@@ -474,9 +492,9 @@ namespace QueryIT {
                     }
                 }
 
-            } catch(Exception err) {
-                errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
-            }
+            //} catch(Exception err) {
+            //    errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            //}
         }
 
         private void Main_DragEnter(object sender, DragEventArgs e) {

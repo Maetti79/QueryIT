@@ -278,6 +278,7 @@
             // 
             // moveMapGrid
             // 
+            this.moveMapGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.moveMapGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.moveMapGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.moveMapGrid.Location = new System.Drawing.Point(0, 0);
