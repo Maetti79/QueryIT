@@ -1,0 +1,16 @@
+Date: 2016-06-06 09:41:34 - Result: 100 Records
+Query: SELECT * FROM  `geo`.`geo_poi` LIMIT 100;
+
+
+Date: 2016-06-06 09:41:43 - Query: SELECTcount( *) FROM  `geo`.`geo_poi` LIMIT 100;
+
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECTcount( *) FROM  `geo`.`geo_poi` LIMIT 100' at line 1
+
+Date: 2016-06-06 09:42:10 - Result: 100 Records
+Query: SELECT * FROM  `geo`.`geo_poi` LIMIT 100;
+
+
+Date: 2016-06-06 09:42:25 - Result: 1 Records
+Query: SELECT count(*) FROM  `geo`.`geo_poi`
+
+

@@ -1,0 +1,25 @@
+Date: 2016-06-03 08:18:58 - Result: 38 Records
+Query: SELECT * FROM  `777live`.`billing` 
+WHERE companyid = 15072 AND returntime > '2016-05-03 00:00:00'
+
+
+LIMIT 100;
+
+
+Date: 2016-06-03 08:19:05 - Result: 5 Records
+Query: SELECT * FROM  `777live`.`billing` 
+WHERE companyid = 15072 AND returntime > '2016-05-03 00:00:00' AND payout = 0
+
+
+LIMIT 100;
+
+
+Date: 2016-06-06 07:30:15 - Result: 13 Records
+Query: SELECT * FROM  `777live`.`billing` WHERE memberid = 2199605
+
+
+Date: 2016-06-06 07:40:16 - Query: SELECT *m. FROM 777live.tbl_member m
+LEFT JOIN 777live.memberavs a ON a.memberid = m.mid AND a.created > '2015-01-01'
+WHERE m.mid = 2199605
+Error: There is already an open DataReader associated with this Connection which must be closed first.
+

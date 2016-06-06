@@ -1,0 +1,30 @@
+Date: 2016-06-03 08:35:52 - Result: 73 Records
+Query: SELECT * FROM  `777live`.`marketing` WHERE websiteid = 2 AND type = 'TYPE_MM20' AND status = 1 
+
+Date: 2016-06-06 07:40:23 - Query: SELECT *m. FROM 777live.tbl_member m
+LEFT JOIN 777live.memberavs a ON a.memberid = m.mid AND a.created > '2015-01-01'
+WHERE m.mid = 2199605
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'm. FROM 777live.tbl_member m
+LEFT JOIN 777live.memberavs a ON a.memberid = m.mid' at line 1
+
+Date: 2016-06-06 07:40:31 - Query: SELECT *m. FROM 777live.tbl_member m
+LEFT JOIN 777live.memberavs a ON a.memberid = m.mid AND a.created > '2015-01-01'
+WHERE m.mid = 2199605
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'm. FROM 777live.tbl_member m
+LEFT JOIN 777live.memberavs a ON a.memberid = m.mid' at line 1
+
+Date: 2016-06-06 07:40:42 - Result: 1 Records
+Query: SELECT m.* FROM 777live.tbl_member m
+LEFT JOIN 777live.memberavs a ON a.memberid = m.mid AND a.created > '2015-01-01'
+WHERE m.mid = 2199605
+
+Date: 2016-06-06 07:40:50 - Result: 1 Records
+Query: SELECT a.* FROM 777live.tbl_member m
+LEFT JOIN 777live.memberavs a ON a.memberid = m.mid AND a.created > '2015-01-01'
+WHERE m.mid = 2199605
+
+Date: 2016-06-06 07:41:08 - Result: 1 Records
+Query: SELECT m.* FROM 777live.tbl_member m
+LEFT JOIN 777live.memberavs a ON a.memberid = m.mid AND a.created > '2015-01-01'
+WHERE m.mid = 2199605
+
