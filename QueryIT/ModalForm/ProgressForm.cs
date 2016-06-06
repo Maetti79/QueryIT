@@ -17,6 +17,8 @@ namespace QueryIT {
         MoveForm MParent;
         CrossJoin CJParent;
         ChunkForm ChkParent;
+        ExportForm ExpParent;
+        ImportForm ImpParent;
 
         DateTime utcStart;
         int rps = 0;
@@ -89,6 +91,21 @@ namespace QueryIT {
             this.Text = Name;
         }
 
+
+        public ProgressForm(ExportForm p, string Name) {
+            ExpParent = p;
+            utcStart = DateTime.UtcNow;
+            InitializeComponent();
+            this.Text = Name;
+        }
+
+        public ProgressForm(ImportForm p, string Name) {
+            ImpParent = p;
+            utcStart = DateTime.UtcNow;
+            InitializeComponent();
+            this.Text = Name;
+        }
+
         public void update(int min, int max, int position) {
             try {
                 if(progress.Maximum != min) {
@@ -146,6 +163,12 @@ namespace QueryIT {
                 }
                 if(ChkParent != null) {
                     ChkParent.run = false;
+                }
+                if(ExpParent != null) {
+                    ExpParent.run = false;
+                }
+                if(ImpParent != null) {
+                    ImpParent.run = false;
                 }
             } catch(Exception err) {
                 Error = err.Message;

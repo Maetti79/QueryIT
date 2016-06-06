@@ -84,6 +84,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.tableGrid);
             this.splitContainer1.Panel1.Controls.Add(this.tableBox);
+            this.splitContainer1.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
             // 
             // splitContainer1.Panel2
             // 
@@ -175,7 +176,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ExportForm";
-            this.Text = "Export (WIP)";
+            this.Text = "Export (BETA)";
             this.Load += new System.EventHandler(this.ExportForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

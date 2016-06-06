@@ -8,6 +8,8 @@ using QueryIT.model;
 
 public static class Extensions {
 
+    public static bool lockSyntaxHighlighter = false;
+
     public static T[] AddItemToArray<T>(this T[] original, T itemToAdd) {
         if(original != null) {
             T[] finalArray = new T[original.Length + 1];
@@ -124,173 +126,264 @@ public static class Extensions {
     }
 
     public static void SyntaxHighlight(this RichTextBox inrtf) {
-        RichTextBox rtf = new RichTextBox();
-        int selectStartmem = inrtf.SelectionStart;
-        rtf.Rtf = inrtf.Rtf;
-        rtf.Select(0, rtf.Text.Length);
-        rtf.SelectionFont = rtf.Font;
-        rtf.SelectionColor = Color.Black;
-        //BlueBold
-        foreach(string k in SQLSyntax.SQLblue) {
-            if(rtf.Text.ToLower().Contains(k)) {
-                int index = -1;
-                int selectStart = rtf.SelectionStart;
-                while((index = rtf.Text.ToLower().IndexOf(k.ToLower(), (index + 1))) != -1) {
-                    if(index + k.Length + 1 <= rtf.Text.Length) {
-                        rtf.Select(index, k.Length + 1);
-                    } else {
-                        rtf.Select(index, k.Length);
-                    }
-                    if(rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + " ")
-                        || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "\n")
-                        || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "(")
-                        || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "[")
-                        || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + ",")
-                        || rtf.Text.ToLower().StartsWith(k.ToString().ToLower() + " ")
-                        || rtf.Text.ToLower().EndsWith(k.ToString().ToLower()+ " ")
-                        || rtf.Text.ToLower().EndsWith(k.ToString().ToLower()+ ";")
-                        ) {
-                        rtf.Select((index), k.Length);
-                        rtf.SelectionColor = Color.Blue;
-                        rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
-                        rtf.SelectedText = rtf.SelectedText.ToUpper();
-                        rtf.Select(selectStart, 0);
-                        rtf.SelectionFont = rtf.Font;
-                        rtf.SelectionColor = Color.Black;
-                    }
-                }
-            }
-        }
-        //MagentaBold
-        foreach(string k in SQLSyntax.SQLmagenta) {
-            if(rtf.Text.ToLower().Contains(k)) {
-                int index = -1;
-                int selectStart = rtf.SelectionStart;
-                while((index = rtf.Text.ToLower().IndexOf(k.ToLower(), (index + 1))) != -1) {
-                    if(index + k.Length + 1 <= rtf.Text.Length) {
-                        rtf.Select(index, k.Length + 1);
-                    } else {
-                        rtf.Select(index, k.Length);
-                    }
-                    if(rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + " ")
-                        || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "\n")
-                        || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "(")
-                        || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + ")")
-                        || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "[")
-                        || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "]")
-                        || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + ",")
-                        || rtf.Text.ToLower().StartsWith(k.ToString().ToLower() + " ")
-                        || rtf.Text.ToLower().EndsWith(k.ToString().ToLower() + " ")
-                        || rtf.Text.ToLower().EndsWith(k.ToString().ToLower() + ";")
-                        ) {
-                        rtf.Select((index), k.Length);
-                        rtf.SelectionColor = Color.Magenta;
-                        rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
-                        rtf.Select(selectStart, 0);
-                        rtf.SelectionFont = rtf.Font;
-                        rtf.SelectionColor = Color.Black;
-                    }
-                }
-            }
-        }
-        //redBold
-        foreach(string k in SQLSyntax.SQLred) {
-            if(rtf.Text.ToLower().Contains(k)) {
-                int index = -1;
-                int selectStart = rtf.SelectionStart;
-                while((index = rtf.Text.ToLower().IndexOf(k.ToLower(), (index + 1))) != -1) {
-                    rtf.Select(index, k.Length);
-                    if(rtf.SelectedText.ToLower().Equals(k.ToString().ToLower())) {
-                        rtf.Select((index), k.Length);
-                        rtf.SelectionColor = Color.Red;
-                        rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
-                        rtf.Select(selectStart, 0);
-                        rtf.SelectionFont = rtf.Font;
-                        rtf.SelectionColor = Color.Black;
-                    }
-                }
-            }
-        }
-        //greenBold
-        foreach(string k in SQLSyntax.SQLgreen) {
-            if(rtf.Text.ToLower().Contains(k)) {
-                int index = -1;
-                int selectStart = rtf.SelectionStart;
-                while((index = rtf.Text.ToLower().IndexOf(k.ToLower(), (index + 1))) != -1) {
-                    rtf.Select(index, k.Length);
-                    if(rtf.SelectedText.ToLower().Equals(k.ToString().ToLower())) {
-                        rtf.Select((index), k.Length);
-                        rtf.SelectionColor = Color.DarkGreen;
-                        rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
-                        rtf.Select(selectStart, 0);
-                        rtf.SelectionFont = rtf.Font;
-                        rtf.SelectionColor = Color.Black;
+        if(lockSyntaxHighlighter == false) {
+            lockSyntaxHighlighter = true;
+            RichTextBox rtf = new RichTextBox();
+            if(inrtf.Text != null) {
+                int selectStartmem = inrtf.SelectionStart;
+                rtf.Rtf = inrtf.Rtf;
+                rtf.Select(0, rtf.Text.Length);
+                rtf.SelectionFont = rtf.Font;
+                rtf.SelectionColor = Color.Black;
+                //BlueBold
+                foreach(string k in SQLSyntax.SQLblue) {
+                    if(rtf.Text.ToLower().Contains(k)) {
+                        int index = -1;
+                        int selectStart = rtf.SelectionStart;
+                        while((index = rtf.Text.ToLower().IndexOf(k.ToLower(), (index + 1))) != -1) {
+                            if(index > 0) {
+                                if(index + k.Length + 1 <= rtf.Text.Length) {
+                                    rtf.Select(index - 1, k.Length + 2);
+                                } else {
+                                    rtf.Select(index - 1, k.Length + 1);
+                                }
+                            } else {
+                                if(index + k.Length + 1 <= rtf.Text.Length) {
+                                    rtf.Select(index, k.Length + 1);
+                                } else {
+                                    rtf.Select(index, k.Length);
+                                }
+                            }
+                            if((index <= 0 && (rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + ","))
+                                )
+                                ||
+                                (index > 0 && (rtf.SelectedText.ToLower().Equals(" " + k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals(" " + k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals(" " + k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals(" " + k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals(" " + k.ToString().ToLower() + ","))
+                                )
+                                ||
+                                (index > 0 && (rtf.SelectedText.ToLower().Equals("," + k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals("," + k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals("," + k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals("," + k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals("," + k.ToString().ToLower() + ","))
+                                )
+                                ||
+                                (index > 0 && (rtf.SelectedText.ToLower().Equals(")" + k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals(")" + k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals(")" + k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals(")" + k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals(")" + k.ToString().ToLower() + ","))
+                                )
+                                ||
+                                (index > 0 && (rtf.SelectedText.ToLower().Equals("]" + k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals("]" + k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals("]" + k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals("]" + k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals("]" + k.ToString().ToLower() + ","))
+                                )
+                                     ||
+                                (index > 0 && (rtf.SelectedText.ToLower().Equals("\n" + k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals("\n" + k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals("\n" + k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals("\n" + k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals("\n" + k.ToString().ToLower() + ","))
+                                )
+                                || rtf.Text.ToLower().StartsWith(k.ToString().ToLower() + " ")
+                                || rtf.Text.ToLower().EndsWith(k.ToString().ToLower() + " ")
+                                || rtf.Text.ToLower().EndsWith(k.ToString().ToLower() + ";")
+                                ) {
+                                rtf.Select((index), k.Length);
+                                rtf.SelectionColor = Color.Blue;
+                                rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
+                                rtf.SelectedText = rtf.SelectedText.ToUpper();
+                                rtf.Select(selectStart, 0);
+                                rtf.SelectionFont = rtf.Font;
+                                rtf.SelectionColor = Color.Black;
+                            }
+                        }
                     }
                 }
-            }
-        }
-        //grayBold
-        foreach(string k in SQLSyntax.SQlgray) {
-            if(rtf.Text.ToLower().Contains(k)) {
-                int index = -1;
-                int selectStart = rtf.SelectionStart;
-                while((index = rtf.Text.ToLower().IndexOf(k.ToLower(), (index + 1))) != -1) {
-                    rtf.Select(index, k.Length);
-                    if(rtf.SelectedText.ToLower().Equals(k.ToString().ToLower())) {
-                        rtf.Select((index), k.Length);
-                        rtf.SelectionColor = Color.Black;
-                        rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
-                        rtf.Select(selectStart, 0);
-                        rtf.SelectionFont = rtf.Font;
-                        rtf.SelectionColor = Color.Black;
+                //MagentaBold
+                foreach(string k in SQLSyntax.SQLmagenta) {
+                    if(rtf.Text.ToLower().Contains(k)) {
+                        int index = -1;
+                        int selectStart = rtf.SelectionStart;
+                        while((index = rtf.Text.ToLower().IndexOf(k.ToLower(), (index + 1))) != -1) {
+                            if(index > 0) {
+                                if(index + k.Length + 1 <= rtf.Text.Length) {
+                                    rtf.Select(index - 1, k.Length + 2);
+                                } else {
+                                    rtf.Select(index - 1, k.Length + 1);
+                                }
+                            } else {
+                                if(index + k.Length + 1 <= rtf.Text.Length) {
+                                    rtf.Select(index, k.Length + 1);
+                                } else {
+                                    rtf.Select(index, k.Length);
+                                }
+                            }
+                            if((index <= 0 && (rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals(k.ToString().ToLower() + ","))
+                                )
+                                ||
+                                (index > 0 && (rtf.SelectedText.ToLower().Equals(" " + k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals(" " + k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals(" " + k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals(" " + k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals(" " + k.ToString().ToLower() + ","))
+                                )
+                                ||
+                                (index > 0 && (rtf.SelectedText.ToLower().Equals("," + k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals("," + k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals("," + k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals("," + k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals("," + k.ToString().ToLower() + ","))
+                                )
+                                ||
+                                (index > 0 && (rtf.SelectedText.ToLower().Equals(")" + k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals(")" + k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals(")" + k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals(")" + k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals(")" + k.ToString().ToLower() + ","))
+                                )
+                                ||
+                                (index > 0 && (rtf.SelectedText.ToLower().Equals("]" + k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals("]" + k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals("]" + k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals("]" + k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals("]" + k.ToString().ToLower() + ","))
+                                )
+                                     ||
+                                (index > 0 && (rtf.SelectedText.ToLower().Equals("\n" + k.ToString().ToLower() + " ")
+                                    || rtf.SelectedText.ToLower().Equals("\n" + k.ToString().ToLower() + "\n")
+                                    || rtf.SelectedText.ToLower().Equals("\n" + k.ToString().ToLower() + "(")
+                                    || rtf.SelectedText.ToLower().Equals("\n" + k.ToString().ToLower() + "[")
+                                    || rtf.SelectedText.ToLower().Equals("\n" + k.ToString().ToLower() + ","))
+                                )
+                                || rtf.Text.ToLower().StartsWith(k.ToString().ToLower() + " ")
+                                || rtf.Text.ToLower().EndsWith(k.ToString().ToLower() + " ")
+                                || rtf.Text.ToLower().EndsWith(k.ToString().ToLower() + ";")
+                                ) {
+                                rtf.Select((index), k.Length);
+                                rtf.SelectionColor = Color.Magenta;
+                                rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
+                                rtf.Select(selectStart, 0);
+                                rtf.SelectionFont = rtf.Font;
+                                rtf.SelectionColor = Color.Black;
+                            }
+                        }
                     }
                 }
-            }
-        }
+                //redBold
+                foreach(string k in SQLSyntax.SQLred) {
+                    if(rtf.Text.ToLower().Contains(k)) {
+                        int index = -1;
+                        int selectStart = rtf.SelectionStart;
+                        while((index = rtf.Text.ToLower().IndexOf(k.ToLower(), (index + 1))) != -1) {
+                            rtf.Select(index, k.Length);
+                            if(rtf.SelectedText.ToLower().Equals(k.ToString().ToLower())) {
+                                rtf.Select((index), k.Length);
+                                rtf.SelectionColor = Color.Red;
+                                rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
+                                rtf.Select(selectStart, 0);
+                                rtf.SelectionFont = rtf.Font;
+                                rtf.SelectionColor = Color.Black;
+                            }
+                        }
+                    }
+                }
+                //greenBold
+                foreach(string k in SQLSyntax.SQLgreen) {
+                    if(rtf.Text.ToLower().Contains(k)) {
+                        int index = -1;
+                        int selectStart = rtf.SelectionStart;
+                        while((index = rtf.Text.ToLower().IndexOf(k.ToLower(), (index + 1))) != -1) {
+                            rtf.Select(index, k.Length);
+                            if(rtf.SelectedText.ToLower().Equals(k.ToString().ToLower())) {
+                                rtf.Select((index), k.Length);
+                                rtf.SelectionColor = Color.DarkGreen;
+                                rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
+                                rtf.Select(selectStart, 0);
+                                rtf.SelectionFont = rtf.Font;
+                                rtf.SelectionColor = Color.Black;
+                            }
+                        }
+                    }
+                }
+                //grayBold
+                foreach(string k in SQLSyntax.SQlgray) {
+                    if(rtf.Text.ToLower().Contains(k)) {
+                        int index = -1;
+                        int selectStart = rtf.SelectionStart;
+                        while((index = rtf.Text.ToLower().IndexOf(k.ToLower(), (index + 1))) != -1) {
+                            rtf.Select(index, k.Length);
+                            if(rtf.SelectedText.ToLower().Equals(k.ToString().ToLower())) {
+                                rtf.Select((index), k.Length);
+                                rtf.SelectionColor = Color.Black;
+                                rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
+                                rtf.Select(selectStart, 0);
+                                rtf.SelectionFont = rtf.Font;
+                                rtf.SelectionColor = Color.Black;
+                            }
+                        }
+                    }
+                }
 
-        string c = "";
-        int sindex = -1;
-        int sselectStart = rtf.SelectionStart;
-        for(int i = 0; i < rtf.Text.Length; i++) {
-            c = rtf.Text.Substring(i, 1).ToString();
-            if(c == "'") {
-                if(sindex == -1) {
-                    sindex = i;
-                } else {
-                    rtf.Select((sindex) + 1, i - sindex - 1);
-                    rtf.SelectionColor = Color.DarkGreen;
-                    rtf.SelectionFont = new Font(rtf.Font, FontStyle.Italic);
-                    rtf.Select(sselectStart, 0);
-                    rtf.SelectionFont = rtf.Font;
-                    rtf.SelectionColor = Color.Black;
-                    sindex = -1;
+                string c = "";
+                int sindex = -1;
+                int sselectStart = rtf.SelectionStart;
+                for(int i = 0; i < rtf.Text.Length; i++) {
+                    c = rtf.Text.Substring(i, 1).ToString();
+                    if(c == "'") {
+                        if(sindex == -1) {
+                            sindex = i;
+                        } else {
+                            rtf.Select((sindex) + 1, i - sindex - 1);
+                            rtf.SelectionColor = Color.DarkGreen;
+                            rtf.SelectionFont = new Font(rtf.Font, FontStyle.Italic);
+                            rtf.Select(sselectStart, 0);
+                            rtf.SelectionFont = rtf.Font;
+                            rtf.SelectionColor = Color.Black;
+                            sindex = -1;
+                        }
+                    }
                 }
+
+                c = "";
+                sindex = -1;
+                sselectStart = rtf.SelectionStart;
+                for(int i = 0; i < rtf.Text.Length; i++) {
+                    c = rtf.Text.Substring(i, 1).ToString();
+                    if(c == "#") {
+                        if(sindex == -1) {
+                            sindex = i;
+                        } else {
+                            rtf.Select((sindex) + 1, i - sindex - 1);
+                            rtf.SelectionColor = Color.DarkViolet;
+                            rtf.SelectionFont = new Font(rtf.Font, FontStyle.Italic);
+                            rtf.Select(sselectStart, 0);
+                            rtf.SelectionFont = rtf.Font;
+                            rtf.SelectionColor = Color.Black;
+                            sindex = -1;
+                        }
+                    }
+                }
+
+                inrtf.Rtf = rtf.Rtf;
+                inrtf.Select(selectStartmem, 0);
             }
         }
-
-        c = "";
-        sindex = -1;
-        sselectStart = rtf.SelectionStart;
-        for(int i = 0; i < rtf.Text.Length; i++) {
-            c = rtf.Text.Substring(i, 1).ToString();
-            if(c == "#") {
-                if(sindex == -1) {
-                    sindex = i;
-                } else {
-                    rtf.Select((sindex) + 1, i - sindex - 1);
-                    rtf.SelectionColor = Color.DarkViolet;
-                    rtf.SelectionFont = new Font(rtf.Font, FontStyle.Italic);
-                    rtf.Select(sselectStart, 0);
-                    rtf.SelectionFont = rtf.Font;
-                    rtf.SelectionColor = Color.Black;
-                    sindex = -1;
-                }
-            }
-        }
-
-        inrtf.Rtf = rtf.Rtf;
-        inrtf.Select(selectStartmem, 0);
+        lockSyntaxHighlighter = false;
     }
-
 }
 

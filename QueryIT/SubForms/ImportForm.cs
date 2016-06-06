@@ -51,6 +51,12 @@ namespace QueryIT {
                 runToolStripMenuItem.Enabled = false;
                 killToolStripMenuItem.Enabled = true;
                 utcStart = DateTime.UtcNow;
+                int imported = 0;
+                int chunk = 1000;
+                //int offset = 0;
+                ProgressForm pform = new ProgressForm(this, "Progress [Export - " + table + "]");
+                pform.update(0, chunk, 0);
+                pform.Show();
 
                 if(tableExists(table.ToString()) == false) {
                     TableSchema newTbl = new TableSchema(table.ToString());
@@ -87,10 +93,16 @@ namespace QueryIT {
                 tmpf.Close();
                 string[] words = line.Split(delimiter.ToCharArray());
                 foreach(string columnname in words) {
-                    DataGridViewRow row = (DataGridViewRow)fileGrid.Rows[0].Clone();
-                    row.Cells[0].Value = columnname.ToString();
-                    fileGrid.Rows.Add(row);
+ 
                 }
+
+
+
+                imported++;
+
+                pform.Hide();
+                pform.Dispose();
+                run = false;
                 runToolStripMenuItem.Enabled = true;
                 killToolStripMenuItem.Enabled = false;
                 utcStop = DateTime.UtcNow;
@@ -119,6 +131,7 @@ namespace QueryIT {
 
         public void doLoad() {
             try {
+                runToolStripMenuItem.Enabled = true;
                 //Table Name
                 tableBox.Items.Clear();
                 tableBox.Items.Add("(new table)");
@@ -130,6 +143,7 @@ namespace QueryIT {
                 fileGrid.Columns.Clear();
                 fileGrid.Rows.Clear();
                 fileGrid.Columns.Add("Source", "Column Name");
+                fileGrid.RowHeadersWidth = 65;
                 if(importFile.Text.ToString() != "") {
                     runToolStripMenuItem.Enabled = true;
                     System.IO.StreamReader tmpf = new System.IO.StreamReader(importFile.Text.ToString());
@@ -156,58 +170,91 @@ namespace QueryIT {
                     string[] words = line.Split(delimiter.ToCharArray());
                     foreach(string columnname in words) {
                         DataGridViewRow row = (DataGridViewRow)fileGrid.Rows[0].Clone();
+                        row.HeaderCell.Value = row.Index.ToString();
                         row.Cells[0].Value = columnname.ToString();
                         fileGrid.Rows.Add(row);
                     }
-                    
                     //Column Mapping
                     tableGrid.Columns.Clear();
                     tableGrid.Rows.Clear();
-                    tableGrid.Columns.Add("Index", "Position");    //0
                     tableGrid.Columns.Add("Name", "Column Name");  //1
-                    tableGrid.Columns.Add("DT", "Data Type");      //2
-                    tableGrid.Columns.Add("PKey", "Primary Key");  //3
-                    tableGrid.Columns.Add("NN", "Not Null");       //4
-                    tableGrid.Columns.Add("Unique", "UN");         //5
-                    tableGrid.Columns.Add("AI", "Auto Increment"); //6
+                    tableGrid.Columns.Add("Import", "Mapping Name");  //2
+                    tableGrid.Columns.Add("DT", "Data Type");      //3
+                    tableGrid.Columns.Add("PK", "PK");  //4
+                    tableGrid.Columns.Add("NN", "NN");       //5
+                    tableGrid.Columns.Add("UN", "UN");         //6
+                    tableGrid.Columns.Add("AI", "AI"); //7
+                    tableGrid.Columns.Add("DV", "Default"); //8
+                    tableGrid.RowHeadersWidth = 65;
                     //Width
                     DataGridViewColumn column = tableGrid.Columns[0];
-                    column.Width = 40;
+                    column.Width = 120;
                     column = tableGrid.Columns[1];
                     column.Width = 120;
                     column = tableGrid.Columns[2];
-                    column.Width = 90;
+                    column.Width = 100;
                     column = tableGrid.Columns[3];
-                    column.Width = 40;
+                    column.Width = 25;
                     column = tableGrid.Columns[4];
-                    column.Width = 40;
+                    column.Width = 25;
                     column = tableGrid.Columns[5];
-                    column.Width = 40;
+                    column.Width = 25;
                     column = tableGrid.Columns[6];
-                    column.Width = 40;
+                    column.Width = 25;
+                    column = tableGrid.Columns[7];
+                    column.Width = 120;
                     //Fill Data with Existing Columns
                     if(tableExists(table.ToString())) {
                         foreach(ColumnSchema col in DS.DBschema.D[database].T[table].Columns) {
-              
-                                DataGridViewRow row = (DataGridViewRow)tableGrid.Rows[0].Clone();
-                                row.Cells[0].Value = col.ColumnName;
-                                DataGridViewComboBoxCell vComboCell = new DataGridViewComboBoxCell();
-                                vComboCell.Items.Add("(skip column)");
-                                foreach(string columnname in words) {
-                                    vComboCell.Items.Add(columnname.ToString());
-                                }
-                                if(vComboCell.Items.IndexOf(col.ColumnName) != -1) {
-                                    vComboCell.Value = vComboCell.Items[vComboCell.Items.IndexOf(col.ColumnName)];
-                                } else {
-                                    vComboCell.Value = vComboCell.Items[0];
-                                }
-                                vComboCell.FlatStyle = FlatStyle.Standard;
-                                vComboCell.MaxDropDownItems = vComboCell.Items.Count;
-                                // Datentyp festlegen
-                                row.Cells[1].Value = vComboCell.Value;
-                                // ComboBox - Zelle setzen
-                                row.Cells[1] = vComboCell;
-                                tableGrid.Rows.Add(row);
+                            DataGridViewRow row = (DataGridViewRow)tableGrid.Rows[0].Clone();
+                            row.HeaderCell.Value = col.ColumnPosition.ToString();
+                            row.Cells[0].Value = col.ColumnName;
+                            DataGridViewComboBoxCell vComboCell = new DataGridViewComboBoxCell();
+                            vComboCell.Items.Add("(skip column)");
+                            foreach(string columnname in words) {
+                                vComboCell.Items.Add(columnname.ToString());
+                            }
+                            if(vComboCell.Items.IndexOf(col.ColumnName) != -1) {
+                                vComboCell.Value = vComboCell.Items[vComboCell.Items.IndexOf(col.ColumnName)];
+                            } else {
+                                vComboCell.Value = vComboCell.Items[0];
+                            }
+                            vComboCell.FlatStyle = FlatStyle.Standard;
+                            vComboCell.MaxDropDownItems = vComboCell.Items.Count;
+                            row.Cells[1].Value = vComboCell.Value;
+                            row.Cells[1] = vComboCell;
+
+                            DataGridViewComboBoxCell vCellComboDataType = new DataGridViewComboBoxCell();
+                            foreach(string dst in Datasource.DBDataTypes) {
+                                vCellComboDataType.Items.Add(dst.ToString());
+                            }
+                            //Hack for custom Datatypes, fix this someday
+                            if(vCellComboDataType.Items.Contains(col.DataType) == false) {
+                                vCellComboDataType.Items.Add(col.DataType);
+                            }
+                            if(vCellComboDataType.Items.IndexOf(col.DataType) != -1) {
+                                vCellComboDataType.Value = vCellComboDataType.Items[vCellComboDataType.Items.IndexOf(col.DataType)];
+                            } else {
+                                vCellComboDataType.Value = vCellComboDataType.Items[0];
+                            }
+                            vCellComboDataType.FlatStyle = FlatStyle.Standard;
+                            vCellComboDataType.MaxDropDownItems = vCellComboDataType.Items.Count;
+                            row.Cells[2].Value = vCellComboDataType.Value;
+                            row.Cells[2] = vCellComboDataType;
+                            DataGridViewCheckBoxCell vCheckPKey = new DataGridViewCheckBoxCell();
+                            vCheckPKey.Value = col.PrimaryKey;
+                            row.Cells[3] = vCheckPKey;
+                            DataGridViewCheckBoxCell vCheckNN = new DataGridViewCheckBoxCell();
+                            vCheckNN.Value = col.NotNull;
+                            row.Cells[4] = vCheckNN;
+                            DataGridViewCheckBoxCell vCheckUN = new DataGridViewCheckBoxCell();
+                            vCheckUN.Value = col.Unique;
+                            row.Cells[5] = vCheckUN;
+                            DataGridViewCheckBoxCell vCheckAI = new DataGridViewCheckBoxCell();
+                            vCheckAI.Value = col.AutoIncrement;
+                            row.Cells[6] = vCheckAI;
+                            row.Cells[7].Value = col.DefaultValue.ToString();
+                            tableGrid.Rows.Add(row);
                         }
                     } else {
                         //New Table Schema
@@ -226,10 +273,30 @@ namespace QueryIT {
                             }
                             vComboCell.FlatStyle = FlatStyle.Standard;
                             vComboCell.MaxDropDownItems = vComboCell.Items.Count;
-                            // Datentyp festlegen
                             row.Cells[1].Value = vComboCell.Value;
-                            // ComboBox - Zelle setzen
                             row.Cells[1] = vComboCell;
+                            DataGridViewComboBoxCell vCellComboDataType = new DataGridViewComboBoxCell();
+                            foreach(string dst in Datasource.DBDataTypes) {
+                                vCellComboDataType.Items.Add(dst.ToString());
+                            }
+                            vCellComboDataType.Value = vCellComboDataType.Items[0];
+                            vCellComboDataType.FlatStyle = FlatStyle.Standard;
+                            vCellComboDataType.MaxDropDownItems = vCellComboDataType.Items.Count;
+                            row.Cells[2].Value = vCellComboDataType.Value;
+                            row.Cells[2] = vCellComboDataType;
+                            DataGridViewCheckBoxCell vCheckPKey = new DataGridViewCheckBoxCell();
+                            vCheckPKey.Value = false;
+                            row.Cells[3] = vCheckPKey;
+                            DataGridViewCheckBoxCell vCheckNN = new DataGridViewCheckBoxCell();
+                            vCheckNN.Value = false;
+                            row.Cells[4] = vCheckNN;
+                            DataGridViewCheckBoxCell vCheckUN = new DataGridViewCheckBoxCell();
+                            vCheckUN.Value = false;
+                            row.Cells[5] = vCheckUN;
+                            DataGridViewCheckBoxCell vCheckAI = new DataGridViewCheckBoxCell();
+                            vCheckAI.Value = false;
+                            row.Cells[6] = vCheckAI;
+                            row.Cells[7].Value = "";
                             tableGrid.Rows.Add(row);
                         }
                     }
@@ -256,6 +323,7 @@ namespace QueryIT {
         private void tableBox_SelectedIndexChanged(object sender, EventArgs e) {
             if(tableBox.Text.ToString() != table.ToString()) {
                 table = tableBox.Text.ToString();
+                runToolStripMenuItem.Enabled = true;
                 doLoad();
             }
         }

@@ -676,7 +676,7 @@
             this.QueryTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.QueryTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.QueryTabs.ImageList = this.QueryIcons;
-            this.QueryTabs.ItemSize = new System.Drawing.Size(100, 19);
+            this.QueryTabs.ItemSize = new System.Drawing.Size(86, 19);
             this.QueryTabs.Location = new System.Drawing.Point(0, 0);
             this.QueryTabs.Name = "QueryTabs";
             this.QueryTabs.Padding = new System.Drawing.Point(0, 0);
@@ -690,6 +690,7 @@
             // 
             this.queryTab.Controls.Add(this.querySplitH);
             this.queryTab.ImageIndex = 4;
+            this.queryTab.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.queryTab.Location = new System.Drawing.Point(4, 23);
             this.queryTab.Name = "queryTab";
             this.queryTab.Padding = new System.Windows.Forms.Padding(3);
@@ -745,6 +746,7 @@
             // 
             this.resultGridTab.Controls.Add(this.resultGrid);
             this.resultGridTab.ImageIndex = 9;
+            this.resultGridTab.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.resultGridTab.Location = new System.Drawing.Point(4, 23);
             this.resultGridTab.Name = "resultGridTab";
             this.resultGridTab.Padding = new System.Windows.Forms.Padding(3);
@@ -816,6 +818,7 @@
             this.autocomplete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.autocomplete.ImageList = this.QueryIcons;
             this.autocomplete.Items = new string[0];
+            this.autocomplete.MinFragmentLength = 1;
             this.autocomplete.TargetControlWrapper = null;
             // 
             // QueryerForm

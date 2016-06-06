@@ -45,6 +45,7 @@
             this.crossJoinToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.forEachToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chunkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.convertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectRightMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +74,8 @@
             this.MainIcons.Images.SetKeyName(7, "note.png");
             this.MainIcons.Images.SetKeyName(8, "notepad.png");
             this.MainIcons.Images.SetKeyName(9, "text.png");
+            this.MainIcons.Images.SetKeyName(10, "2-Table.png");
+            this.MainIcons.Images.SetKeyName(11, "3-Column.png");
             // 
             // MainStatus
             // 
@@ -154,7 +157,8 @@
             this.compareToolStripMenuItem1,
             this.crossJoinToolStripMenuItem1,
             this.forEachToolStripMenuItem,
-            this.chunkToolStripMenuItem});
+            this.chunkToolStripMenuItem,
+            this.convertToolStripMenuItem});
             this.modulesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("modulesToolStripMenuItem.Image")));
             this.modulesToolStripMenuItem.Name = "modulesToolStripMenuItem";
             this.modulesToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
@@ -208,6 +212,14 @@
             this.chunkToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.chunkToolStripMenuItem.Text = "Chunk";
             this.chunkToolStripMenuItem.Click += new System.EventHandler(this.chunkToolStripMenuItem_Click);
+            // 
+            // convertToolStripMenuItem
+            // 
+            this.convertToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("convertToolStripMenuItem.Image")));
+            this.convertToolStripMenuItem.Name = "convertToolStripMenuItem";
+            this.convertToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.convertToolStripMenuItem.Text = "Convert";
+            this.convertToolStripMenuItem.Click += new System.EventHandler(this.convertToolStripMenuItem_Click);
             // 
             // connectRightMenu
             // 
@@ -350,6 +362,7 @@
         private System.Windows.Forms.ToolStripMenuItem crossJoinToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem forEachToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chunkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem convertToolStripMenuItem;
     }
 }
 

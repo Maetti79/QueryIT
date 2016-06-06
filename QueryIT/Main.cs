@@ -354,7 +354,7 @@ namespace QueryIT {
                         if(MainStatus.Items.ContainsKey("Queryer" + QueryerDS.index.ToString()) == true) {
                             if(QueryerDS.run == true && DateTime.UtcNow.Subtract(QueryerDS.utcStart).Seconds > 0) {
                                 MainStatus.Items[MainStatus.Items.IndexOfKey("Queryer" + QueryerDS.index.ToString())].Text = "Queryer" + QueryerDS.index.ToString() + " [" + DateTime.UtcNow.Subtract(QueryerDS.utcStart).Seconds + "s]";
-                            }  else {
+                            } else {
                                 MainStatus.Items[MainStatus.Items.IndexOfKey("Queryer" + QueryerDS.index.ToString())].Text = "Queryer" + QueryerDS.index.ToString();
                             }
                             if(QueryerDS.isConnected() == true) {
@@ -372,7 +372,7 @@ namespace QueryIT {
                             MainStatus.Items.Add(Qstatus);
                         }
                     }
-                } 
+                }
 
                 if(QueryerQS != null) {
                     foreach(QueryerForm qf in QueryerQS) {
@@ -412,7 +412,7 @@ namespace QueryIT {
         }
 
         private void Main_DragDrop(object sender, DragEventArgs e) {
-            //try {
+           // try {
                 string schema = "";
                 string path = "";
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -423,78 +423,80 @@ namespace QueryIT {
                                 var result = rform.ShowDialog();
                                 if(result == DialogResult.OK) {
 
-                                } else { 
-                                
+                                } else {
+                                    files = null;
                                 }
                             }
                         }
                     }
                 }
+                if(files != null) {
+                    if(files.Count() > 0) {
+                        if(IsDirectory(files[0]) == true) {
+                            path = files[0];
+                        } else {
+                            path = Path.GetDirectoryName(files[0]);
+                        }
+                        if(File.Exists(path + "\\Schema.ini")) {
+                            schema = File.ReadAllText(path + "\\Schema.ini");
+                        }
+                        foreach(string file in Directory.GetFiles(path)) {
+                            if(file.Contains(".csv")) {
+                                if(schema.Contains(Path.GetFileName(file).ToString()) == false) {
+                                    System.IO.StreamReader tmpf = new System.IO.StreamReader(file);
+                                    string line = tmpf.ReadLine();
+                                    string delimiter = "";
+                                    if(line != "") {
+                                        if(line.Contains(" ")) {
+                                            delimiter = "Delimited( )";
+                                        }
+                                        if(line.Contains("|")) {
+                                            delimiter = "Delimited(|)";
+                                        }
+                                        if(line.Contains("\t")) {
+                                            delimiter = "TabDelimited";
+                                        }
+                                        if(line.Contains(";")) {
+                                            delimiter = "Delimited(;)";
+                                        }
 
-                if(IsDirectory(files[0]) == true) {
-                    path = files[0];
-                } else {
-                    path = Path.GetDirectoryName(files[0]);
-                }
-                if(File.Exists(path + "\\Schema.ini")) {
-                    schema = File.ReadAllText(path + "\\Schema.ini");
-                }
-                foreach(string file in Directory.GetFiles(path)) {
-                    if(file.Contains(".csv")) {
-                        if(schema.Contains(Path.GetFileName(file).ToString()) == false) {
-                            System.IO.StreamReader tmpf = new System.IO.StreamReader(file);
-                            string line = tmpf.ReadLine();
-                            string delimiter = "";
-                            if(line != "") {
-                                if(line.Contains(" ")) {
-                                    delimiter = "Delimited( )";
+                                    }
+                                    tmpf.Close();
+                                    if(delimiter != "") {
+                                        schema = schema + "[" + Path.GetFileName(file).ToString() + "]\r\n";
+                                        schema = schema + "Format=" + delimiter + "\r\n\r\n";
+                                    }
                                 }
-                                if(line.Contains("|")) {
-                                    delimiter = "Delimited(|)";
-                                }
-                                if(line.Contains("\t")) {
-                                    delimiter = "TabDelimited";
-                                }
-                                if(line.Contains(";")) {
-                                    delimiter = "Delimited(;)";
-                                }
-                                
                             }
-                            tmpf.Close();
-                            if(delimiter != "") {
-                                schema = schema + "[" + Path.GetFileName(file).ToString() + "]\r\n";
-                                schema = schema + "Format=" + delimiter + "\r\n\r\n";
+                        }
+                        if(schema != "") {
+                            File.WriteAllText(path + "\\Schema.ini", schema);
+                        }
+
+                        if(path != "") {
+                            string conStr = "Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=" + path + ";Extensions=asc,csv,tab,txt;";
+                            Datasource QueryerDS = new Datasource(conStr, Path.GetFileName(path));
+                            if(QueryerDS.isConnected() == true) {
+                                QueryerForm QueryerQ = new QueryerForm(QueryerDS, "mid");
+                                if(QueryerQS != null) {
+                                    QueryerQ.index = QueryerQS.Length;
+                                }
+                                if(QueryerADS != null) {
+                                    QueryerDS.index = QueryerADS.Length;
+                                }
+                                QueryerQ.nameindex = "Queryer" + QueryerQ.index;
+                                QueryerQ.MdiParent = this;
+                                QueryerQ.Show();
+                                QueryerQ.Focus();
+                                QueryerQS = QueryerQS.AddItemToArray(QueryerQ);
+                                QueryerADS = QueryerADS.AddItemToArray(QueryerDS);
                             }
                         }
                     }
                 }
-                if(schema != "") {
-                    File.WriteAllText(path + "\\Schema.ini", schema);
-                }
-
-                if(path != "") {
-                    string conStr = "Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=" + path + ";Extensions=asc,csv,tab,txt;";
-                    Datasource QueryerDS = new Datasource(conStr, Path.GetFileName(path));
-                    if(QueryerDS.isConnected() == true) {
-                        QueryerForm QueryerQ = new QueryerForm(QueryerDS, "mid");
-                        if(QueryerQS != null) {
-                            QueryerQ.index = QueryerQS.Length;
-                        }
-                        if(QueryerADS != null) {
-                            QueryerDS.index = QueryerADS.Length;
-                        }
-                        QueryerQ.nameindex = "Queryer" + QueryerQ.index;
-                        QueryerQ.MdiParent = this;
-                        QueryerQ.Show();
-                        QueryerQ.Focus();
-                        QueryerQS = QueryerQS.AddItemToArray(QueryerQ);
-                        QueryerADS = QueryerADS.AddItemToArray(QueryerDS);
-                    }
-                }
-
-            //} catch(Exception err) {
-            //    errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
-            //}
+           // } catch(Exception err) {
+           //     errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+           // }
         }
 
         private void Main_DragEnter(object sender, DragEventArgs e) {
@@ -693,6 +695,88 @@ namespace QueryIT {
                     CentercHK.MdiParent = this;
                     CentercHK.Show();
                     CentercHK.Focus();
+                }
+            } catch(Exception err) {
+                errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void convertToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                string schema = "";
+                string path = "";
+                string[] files = new string[0];
+
+                using(var rform = new ConvertForm()) {
+                    var result = rform.ShowDialog();
+                    if(result == DialogResult.OK) {
+                        files = files.AddItemToArray(rform.outputFile);
+                    }
+                }
+
+                if(files != null) {
+                    if(files.Count() > 0) {
+                        if(IsDirectory(files[0]) == true) {
+                            path = files[0];
+                        } else {
+                            path = Path.GetDirectoryName(files[0]);
+                        }
+                        if(File.Exists(path + "\\Schema.ini")) {
+                            schema = File.ReadAllText(path + "\\Schema.ini");
+                        }
+                        foreach(string file in Directory.GetFiles(path)) {
+                            if(file.Contains(".csv")) {
+                                if(schema.Contains(Path.GetFileName(file).ToString()) == false) {
+                                    System.IO.StreamReader tmpf = new System.IO.StreamReader(file);
+                                    string line = tmpf.ReadLine();
+                                    string delimiter = "";
+                                    if(line != "") {
+                                        if(line.Contains(" ")) {
+                                            delimiter = "Delimited( )";
+                                        }
+                                        if(line.Contains("|")) {
+                                            delimiter = "Delimited(|)";
+                                        }
+                                        if(line.Contains("\t")) {
+                                            delimiter = "TabDelimited";
+                                        }
+                                        if(line.Contains(";")) {
+                                            delimiter = "Delimited(;)";
+                                        }
+
+                                    }
+                                    tmpf.Close();
+                                    if(delimiter != "") {
+                                        schema = schema + "[" + Path.GetFileName(file).ToString() + "]\r\n";
+                                        schema = schema + "Format=" + delimiter + "\r\n\r\n";
+                                    }
+                                }
+                            }
+                        }
+                        if(schema != "") {
+                            File.WriteAllText(path + "\\Schema.ini", schema);
+                        }
+
+                        if(path != "") {
+                            string conStr = "Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=" + path + ";Extensions=asc,csv,tab,txt;";
+                            Datasource QueryerDS = new Datasource(conStr, Path.GetFileName(path));
+                            if(QueryerDS.isConnected() == true) {
+                                QueryerForm QueryerQ = new QueryerForm(QueryerDS, "mid");
+                                if(QueryerQS != null) {
+                                    QueryerQ.index = QueryerQS.Length;
+                                }
+                                if(QueryerADS != null) {
+                                    QueryerDS.index = QueryerADS.Length;
+                                }
+                                QueryerQ.nameindex = "Queryer" + QueryerQ.index;
+                                QueryerQ.MdiParent = this;
+                                QueryerQ.Show();
+                                QueryerQ.Focus();
+                                QueryerQS = QueryerQS.AddItemToArray(QueryerQ);
+                                QueryerADS = QueryerADS.AddItemToArray(QueryerDS);
+                            }
+                        }
+                    }
                 }
             } catch(Exception err) {
                 errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);

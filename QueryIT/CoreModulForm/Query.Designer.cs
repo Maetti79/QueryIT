@@ -110,7 +110,6 @@
             this.QueryTabs.Controls.Add(this.queryTab);
             this.QueryTabs.Controls.Add(this.resultTab);
             this.QueryTabs.Controls.Add(this.historyTab);
-            this.QueryTabs.ImageList = this.QueryIcons;
             this.QueryTabs.Location = new System.Drawing.Point(0, 27);
             this.QueryTabs.Name = "QueryTabs";
             this.QueryTabs.SelectedIndex = 0;
@@ -121,10 +120,10 @@
             // 
             this.queryTab.Controls.Add(this.querySplitV);
             this.queryTab.ImageIndex = 4;
-            this.queryTab.Location = new System.Drawing.Point(4, 23);
+            this.queryTab.Location = new System.Drawing.Point(4, 22);
             this.queryTab.Name = "queryTab";
             this.queryTab.Padding = new System.Windows.Forms.Padding(3);
-            this.queryTab.Size = new System.Drawing.Size(576, 307);
+            this.queryTab.Size = new System.Drawing.Size(576, 308);
             this.queryTab.TabIndex = 0;
             this.queryTab.Text = "Query";
             this.queryTab.UseVisualStyleBackColor = true;
@@ -142,7 +141,7 @@
             // querySplitV.Panel2
             // 
             this.querySplitV.Panel2.Controls.Add(this.querySplitH);
-            this.querySplitV.Size = new System.Drawing.Size(570, 301);
+            this.querySplitV.Size = new System.Drawing.Size(570, 302);
             this.querySplitV.SplitterDistance = 189;
             this.querySplitV.TabIndex = 1;
             // 
@@ -155,7 +154,7 @@
             this.DatabaseTree.Location = new System.Drawing.Point(0, 0);
             this.DatabaseTree.Name = "DatabaseTree";
             this.DatabaseTree.SelectedImageIndex = 0;
-            this.DatabaseTree.Size = new System.Drawing.Size(189, 301);
+            this.DatabaseTree.Size = new System.Drawing.Size(189, 302);
             this.DatabaseTree.TabIndex = 0;
             this.DatabaseTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.DatabaseTree_AfterSelect);
             this.DatabaseTree.DoubleClick += new System.EventHandler(this.DatabaseTree_DoubleClick);
@@ -191,6 +190,10 @@
             this.QueryIcons.Images.SetKeyName(8, "clock.png");
             this.QueryIcons.Images.SetKeyName(9, "application_lightning.png");
             this.QueryIcons.Images.SetKeyName(10, "key.png");
+            this.QueryIcons.Images.SetKeyName(11, "list.png");
+            this.QueryIcons.Images.SetKeyName(12, "text.png");
+            this.QueryIcons.Images.SetKeyName(13, "notepad.png");
+            this.QueryIcons.Images.SetKeyName(14, "checkbook.png");
             // 
             // querySplitH
             // 
@@ -206,7 +209,7 @@
             // querySplitH.Panel2
             // 
             this.querySplitH.Panel2.Controls.Add(this.resultGrid);
-            this.querySplitH.Size = new System.Drawing.Size(377, 301);
+            this.querySplitH.Size = new System.Drawing.Size(377, 302);
             this.querySplitH.SplitterDistance = 92;
             this.querySplitH.TabIndex = 0;
             // 
@@ -230,7 +233,7 @@
             this.resultGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultGrid.Location = new System.Drawing.Point(0, 0);
             this.resultGrid.Name = "resultGrid";
-            this.resultGrid.Size = new System.Drawing.Size(377, 205);
+            this.resultGrid.Size = new System.Drawing.Size(377, 206);
             this.resultGrid.TabIndex = 0;
             this.resultGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.resultGrid_CellClick);
             // 
@@ -316,10 +319,10 @@
             // 
             this.resultTab.Controls.Add(this.resultBox);
             this.resultTab.ImageIndex = 9;
-            this.resultTab.Location = new System.Drawing.Point(4, 23);
+            this.resultTab.Location = new System.Drawing.Point(4, 22);
             this.resultTab.Name = "resultTab";
             this.resultTab.Padding = new System.Windows.Forms.Padding(3);
-            this.resultTab.Size = new System.Drawing.Size(576, 307);
+            this.resultTab.Size = new System.Drawing.Size(576, 308);
             this.resultTab.TabIndex = 1;
             this.resultTab.Text = "Result";
             this.resultTab.UseVisualStyleBackColor = true;
@@ -331,7 +334,7 @@
             this.resultBox.Location = new System.Drawing.Point(3, 3);
             this.resultBox.Name = "resultBox";
             this.resultBox.ReadOnly = true;
-            this.resultBox.Size = new System.Drawing.Size(570, 301);
+            this.resultBox.Size = new System.Drawing.Size(570, 302);
             this.resultBox.TabIndex = 0;
             this.resultBox.Text = "";
             this.resultBox.TextChanged += new System.EventHandler(this.resultBox_TextChanged);
@@ -340,9 +343,9 @@
             // 
             this.historyTab.Controls.Add(this.historyBox);
             this.historyTab.ImageIndex = 8;
-            this.historyTab.Location = new System.Drawing.Point(4, 23);
+            this.historyTab.Location = new System.Drawing.Point(4, 22);
             this.historyTab.Name = "historyTab";
-            this.historyTab.Size = new System.Drawing.Size(576, 307);
+            this.historyTab.Size = new System.Drawing.Size(576, 308);
             this.historyTab.TabIndex = 2;
             this.historyTab.Text = "History";
             this.historyTab.UseVisualStyleBackColor = true;
@@ -669,7 +672,7 @@
             // 
             this.autocomplete.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocomplete.Colors")));
             this.autocomplete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.autocomplete.ImageList = this.QueryIcons;
+            this.autocomplete.ImageList = null;
             this.autocomplete.Items = new string[0];
             this.autocomplete.TargetControlWrapper = null;
             // 
@@ -714,7 +717,6 @@
         private System.Windows.Forms.TabControl QueryTabs;
         private System.Windows.Forms.TabPage queryTab;
         private System.Windows.Forms.TabPage resultTab;
-        private System.Windows.Forms.ImageList QueryIcons;
         private System.Windows.Forms.RichTextBox resultBox;
         private System.Windows.Forms.SplitContainer querySplitV;
         private System.Windows.Forms.TreeView DatabaseTree;
@@ -765,6 +767,7 @@
         private AutocompleteMenuNS.AutocompleteMenu autocomplete;
         private System.Windows.Forms.ToolStripMenuItem hashToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hashToolStripMenuItem1;
+        private System.Windows.Forms.ImageList QueryIcons;
 
     }
 }

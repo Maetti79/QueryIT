@@ -231,7 +231,7 @@ namespace QueryIT {
                                      "Query: " + QDS.sql.ToString() + "\n" +
                                      "\n" + rhBox.Text.ToString();
 
-                        QLog.logHistory(QDS.connectionName, qTab.Text, 
+                        QLog.logHistory(QDS.connectionName, qTab.Text,
                             "Date: " + QDS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
                             "Result: " + QDS.row_count.ToString() + " Records\n" +
                             "Query: " + QDS.sql.ToString() + "\n" +
@@ -329,7 +329,7 @@ namespace QueryIT {
                     if(sfd.ShowDialog() == DialogResult.OK) {
                         string sql = File.ReadAllText(sfd.FileName);
                         sqlfilepath = sfd.FileName;
-                        table = Path.GetFileName(sfd.FileName).Replace(".sql","");
+                        table = Path.GetFileName(sfd.FileName).Replace(".sql", "");
                         addQueryer(sql);
                     }
                 }
@@ -397,11 +397,11 @@ namespace QueryIT {
                 var acitems = new List<AutocompleteItem>();
                 Array.Sort(SQLSyntax.SQLblue);
                 foreach(var key in SQLSyntax.SQLblue) {
-                    acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
+                    acitems.Add(new AutocompleteItem(key.ToString(), 0));
                 }
                 Array.Sort(SQLSyntax.SQLmagenta);
                 foreach(var key in SQLSyntax.SQLmagenta) {
-                    acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
+                    acitems.Add(new AutocompleteItem(key.ToString(), 0));
                 }
                 //TreeView
                 string database = QDS.database;
@@ -438,8 +438,9 @@ namespace QueryIT {
                                     DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].ImageIndex = 5;
                                     DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].SelectedImageIndex = 5;
                                     //AutoComplete
-                                    acitems.Add(new AutocompleteItem(tbl.TableName) { ImageIndex = 5 });
+                                    acitems.Add(new AutocompleteItem(tbl.TableName, 5, db.DatabaseName + "." + tbl.TableName));
                                 } else {
+                                    acitems.Add(new AutocompleteItem(tbl.TableName, 5, db.DatabaseName + "." + tbl.TableName));
                                     //Skip, Table is already in Treeview
                                 }
                                 if(tbl.Columns != null) {
@@ -452,15 +453,20 @@ namespace QueryIT {
                                                 DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].ImageIndex = 10;
                                                 DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].SelectedImageIndex = 10;
                                                 //AutoComplete
-                                                acitems.Add(new AutocompleteItem(col.ColumnName) { ImageIndex = 10 });
+                                                acitems.Add(new AutocompleteItem(col.ColumnName, 10, tbl.TableName + "+" + col.ColumnName));
                                             } else {
                                                 //Image
                                                 DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].ImageIndex = 6;
                                                 DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].SelectedImageIndex = 6;
                                                 //AutoComplete
-                                                acitems.Add(new AutocompleteItem("`" + col.ColumnName) { ImageIndex = 6 });
+                                                acitems.Add(new AutocompleteItem(col.ColumnName, 6, tbl.TableName + "." + col.ColumnName));
                                             }
                                         } else {
+                                            if(col.PrimaryKey == true) {
+                                                acitems.Add(new AutocompleteItem(col.ColumnName, 10, tbl.TableName + "." + col.ColumnName));
+                                            } else {
+                                                acitems.Add(new AutocompleteItem(col.ColumnName, 6, tbl.TableName + "." + col.ColumnName));
+                                            }
                                             //Skip, Column is already in Treeview
                                         }
                                     }//foreach Column
@@ -469,6 +475,7 @@ namespace QueryIT {
                         }
                     }//Foreach Database
                 }
+                acitems = acitems.Distinct().ToList();
                 autocomplete.SetAutocompleteItems(acitems);
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
@@ -1573,11 +1580,13 @@ namespace QueryIT {
 
         private void QueryTabs_DrawItem(object sender, DrawItemEventArgs e) {
             if(this.QueryTabs.TabPages[e.Index].Text != "Query") {
-                e.Graphics.DrawString("x", e.Font, Brushes.Black, e.Bounds.Right - 15, e.Bounds.Top + 4);
-                e.Graphics.DrawString(this.QueryTabs.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 12, e.Bounds.Top + 4);
+                e.Graphics.DrawString("x", e.Font, Brushes.DarkGray, e.Bounds.Right - 12, e.Bounds.Top + 4);
+                e.Graphics.DrawString(this.QueryTabs.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 18, e.Bounds.Top + 4);
+                Rectangle rct = new Rectangle(e.Bounds.Left + 2, e.Bounds.Top + 4, 16, 16);
+                e.Graphics.DrawIcon(Icon.FromHandle(((Bitmap)QueryIcons.Images[this.QueryTabs.TabPages[e.Index].ImageIndex]).GetHicon()), rct);
             } else {
-                e.Graphics.DrawString(this.QueryTabs.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 20, e.Bounds.Top + 4);
-                Rectangle rct = new Rectangle(e.Bounds.Left + 2, e.Bounds.Top + 2, 16, 16);
+                e.Graphics.DrawString(this.QueryTabs.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 18, e.Bounds.Top + 4);
+                Rectangle rct = new Rectangle(e.Bounds.Left + 2, e.Bounds.Top + 4, 16, 16);
                 e.Graphics.DrawIcon(Icon.FromHandle(((Bitmap)QueryIcons.Images[this.QueryTabs.TabPages[e.Index].ImageIndex]).GetHicon()), rct);
             }
             e.DrawFocusRectangle();
@@ -1820,7 +1829,7 @@ namespace QueryIT {
                 //New Tab
                 TabPage tpNew = new TabPage();
                 tpNew.Name = "Tab" + table.Replace(".csv", "");
-                tpNew.Text = table.Replace(".csv", "");
+                tpNew.Text = table.Replace(".csv", "") + "  ";
                 tpNew.Padding = queryTab.Padding;
                 tpNew.Margin = queryTab.Margin;
                 tpNew.ImageIndex = QueryTabs.TabPages[0].ImageIndex;
