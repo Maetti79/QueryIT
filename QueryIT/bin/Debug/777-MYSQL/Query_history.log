@@ -28,3 +28,230 @@ Query: SELECT m.* FROM 777live.tbl_member m
 LEFT JOIN 777live.memberavs a ON a.memberid = m.mid AND a.created > '2015-01-01'
 WHERE m.mid = 2199605
 
+Date: 2016-06-07 07:34:39 - Query: SELECT b.id, b.reference,b.price,b.returntime,b2.reference AS ref2,b2.price AS price2 ,b2.returntime AS returntime2
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+LIMIT 100;
+
+Error: There is already an open DataReader associated with this Connection which must be closed first.
+
+Date: 2016-06-07 07:34:49 - Result: 100 Records
+Query: SELECT b.id, b.reference,b.price,b.returntime,b2.reference AS ref2,b2.price AS price2 ,b2.returntime AS returntime2
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+LIMIT 100;
+
+
+Date: 2016-06-07 07:35:23 - Query: SELECT b.id, b.reference,b.price,b.returntimeb.websiteid
+,b2.reference AS ref2
+,b2.price AS price2 
+,b2.returntime AS returntime2
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+LIMIT 100;
+
+Error: Unknown column 'b.returntimeb.websiteid' in 'field list'
+
+Date: 2016-06-07 07:35:28 - Result: 100 Records
+Query: SELECT b.id, b.reference,b.price,b.returntime,b.websiteid
+,b2.reference AS ref2
+,b2.price AS price2 
+,b2.returntime AS returntime2
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+LIMIT 100;
+
+
+Date: 2016-06-07 07:35:42 - Result: 100 Records
+Query: SELECT b.id, b.reference,b.price,b.returntime,b.websiteid
+,b2.reference AS ref2
+,b2.price AS price2 
+,b2.returntime AS returntime2
+,b2.websiteid AS websiteid2
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+LIMIT 100;
+
+
+Date: 2016-06-07 07:36:07 - Result: 100 Records
+Query: SELECT b.id, b.reference,b.price,b.returntime,b.websiteid
+,b2.reference AS ref2
+,b2.price AS price2 
+,b2.returntime AS returntime2
+,b2.websiteid AS websiteid2
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+AND b.paymenttypeid = 16
+LIMIT 100;
+
+
+Date: 2016-06-07 07:36:27 - Result: 177 Records
+Query: SELECT b.id, b.reference,b.price,b.returntime,b.websiteid
+,b2.reference AS ref2
+,b2.price AS price2 
+,b2.returntime AS returntime2
+,b2.websiteid AS websiteid2
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+AND b.paymenttypeid = 16
+
+
+Date: 2016-06-07 07:37:05 - Query: SELECT sum(price) FROM (
+SELECT b.id, b.reference,b.price,b.returntime,b.websiteid
+,b2.reference AS ref2
+,b2.price AS price2 
+,b2.returntime AS returntime2
+,b2.websiteid AS websiteid2
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+AND b.paymenttypeid = 16
+)
+Error: Every derived table must have its own alias
+
+Date: 2016-06-07 07:37:10 - Result: 1 Records
+Query: SELECT sum(price) FROM (
+SELECT b.id, b.reference,b.price,b.returntime,b.websiteid
+,b2.reference AS ref2
+,b2.price AS price2 
+,b2.returntime AS returntime2
+,b2.websiteid AS websiteid2
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+AND b.paymenttypeid = 16
+) AS x
+
+Date: 2016-06-07 07:46:08 - Query: SELECT b.id, b.reference,b.price,b.returntime,b2.reference,b2.price,b2.returntime 
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+Error: There is already an open DataReader associated with this Connection which must be closed first.
+
+Date: 2016-06-08 09:23:46 - Query: SELECT b.id, b.reference,b.price,b.returntime,b2.reference,b2.price,b2.returntime 
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+Error: Eine Spalte names 'reference' gehört bereits zu dieser DataTable.
+
+Date: 2016-06-08 10:54:33 - Result: 37 Records
+Query: SELECT 
+  IF(invoicetypeid = 1001, CAST(concat('M',partnerreference) AS char), CAST(concat('A',partnerreference) AS char)) AS Payee_ID,
+  ROUND(amount * 1.1307 * 0.98,2) AS Amount,
+  'USD' AS Currency,
+  Number AS Payment_ID,
+  CAST(concat( IF(invoicetypeid = 1001, CAST(concat('M',partnerreference) AS char), CAST(concat('A',partnerreference) AS char)),' ',Number) AS char) AS Description,
+  '01/15/2016' AS Payment_Date
+  FROM 777accounting.invoices a
+  LEFT JOIN 777accounting.invoiceaddresses i ON i.id = a.creditorinvoiceaddressid
+  WHERE date IS NULL
+  AND outpaymenttype = 2
+
+Date: 2016-06-08 10:55:48 - Result: 37 Records
+Query: SELECT 
+  IF(invoicetypeid = 1001, CAST(concat('M',partnerreference) AS char), CAST(concat('A',partnerreference) AS char)) AS Payee_ID,
+  ROUND(amount * 1.1307 * 0.98,2) AS Amount,
+  'USD' AS Currency,
+  Number AS Payment_ID,
+  CAST(concat( IF(invoicetypeid = 1001, CAST(concat('M',partnerreference) AS char), CAST(concat('A',partnerreference) AS char)),' ',Number) AS char) AS Description,
+  '01/15/2016' AS Payment_Date
+  FROM 777accounting.invoices a
+  LEFT JOIN 777accounting.invoiceaddresses i ON i.id = a.creditorinvoiceaddressid
+  WHERE date IS NULL
+  AND outpaymenttype = 2
+
+
+Date: 2016-06-08 11:23:24 - Result: 100 Records
+Query: SELECT * FROM billing 
+WHERE billing.returntime IS NOT NULL
+ORDER BY billing.id DESC 
+LIMIT 100 ;
+
+Date: 2016-06-08 11:23:33 - Result: 100 Records
+Query: SELECT * FROM billing b
+WHERE b.returntime IS NOT NULL
+ORDER BY b.id DESC 
+LIMIT 100 ;
+
+Date: 2016-06-08 11:23:34 - Result: 100 Records
+Query: SELECT * FROM billing b
+WHERE b.returntime IS NOT NULL
+ORDER BY b.id DESC 
+LIMIT 100 ;
+
+Date: 2016-06-08 11:23:35 - Result: 100 Records
+Query: SELECT * FROM billing b
+WHERE b.returntime IS NOT NULL
+ORDER BY b.id DESC 
+LIMIT 100 ;
+
+Date: 2016-06-08 11:23:35 - Result: 100 Records
+Query: SELECT * FROM billing b
+WHERE b.returntime IS NOT NULL
+ORDER BY b.id DESC 
+LIMIT 100 ;
+
+Date: 2016-06-08 11:23:35 - Result: 100 Records
+Query: SELECT * FROM billing b
+WHERE b.returntime IS NOT NULL
+ORDER BY b.id DESC 
+LIMIT 100 ;
+
+Date: 2016-06-08 11:23:36 - Result: 100 Records
+Query: SELECT * FROM billing b
+WHERE b.returntime IS NOT NULL
+ORDER BY b.id DESC 
+LIMIT 100 ;
+
+Date: 2016-06-08 11:23:52 - Result: 100 Records
+Query: SELECT b.memberid FROM billing b
+WHERE b.returntime IS NOT NULL
+ORDER BY b.id DESC 
+LIMIT 100 ;
+
+Date: 2016-06-08 11:24:05 - Result: 100 Records
+Query: SELECT DISTINCT b.memberid FROM billing b
+WHERE b.returntime IS NOT NULL
+ORDER BY b.id DESC 
+LIMIT 100 ;
+

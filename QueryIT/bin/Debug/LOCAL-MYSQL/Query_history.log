@@ -1,3 +1,21 @@
 Date: 2016-06-06 11:56:10 - Query: sdfsdf
 Error: PROCEDURE geo.sdfsdf does not exist
 
+Date: 2016-06-07 09:41:42 - Result: 405 Records
+Query: SELECT * FROM geo.timezone xx WHERE  xx.timezone_id
+
+Date: 2016-06-07 09:41:52 - Result: 405 Records
+Query: SELECT * FROM geo.timezone xx WHERE  xx.timezone_id > 0
+
+Date: 2016-06-07 09:41:53 - Result: 405 Records
+Query: SELECT * FROM geo.timezone xx WHERE  xx.timezone_id > 0
+
+Date: 2016-06-07 09:41:54 - Result: 405 Records
+Query: SELECT * FROM geo.timezone xx WHERE  xx.timezone_id > 0
+
+Date: 2016-06-07 09:41:54 - Result: 405 Records
+Query: SELECT * FROM geo.timezone xx WHERE  xx.timezone_id > 0
+
+Date: 2016-06-07 09:42:09 - Result: 400 Records
+Query: SELECT * FROM geo.timezone xx WHERE  xx.timezone_id > 5
+

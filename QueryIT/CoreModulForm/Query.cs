@@ -387,8 +387,8 @@ namespace QueryIT {
                 foreach(var key in SQLSyntax.SQLblue) {
                     acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
                 }
-                Array.Sort(SQLSyntax.SQLmagenta);
-                foreach(var key in SQLSyntax.SQLmagenta) {
+                Array.Sort(SQLSyntax.SQLdarkgreen);
+                foreach(var key in SQLSyntax.SQLdarkgreen) {
                     acitems.Add(new AutocompleteItem(key.ToString()) { ImageIndex = 0 });
                 }
                 //TreeView

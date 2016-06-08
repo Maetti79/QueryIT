@@ -1,0 +1,4 @@
+Date: 2016-06-07 07:30:57 - Result: 22 Records
+Query: SELECT * FROM  `777live`.`paymentprovider` LIMIT 100;
+
+

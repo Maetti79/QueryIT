@@ -757,7 +757,7 @@
             // 
             // resultGrid
             // 
-            this.resultGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            this.resultGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.resultGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.resultGrid.ContextMenuStrip = this.resultContextMenu;
             this.resultGrid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -819,6 +819,7 @@
             this.autocomplete.ImageList = this.QueryIcons;
             this.autocomplete.Items = new string[0];
             this.autocomplete.MinFragmentLength = 1;
+            this.autocomplete.SearchPattern = "[\\w.]";
             this.autocomplete.TargetControlWrapper = null;
             // 
             // QueryerForm

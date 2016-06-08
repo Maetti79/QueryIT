@@ -1,0 +1,5 @@
+Date: 2016-06-08 11:21:46 - Result: 100 Records
+Query: SELECT * FROM billing b WHERE b.returntime IS NOT NULL
+ORDER BY b.id DESC
+LIMIT 100;
+

@@ -1,0 +1,4 @@
+Date: 2016-06-07 07:53:44 - Result: 100 Records
+Query: SELECT * FROM  `777live`.`_languages` LIMIT 100;
+
+

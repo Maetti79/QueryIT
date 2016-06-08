@@ -26,7 +26,6 @@ namespace QueryIT {
         }
 
         private void okBtn_Click(object sender, EventArgs e) {
-            readSample();
             tryConvert(true);
         }
 
@@ -37,12 +36,28 @@ namespace QueryIT {
             int EndNext = 0;
             int pointer = -1;
             string rawRow = "";
-
+            int rawlines = 0;
             string[] Columns = new string[0];
             string[] Row = new string[0];
 
             convertGrid.Columns.Clear();
             convertGrid.Rows.Clear();
+
+            //Readfile
+            if(File.Exists(filename.Text) == true) {
+                StreamReader tmpf = new StreamReader(filename.Text);
+                string lines = "";
+                fileBox.Text = "";
+                while(tmpf.EndOfStream == false && (go == true || (rawlines <= 100 && go == false))) {
+                            lines += tmpf.ReadLine().ToString() + "\n";
+                            rawlines++;
+                } 
+                fileBox.Text = lines;
+                tmpf.Close();
+            }
+
+
+
             if(File.Exists(filename.Text) == true) {
                 StreamReader tmpf = new StreamReader(filename.Text);
                 StringBuilder sb = new StringBuilder();
@@ -89,16 +104,19 @@ namespace QueryIT {
                                 Columns = findColumns(rawRow);
                             }
                         }
+                        //Columns
                         if(Columns.Count() > 0 && convertGrid.Columns.Count == 0) {
                             foreach(string col in Columns) {
                                 convertGrid.Columns.Add(col.ToString(), col.ToString());
                             }
-                            sb.AppendLine(string.Join(";", Columns));
-                            File.Delete(outputFile);
-                            File.WriteAllText(outputFile, sb.ToString());
-                            sb.Clear();
+                            if(go == true) {
+                                sb.AppendLine(string.Join(";", Columns));
+                                File.Delete(outputFile);
+                                File.WriteAllText(outputFile, sb.ToString());
+                                sb.Clear();
+                            }
                         }
-
+                        //Rows
                         if(Columns.Count() > 0) {
                             if(rawRow != "") {
                                 Row = findValues(rawRow, Columns);
@@ -115,13 +133,15 @@ namespace QueryIT {
                                         i++;
                                     }
                                     convertGrid.Rows.Add(gvrawRow);
-                                    sb.AppendLine(string.Join(";", Row));
-                                    File.AppendAllText(outputFile, sb.ToString());
-                                    sb.Clear();
+                                    if(go == true) {
+                                        sb.AppendLine(string.Join(";", Row));
+                                        File.AppendAllText(outputFile, sb.ToString());
+                                        sb.Clear();
+                                    }
                                 }
                             }
                         }
-
+                        //Update
                         Application.DoEvents();
                         if(EndIndex > pointer) {
                             pointer = EndIndex;
@@ -135,26 +155,7 @@ namespace QueryIT {
 
         private void ConvertForm_Load(object sender, EventArgs e) {
             filename.Text = inputFile;
-            readSample();
-            tryConvert(true);
-        }
-
-
-        public void readSample() {
-            if(File.Exists(filename.Text) == true) {
-                StreamReader tmpf = new StreamReader(filename.Text);
-                string lines = "";
-                fileBox.Text = "";
-                for(int i = 0; i < 100; i++) {
-                    if(tmpf.EndOfStream == false) {
-                        lines += tmpf.ReadLine().ToString() + "\n";
-                    } else {
-                        break;
-                    }
-                }
-                fileBox.Text = lines;
-                tmpf.Close();
-            }
+            tryConvert(false);
         }
 
         public int findStart(int offset, string start) {
@@ -442,7 +443,7 @@ namespace QueryIT {
                         inputFile = sfd.FileName;
                         outputFile = inputFile.Replace(".log", ".csv");
                         filename.Text = inputFile;
-                        readSample();
+                        tryConvert(false);
                     }
                 }
             } catch(Exception err) {

@@ -1,0 +1,368 @@
+Date: 2016-06-07 07:29:22 - Result: 100 Records
+Query: SELECT * FROM  `777live`.`billing` 
+WHERE websiteid = 19
+AND returntime < '2016-05-01 00:00:00'
+LIMIT 100;
+
+
+Date: 2016-06-07 07:29:47 - Result: 100 Records
+Query: SELECT * FROM  `777live`.`billing` 
+WHERE websiteid = 19
+AND returntime < '2016-05-01 00:00:00'
+AND paymenttypeid = 3
+LIMIT 100;
+
+
+Date: 2016-06-07 07:30:11 - Result: 100 Records
+Query: SELECT * FROM  `777live`.`billing` 
+WHERE websiteid = 19
+
+AND returntime > '2016-05-01 00:00:00'
+AND paymenttypeid = 3
+LIMIT 100;
+
+
+Date: 2016-06-07 07:30:26 - Result: 0 Records
+Query: SELECT * FROM  `777live`.`billing` 
+WHERE websiteid = 19
+
+AND returntime > '2016-05-01 00:00:00'
+AND paymenttypeid = 3
+AND Price < 0
+LIMIT 100;
+
+
+Date: 2016-06-07 07:30:35 - Result: 0 Records
+Query: SELECT * FROM  `777live`.`billing` 
+WHERE websiteid = 19
+
+AND returntime > '2016-05-01 00:00:00'
+AND paymenttypeid = 3
+AND price < 0
+LIMIT 100;
+
+
+Date: 2016-06-07 07:31:15 - Result: 100 Records
+Query: SELECT * FROM  `777live`.`billing` 
+WHERE websiteid = 19
+
+AND returntime > '2016-05-01 00:00:00'
+AND paymentproviderid IN (5,19)
+AND price < 0
+LIMIT 100;
+
+
+Date: 2016-06-07 07:31:38 - Result: 100 Records
+Query: SELECT * FROM  `777live`.`billing` 
+WHERE websiteid = 19
+
+AND returntime > '2016-05-01 00:00:00'
+AND paymentproviderid = 5
+AND price < 0
+LIMIT 100;
+
+
+Date: 2016-06-07 07:32:06 - Result: 100 Records
+Query: SELECT b.id, b.reference FROM  `777live`.`billing`  b
+WHERE websiteid = 19
+AND returntime > '2016-05-01 00:00:00'
+AND paymentproviderid = 5
+AND price < 0
+LIMIT 100;
+
+
+Date: 2016-06-07 07:32:15 - Result: 100 Records
+Query: SELECT b.id, b.reference,b.price FROM  `777live`.`billing`  b
+WHERE websiteid = 19
+AND returntime > '2016-05-01 00:00:00'
+AND paymentproviderid = 5
+AND price < 0
+LIMIT 100;
+
+
+Date: 2016-06-07 07:32:20 - Result: 100 Records
+Query: SELECT b.id, b.reference,b.price,b.returntime FROM  `777live`.`billing`  b
+WHERE websiteid = 19
+AND returntime > '2016-05-01 00:00:00'
+AND paymentproviderid = 5
+AND price < 0
+LIMIT 100;
+
+
+Date: 2016-06-07 07:33:10 - Query: SELECT b.id, b.reference,b.price,b.returntime 
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE websiteid = 19
+AND returntime > '2016-05-01 00:00:00'
+AND paymentproviderid = 5
+AND price < 0
+LIMIT 100;
+
+Error: Column 'websiteid' in where clause is ambiguous
+
+Date: 2016-06-07 07:33:27 - Result: 100 Records
+Query: SELECT b.id, b.reference,b.price,b.returntime 
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+LIMIT 100;
+
+
+Date: 2016-06-07 07:33:57 - Query: SELECT b.id, b.reference,b.price,b.returntime,b2.reference,b2.price,b2.returntime 
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+LIMIT 100;
+
+Error: Eine Spalte names 'reference' gehört bereits zu dieser DataTable.
+
+Date: 2016-06-07 07:34:28 - Query: SELECT b.id, b.reference,b.price,b.returntime,b2.reference AS ref2,b2.price AS price2 ,b2.returntime AS returntime2
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+LIMIT 100;
+
+Error: There is already an open DataReader associated with this Connection which must be closed first.
+
+Date: 2016-06-07 07:43:41 - Query: SELECT b.id, b.reference,b.price,b.returntime,b2.reference,b2.price,b2.returntime 
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+
+Error: Eine Spalte names 'reference' gehört bereits zu dieser DataTable.
+
+Date: 2016-06-07 07:45:30 - Query: SELECT b.id, b.reference,b.price,b.returntime,b2.reference,b2.price,b2.returntime 
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+Error: Eine Spalte names 'reference' gehört bereits zu dieser DataTable.
+
+Date: 2016-06-07 07:45:38 - Query: SELECT b.id, b.reference,b.price,b.returntime,b2.reference,b2.price,b2.returntime 
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+Error: There is already an open DataReader associated with this Connection which must be closed first.
+
+Date: 2016-06-07 07:46:03 - Query: SELECT b.id, b.reference,b.price,b.returntime,b2.reference,b2.price,b2.returntime 
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+Error: There is already an open DataReader associated with this Connection which must be closed first.
+
+Date: 2016-06-07 07:46:15 - Query: SELECT b.id, b.reference,b.price,b.returntime,b2.reference,b2.price,b2.returntime 
+FROM  `777live`.`billing`  b
+LEFT JOIN   `777live`.`billing` b2 ON b.stornoreference = b2.id
+WHERE b.websiteid = 19
+AND b.returntime > '2016-05-01 00:00:00'
+AND b.paymentproviderid = 5
+AND b.price < 0
+Error: Eine Spalte names 'reference' gehört bereits zu dieser DataTable.
+
+Date: 2016-06-07 12:20:38 - Query: SELECT * FROM billing b 
+JOIN paymentprovider p ON p.id = b.paymentproviderid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+
+Error: Eine Spalte names 'id' gehört bereits zu dieser DataTable.
+
+Date: 2016-06-07 12:20:49 - Query: SELECT b.* FROM billing b 
+JOIN paymentprovider p ON p.id = b.paymentproviderid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+
+Error: There is already an open DataReader associated with this Connection which must be closed first.
+
+Date: 2016-06-07 12:20:56 - Result: 1510 Records
+Query: SELECT b.* FROM billing b 
+JOIN paymentprovider p ON p.id = b.paymentproviderid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+
+
+Date: 2016-06-07 12:21:03 - Result: 354 Records
+Query: SELECT b.* FROM billing b 
+JOIN paymentprovider p ON p.id = b.paymentproviderid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+
+Date: 2016-06-07 12:21:16 - Result: 59 Records
+Query: SELECT DISTINCT memberid FROM billing b 
+JOIN paymentprovider p ON p.id = b.paymentproviderid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+
+Date: 2016-06-07 12:21:49 - Result: 59 Records
+Query: SELECT * FROM tbl_member m WHERE m.mid IN (SELECT DISTINCT memberid 
+FROM billing b 
+JOIN paymentprovider p ON p.id = b.paymentproviderid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+)
+
+Date: 2016-06-07 12:23:42 - Query: SELECT companyid,sum(price) FROM tbl_member m WHERE m.mid IN (
+SELECT DISTINCT memberid, sum(price) 
+FROM billing b 
+JOIN paymentprovider p ON p.id = b.paymentproviderid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+)
+GROUP BY companyid
+Error: Unknown column 'price' in 'field list'
+
+Date: 2016-06-07 12:23:54 - Query: SELECT companyid,sum(price) FROM tbl_member m WHERE m.mid IN (
+SELECT DISTINCT memberid, sum(price) AS price 
+FROM billing b 
+JOIN paymentprovider p ON p.id = b.paymentproviderid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+)
+GROUP BY companyid
+Error: Unknown column 'price' in 'field list'
+
+Date: 2016-06-07 12:23:56 - Query: SELECT companyid,sum(price) FROM tbl_member m WHERE m.mid IN (
+SELECT DISTINCT memberid, sum(price) AS price 
+FROM billing b 
+JOIN paymentprovider p ON p.id = b.paymentproviderid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+)
+GROUP BY companyid
+Error: Unknown column 'price' in 'field list'
+
+Date: 2016-06-07 12:24:26 - Result: 59 Records
+Query: SELECT DISTINCT memberid
+FROM billing b 
+JOIN paymentprovider p ON p.id = b.paymentproviderid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+
+Date: 2016-06-07 12:49:15 - Result: 59 Records
+Query: SELECT DISTINCT memberid
+FROM billing b 
+JOIN tbl_member m ON m.mid = b.memberid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+
+Date: 2016-06-07 12:49:22 - Result: 59 Records
+Query: SELECT DISTINCT memberid,m.*
+FROM billing b 
+JOIN tbl_member m ON m.mid = b.memberid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+
+Date: 2016-06-07 12:50:22 - Query: SELECT DISTINCT memberid,m.*
+FROM billing b 
+JOIN tbl_member m ON m.mid = b.memberid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+AND companyid = 18611
+
+Error: Column 'companyid' in where clause is ambiguous
+
+Date: 2016-06-07 12:50:30 - Result: 1 Records
+Query: SELECT DISTINCT memberid,m.*
+FROM billing b 
+JOIN tbl_member m ON m.mid = b.memberid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+AND b.companyid = 18611
+
+
+Date: 2016-06-07 12:50:35 - Result: 59 Records
+Query: SELECT DISTINCT memberid,m.*
+FROM billing b 
+JOIN tbl_member m ON m.mid = b.memberid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+
+Date: 2016-06-07 12:50:55 - Result: 16 Records
+Query: SELECT DISTINCT companyid
+FROM billing b 
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+
+Date: 2016-06-07 12:57:14 - Result: 354 Records
+Query: SELECT * 
+FROM billing b 
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+
+Date: 2016-06-07 12:57:52 - Query: SELECT * 
+FROM billing b 
+JOIN tbl_member m ON m.mid = b.memberid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+Error: Eine Spalte names 'created' gehört bereits zu dieser DataTable.
+
+Date: 2016-06-07 12:57:59 - Query: SELECT m.*
+FROM billing b 
+JOIN tbl_member m ON m.mid = b.memberid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+Error: There is already an open DataReader associated with this Connection which must be closed first.
+
+Date: 2016-06-07 12:58:01 - Query: SELECT m.*
+FROM billing b 
+JOIN tbl_member m ON m.mid = b.memberid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+Error: There is already an open DataReader associated with this Connection which must be closed first.
+
+Date: 2016-06-07 12:58:05 - Result: 354 Records
+Query: SELECT m.*
+FROM billing b 
+JOIN tbl_member m ON m.mid = b.memberid
+WHERE b.returntime > '2016-05-01 00:00:00'
+AND b.websiteid = 19
+AND price < 0
+
+
