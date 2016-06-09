@@ -25,7 +25,6 @@ public static class Extensions {
         }
     }
 
-
     public static T[] Clear<T>(this T[] original) {
         T[] finalArray = new T[0];
         return finalArray;
@@ -154,7 +153,7 @@ public static class Extensions {
         }
         return items;
     }
-
+    /*
     public static void SyntaxHighlight2(this RichTextBox inrtf) {
         if(lockSyntaxHighlighter == false) {
             lockSyntaxHighlighter = true;
@@ -316,7 +315,7 @@ public static class Extensions {
                     }
                 }
                 //redBold
-                foreach(string k in SQLSyntax.SQLred) {
+                foreach(string k in SQLSyntax.SQLsign) {
                     if(rtf.Text.ToLower().Contains(k)) {
                         int index = -1;
                         int selectStart = rtf.SelectionStart;
@@ -334,7 +333,7 @@ public static class Extensions {
                     }
                 }
                 //greenBold
-                foreach(string k in SQLSyntax.SQLgreen) {
+                foreach(string k in SQLSyntax.SQLquote) {
                     if(rtf.Text.ToLower().Contains(k)) {
                         int index = -1;
                         int selectStart = rtf.SelectionStart;
@@ -352,7 +351,7 @@ public static class Extensions {
                     }
                 }
                 //grayBold
-                foreach(string k in SQLSyntax.SQlgray) {
+                foreach(string k in SQLSyntax.SQLoperator) {
                     if(rtf.Text.ToLower().Contains(k)) {
                         int index = -1;
                         int selectStart = rtf.SelectionStart;
@@ -416,35 +415,35 @@ public static class Extensions {
         }
         lockSyntaxHighlighter = false;
     }
+    */
 
-
-    public static void SyntaxHighlightWordlist(this RichTextBox rtf, string[] words, Color col, bool bold, bool upper, bool brackets) {
+    private static void SyntaxHighlightWordlist(this RichTextBox rtf, string[] words, Color col, bool bold, bool upper, bool brackets) {
 
         if(rtf.Text != null) {
             string[] cwstart = new string[0];
             string[] cwmid = new string[0];
             string[] cwend = new string[0];
-            string[] mutations = { " ", "`", ";", "\n" };
+            string[] mutations = { " ", "`", ".", ",","\n" };
             if(brackets == true) {
-                mutations = mutations.AddItemToArray(".");
-                mutations = mutations.AddItemToArray(",");
                 mutations = mutations.AddItemToArray("(");
                 mutations = mutations.AddItemToArray(")");
-                mutations = mutations.AddItemToArray("[");
-                mutations = mutations.AddItemToArray("]");
-            } else {
-                mutations = mutations.AddItemToArray(",");
-            }
+            } 
             foreach(string k in words) {
                 cwstart = cwstart.Clear();
                 cwmid = cwmid.Clear();
                 cwend = cwend.Clear();
-                foreach(string o1 in mutations) {
-                    cwstart = cwstart.AddItemToArray(k.ToLower() + o1);
-                    foreach(string o2 in mutations) {
-                        cwmid = cwmid.AddItemToArray(o1 + k.ToLower() + o2);
+                if(k.Length > 0) {
+                    if(k.ToString() == "(" || k.ToString() == ")") {
+                        cwmid = cwmid.AddItemToArray(k.ToLower());
+                    } else {
+                        foreach(string o1 in mutations) {
+                            cwstart = cwstart.AddItemToArray(k.ToLower() + o1);
+                            foreach(string o2 in mutations) {
+                                cwmid = cwmid.AddItemToArray(o1 + k.ToLower() + o2);
+                            }
+                            cwend = cwend.AddItemToArray(o1 + k.ToLower());
+                        }
                     }
-                    cwend = cwend.AddItemToArray(o1 + k.ToLower());
                 }
 
                 if(rtf.Text.ToLower().Contains(k)) {
@@ -465,8 +464,8 @@ public static class Extensions {
                                 rtf.Select(index, k.Length);            // "from"
                             }
                         }
-                        if((index <= 0 && cwstart.Contains(rtf.SelectedText.ToLower())) ||
-                            (index > 0 && cwmid.Contains(rtf.SelectedText.ToLower())) ||
+                        if( (index <= 0 && cwstart.Contains(rtf.SelectedText.ToLower())) ||
+                            (index >= 0 && cwmid.Contains(rtf.SelectedText.ToLower())) ||
                             (index == (rtf.Text.Length - k.Length) && cwend.Contains(rtf.SelectedText.ToLower()))
                             ) {
                             //Select
@@ -489,7 +488,7 @@ public static class Extensions {
         }
     }
 
-    public static void SyntaxHighlightBetweenChar(this RichTextBox rtf, string chr, Color col, bool bold) {
+    private static void SyntaxHighlightBetweenChar(this RichTextBox rtf, string chr, Color col, bool bold) {
         string c = "";
         int sindex = -1;
         int sselectStart = rtf.SelectionStart;
@@ -515,26 +514,63 @@ public static class Extensions {
         }
     }
 
+    private static void BracketHighlight(this RichTextBox rtf, Dictionary<int, int> b, int pos) {
+        int open = -1;
+        int close = -1;
+        int length = -1;
+        int sselectStart = rtf.SelectionStart;
+        if(pos > 0) {
+            foreach(KeyValuePair<int, int> o in b) {
+                rtf.Select(o.Key, 1);
+                rtf.SelectionColor = Color.DarkGreen;
+                rtf.SelectionFont = new Font(rtf.Font, FontStyle.Regular);
+                rtf.Select(o.Value, 1);
+                rtf.SelectionColor = Color.DarkGreen;
+                rtf.SelectionFont = new Font(rtf.Font, FontStyle.Regular);
+                if(o.Key <= pos && o.Value >= pos) {
+                    if(o.Value - o.Key <= length || length == -1) {
+                        open = o.Key;
+                        close = o.Value;
+                        length = o.Value - o.Key;
+                    }
+                }
+            }
+            if(open > -1 && close > -1) {
+                rtf.Select(open, 1);
+                rtf.SelectionColor = Color.DarkGreen;
+                rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
+                rtf.Select(close, 1);
+                rtf.SelectionColor = Color.DarkGreen;
+                rtf.SelectionFont = new Font(rtf.Font, FontStyle.Bold);
+            }
+        }
+        rtf.Select(sselectStart, 0);
+        rtf.SelectionFont = rtf.Font;
+    }
+
     public static void SyntaxHighlight(this RichTextBox inrtf) {
         if(lockSyntaxHighlighter == false) {
             lockSyntaxHighlighter = true;
             RichTextBox rtf = new RichTextBox();
             int selectStartmem = inrtf.SelectionStart;
+            int selectLengthmem = inrtf.SelectionLength;
             rtf.Text = SQLSyntax.fixSQL(inrtf.Text);
             rtf.Select(0, rtf.Text.Length);
             rtf.SelectionFont = rtf.Font;
             rtf.SelectionColor = Color.Black;
             SyntaxHighlightWordlist(rtf, SQLSyntax.SQLblue, Color.Blue, true, true, false);
             SyntaxHighlightWordlist(rtf, SQLSyntax.SQLdarkgreen, Color.DarkGreen, true, true, true);
-            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLred, Color.Red, true, true, false);
-            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLgreen, Color.DarkGreen, true, true, false);
-            SyntaxHighlightWordlist(rtf, SQLSyntax.SQlgray, Color.DarkGray, true, true, false);
-            SyntaxHighlightBetweenChar(rtf, "#", Color.Magenta, true);
+            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLDataTypes, Color.BlueViolet, false, true, true);
+            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLsign, Color.Red, true, false, false);
+            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLquote, Color.DarkGreen, true, false, false);
+            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLoperator, Color.Gray, true, false, false);
+            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLbrackets, Color.DarkGreen, false, false, false);
             SyntaxHighlightBetweenChar(rtf, "'", Color.Green, true);
+            SyntaxHighlightBetweenChar(rtf, "#", Color.Magenta, true);
             inrtf.Rtf = rtf.Rtf;
-            inrtf.Select(selectStartmem, 0);
+            inrtf.Select(selectStartmem, selectLengthmem);
+            lockSyntaxHighlighter = false;
         }
-        lockSyntaxHighlighter = false;
     }
     
     public static void SyntaxHighlight(this RichTextBox inrtf, Dictionary<string, string> TA) {
@@ -550,30 +586,97 @@ public static class Extensions {
             }
             RichTextBox rtf = new RichTextBox();
             int selectStartmem = inrtf.SelectionStart;
+            int selectLengthmem = inrtf.SelectionLength;
             rtf.Text = SQLSyntax.fixSQL(inrtf.Text);
             rtf.Select(0, rtf.Text.Length);
             rtf.SelectionFont = rtf.Font;
             rtf.SelectionColor = Color.Black;
-            
+            //Detect Aliases
             if(ak.Length > 0) {
                 SyntaxHighlightWordlist(rtf, ak, Color.DarkRed, true, false, true);
             }
             if(ac.Length > 0) {
                 SyntaxHighlightWordlist(rtf, ac, Color.DarkOrange, true, false, true);
             }
+            //SQl Keywords and Syntax
             SyntaxHighlightWordlist(rtf, SQLSyntax.SQLblue, Color.Blue, true, true, false);
             SyntaxHighlightWordlist(rtf, SQLSyntax.SQLdarkgreen, Color.DarkGreen, true, true, true);
-            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLred, Color.Red, true, true, false);
-            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLgreen, Color.DarkGreen, true, true, false);
-            SyntaxHighlightWordlist(rtf, SQLSyntax.SQlgray, Color.DarkGray, true, true, false);
-            SyntaxHighlightBetweenChar(rtf, "#", Color.Magenta, true);
+            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLDataTypes, Color.BlueViolet, false, true, true);
+            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLsign, Color.Red, true, false, false);
+            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLquote, Color.DarkGreen, true, false, false);
+            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLoperator, Color.Gray, true, false, false);
+            SyntaxHighlightWordlist(rtf, SQLSyntax.SQLbrackets, Color.DarkGreen, false, false, false);
             SyntaxHighlightBetweenChar(rtf, "'", Color.Green, true);
+            SyntaxHighlightBetweenChar(rtf, "#", Color.Magenta, true);
+            //Highlight Brackets
+            if(selectStartmem > 0) {
+                Dictionary<int, int> OC = BracketPositionMap(rtf);
+                if(OC.Count > 0) {
+                    BracketHighlight(rtf, OC, selectStartmem);
+                }
+            }
             inrtf.Rtf = rtf.Rtf;
-            inrtf.Select(selectStartmem, 0);
+            inrtf.Select(selectStartmem, selectLengthmem);
+            lockSyntaxHighlighter = false;
         }
-        lockSyntaxHighlighter = false;
     }
 
+    public static void SyntaxHighlightBrackets(this RichTextBox inrtf) {
+        if(lockSyntaxHighlighter == false) {
+            lockSyntaxHighlighter = true;
+            RichTextBox rtf = new RichTextBox();
+            int selectStartmem = inrtf.SelectionStart;
+            int selectLengthmem = inrtf.SelectionLength;
+            rtf.Rtf = inrtf.Rtf;
+            //Highlight Brackets
+            if(selectStartmem > 0) {
+                Dictionary<int, int> OC = BracketPositionMap(rtf);
+                if(OC.Count > 0) {
+                    BracketHighlight(rtf, OC, selectStartmem);
+                }
+            }
+            inrtf.Rtf = rtf.Rtf;
+            inrtf.Select(selectStartmem, selectLengthmem);
+            lockSyntaxHighlighter = false;
+        }
+    }
+
+    private static Dictionary<int, int> BracketPositionMap(this RichTextBox rtf) {
+        Dictionary<int, int> OC = new Dictionary<int, int>();
+        Dictionary<int, int> OB = new Dictionary<int, int>();
+        Dictionary<int, int> CB = new Dictionary<int, int>();
+        string c = "";
+        int openings = 0;
+        int[] open = new int[0];
+        if(rtf.Text.Contains("(") == true || rtf.Text.Contains(")") == true) {
+            for(int i = 0; i < rtf.Text.Length; i++) {
+                c = rtf.Text.Substring(i, 1).ToString();
+                if(c == "(") {
+                    openings++;
+                    if(OB.ContainsKey(openings) == false) {
+                        open = open.AddItemToArray(openings);
+                        OB.Add(openings, i);
+                    }
+                }
+                if(c == ")") {
+                    if(open.Length > 0) {
+                        CB.Add(open[open.Length - 1], i);
+                        open = open.RemoveAt(open.Length - 1);
+                    }
+                }
+            }
+        }
+        if(OB.Count > 0) {
+            foreach(KeyValuePair<int, int> P in OB) {
+                if(CB.ContainsKey(P.Key)){
+                    OC.Add(P.Value,CB[P.Key]);
+                }
+            }
+        }
+        return OC;
+    }
+
+    /*
     public static void SyntaxHighlight2(this RichTextBox inrtf, Dictionary<string, string> TA) {
         if(lockSyntaxHighlighter == false) {
             lockSyntaxHighlighter = true;
@@ -835,7 +938,7 @@ public static class Extensions {
                     }
                 }
                 //redBold
-                foreach(string k in SQLSyntax.SQLred) {
+                foreach(string k in SQLSyntax.SQLsign) {
                     if(rtf.Text.ToLower().Contains(k)) {
                         int index = -1;
                         int selectStart = rtf.SelectionStart;
@@ -853,7 +956,7 @@ public static class Extensions {
                     }
                 }
                 //greenBold
-                foreach(string k in SQLSyntax.SQLgreen) {
+                foreach(string k in SQLSyntax.SQLquote) {
                     if(rtf.Text.ToLower().Contains(k)) {
                         int index = -1;
                         int selectStart = rtf.SelectionStart;
@@ -871,7 +974,7 @@ public static class Extensions {
                     }
                 }
                 //grayBold
-                foreach(string k in SQLSyntax.SQlgray) {
+                foreach(string k in SQLSyntax.SQLoperator) {
                     if(rtf.Text.ToLower().Contains(k)) {
                         int index = -1;
                         int selectStart = rtf.SelectionStart;
@@ -935,5 +1038,5 @@ public static class Extensions {
         }
         lockSyntaxHighlighter = false;
     }
-
+    */
 }

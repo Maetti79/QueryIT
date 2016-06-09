@@ -223,11 +223,12 @@
             this.queryBox.Size = new System.Drawing.Size(377, 92);
             this.queryBox.TabIndex = 0;
             this.queryBox.Text = "";
+            this.queryBox.SelectionChanged += new System.EventHandler(this.queryBox_SelectionChanged);
             this.queryBox.TextChanged += new System.EventHandler(this.queryBox_TextChanged);
             // 
             // resultGrid
             // 
-            this.resultGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            this.resultGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.resultGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.resultGrid.ContextMenuStrip = this.resultContextMenu;
             this.resultGrid.Dock = System.Windows.Forms.DockStyle.Fill;

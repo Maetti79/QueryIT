@@ -19,3 +19,6 @@ Query: SELECT * FROM geo.timezone xx WHERE  xx.timezone_id > 0
 Date: 2016-06-07 09:42:09 - Result: 400 Records
 Query: SELECT * FROM geo.timezone xx WHERE  xx.timezone_id > 5
 
+Date: 2016-06-09 12:01:09 - Result: 0 Records
+Query: SELECT * FROM language l WHERE l.language_iso = 'de'
+

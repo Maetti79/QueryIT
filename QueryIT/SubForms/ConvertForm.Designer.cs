@@ -416,7 +416,7 @@
             // 
             // convertGrid
             // 
-            this.convertGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            this.convertGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.convertGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.convertGrid.Location = new System.Drawing.Point(0, 0);
             this.convertGrid.Name = "convertGrid";

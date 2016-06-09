@@ -255,3 +255,209 @@ WHERE b.returntime IS NOT NULL
 ORDER BY b.id DESC 
 LIMIT 100 ;
 
+Date: 2016-06-08 14:35:48 - Query: SELECT COUNT( DISTINCT DATE(returntime)) AS D, 
+
+time(CONCAT(HOUR(returntime),':',floor(MINUTE(returntime)/60)*60)) AS H,
+
+SUM(price) / COUNT( DISTINCT DATE(returntime)) AS EUR_AVG_DAY, 
+
+SUM(IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP), price ,0 ) ) / COUNT( DISTINCT date( IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP) &&  DATE(returntime) < DATE_FORMAT(CURRENT_TIMESTAMP, '%x-%m-%d')  ,  returntime , CURRENT_TIMESTAMP )) ) AS EUR_AVG_WEEKDAY,
+
+SUM( IF(date(returntime ) = date(CURRENT_TIMESTAMP) , price , 0)) AS EUR_TODAY, 
+
+COUNT(id) / COUNT( DISTINCT DATE(returntime)) AS PAYMENT_AVG_DAY, 
+
+SUM(IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP), 1 ,0 ) ) / COUNT( DISTINCT date( IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP) &&  DATE(returntime) < DATE_FORMAT(CURRENT_TIMESTAMP, '%x-%m-%d')  ,  returntime , CURRENT_TIMESTAMP )) ) AS PAYMENT_AVG_WEEKDAY,
+
+SUM( IF( date(returntime ) = date(CURRENT_TIMESTAMP) , 1 , 0)) AS PAYMENT_TODAY
+				    
+FROM billing b 
+
+WHERE b.returntime >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -14 DAY)
+
+GROUP BY time(CONCAT(60(returntime),':',floor(MINUTE(returntime)/60)*60))"
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(returntime),':',floor(MINUTE(returntime)/60)*60))"' at line 21
+
+Date: 2016-06-08 14:36:19 - Query: SELECT COUNT( DISTINCT DATE(returntime)) AS D, 
+
+time(CONCAT(HOUR(returntime),':',floor(MINUTE(returntime)/60)*60)) AS H,
+
+SUM(price) / COUNT( DISTINCT DATE(returntime)) AS EUR_AVG_DAY, 
+
+SUM(IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP), price ,0 ) ) / COUNT( DISTINCT date( IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP) &&  DATE(returntime) < DATE_FORMAT(CURRENT_TIMESTAMP, '%x-%m-%d')  ,  returntime , CURRENT_TIMESTAMP )) ) AS EUR_AVG_WEEKDAY,
+
+SUM( IF(date(returntime ) = date(CURRENT_TIMESTAMP) , price , 0)) AS EUR_TODAY, 
+
+COUNT(id) / COUNT( DISTINCT DATE(returntime)) AS PAYMENT_AVG_DAY, 
+
+SUM(IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP), 1 ,0 ) ) / COUNT( DISTINCT date( IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP) &&  DATE(returntime) < DATE_FORMAT(CURRENT_TIMESTAMP, '%x-%m-%d')  ,  returntime , CURRENT_TIMESTAMP )) ) AS PAYMENT_AVG_WEEKDAY,
+
+SUM( IF( date(returntime ) = date(CURRENT_TIMESTAMP) , 1 , 0)) AS PAYMENT_TODAY
+				    
+FROM billing b 
+
+WHERE b.returntime >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -14 DAY)
+
+GROUP BY time(CONCAT(60(returntime), ':', floor(MINUTE(returntime)/60)*60))
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(returntime), ':', floor(MINUTE(returntime)/60)*60))' at line 21
+
+Date: 2016-06-08 14:37:17 - Result: 24 Records
+Query: SELECT COUNT( DISTINCT DATE(returntime)) AS D, 
+
+time(CONCAT(HOUR(returntime),':',floor(MINUTE(returntime)/60)*60)) AS H,
+
+SUM(price) / COUNT( DISTINCT DATE(returntime)) AS EUR_AVG_DAY, 
+
+SUM(IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP), price ,0 ) ) / COUNT( DISTINCT date( IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP) &&  DATE(returntime) < DATE_FORMAT(CURRENT_TIMESTAMP, '%x-%m-%d')  ,  returntime , CURRENT_TIMESTAMP )) ) AS EUR_AVG_WEEKDAY,
+
+SUM( IF(date(returntime ) = date(CURRENT_TIMESTAMP) , price , 0)) AS EUR_TODAY, 
+
+COUNT(id) / COUNT( DISTINCT DATE(returntime)) AS PAYMENT_AVG_DAY, 
+
+SUM(IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP), 1 ,0 ) ) / COUNT( DISTINCT date( IF( weekday(returntime) = weekday(CURRENT_TIMESTAMP) &&  DATE(returntime) < DATE_FORMAT(CURRENT_TIMESTAMP, '%x-%m-%d')  ,  returntime , CURRENT_TIMESTAMP )) ) AS PAYMENT_AVG_WEEKDAY,
+
+SUM( IF( date(returntime ) = date(CURRENT_TIMESTAMP) , 1 , 0)) AS PAYMENT_TODAY
+				    
+FROM billing b 
+
+WHERE b.returntime >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -14 DAY)
+
+GROUP BY time(CONCAT(HOUR(returntime), ':', floor(MINUTE(returntime)/60)*60))
+
+Date: 2016-06-09 11:11:23 - Result: 37 Records
+Query: SELECT 
+  IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)) AS Payee_ID,
+  ROUND(amount * 1.1307 * 0.98,2) AS Amount,
+  'USD' AS Currency,
+  Number AS Payment_ID,
+  CAST(CONCAT( IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)),' ',Number) AS char) AS Description,
+  '06/01/2016' AS Payment_Date
+  FROM 777accounting.invoices a
+  LEFT JOIN 777accounting.invoiceaddresses i ON i.id = a.creditorinvoiceaddressid
+  WHERE DATE IS NULL
+  AND outpaymenttype = 2
+
+Date: 2016-06-09 11:12:49 - Query: SELECT 
+  IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)) AS Payee_ID,
+  ROUND(amount * 1.1307 * 0.98,2) AS Amount,
+  'USD' AS Currency,
+  Number AS Payment_ID,
+  CAST(CONCAT( IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)),' ',Number) AS char) AS Description,
+  '06/01/2016' AS Payment_Date
+  a.created AS dt
+  FROM 777accounting.invoices a
+  LEFT JOIN 777accounting.invoiceaddresses i ON i.id = a.creditorinvoiceaddressid
+  WHERE DATE IS NULL
+  AND outpaymenttype = 2
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'a.created AS dt
+  FROM 777accounting.invoices a
+  LEFT JOIN 777accounting.invoic' at line 8
+
+Date: 2016-06-09 11:12:55 - Result: 37 Records
+Query: SELECT 
+  IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)) AS Payee_ID,
+  ROUND(amount * 1.1307 * 0.98,2) AS Amount,
+  'USD' AS Currency,
+  Number AS Payment_ID,
+  CAST(CONCAT( IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)),' ',Number) AS char) AS Description,
+  '06/01/2016' AS Payment_Date
+,  a.created AS dt
+  FROM 777accounting.invoices a
+  LEFT JOIN 777accounting.invoiceaddresses i ON i.id = a.creditorinvoiceaddressid
+  WHERE DATE IS NULL
+  AND outpaymenttype = 2
+
+Date: 2016-06-09 11:14:47 - Result: 0 Records
+Query: SELECT 
+  IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)) AS Payee_ID,
+  ROUND(amount * 1.1307 * 0.98,2) AS Amount,
+  'USD' AS Currency,
+  Number AS Payment_ID,
+  CAST(CONCAT( IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)),' ',Number) AS char) AS Description,
+  '06/01/2016' AS Payment_Date
+,  a.created AS dt
+FROM 777accounting.invoices a
+LEFT JOIN 777accounting.invoiceaddresses i ON i.id = a.creditorinvoiceaddressid
+WHERE DATE IS NULL
+AND number > 116058
+AND outpaymenttype = 2
+
+Date: 2016-06-09 11:14:52 - Result: 0 Records
+Query: SELECT 
+  IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)) AS Payee_ID,
+  ROUND(amount * 1.1307 * 0.98,2) AS Amount,
+  'USD' AS Currency,
+  Number AS Payment_ID,
+  CAST(CONCAT( IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)),' ',Number) AS char) AS Description,
+  '06/01/2016' AS Payment_Date
+,  a.created AS dt
+FROM 777accounting.invoices a
+LEFT JOIN 777accounting.invoiceaddresses i ON i.id = a.creditorinvoiceaddressid
+WHERE DATE IS NULL
+AND number > 116058
+AND outpaymenttype = 2
+
+Date: 2016-06-09 11:15:33 - Result: 37 Records
+Query: SELECT 
+  IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)) AS Payee_ID,
+  ROUND(amount * 1.1307 * 0.98,2) AS Amount,
+  'USD' AS Currency,
+  Number AS Payment_ID,
+  CAST(CONCAT( IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)),' ',Number) AS char) AS Description,
+  '06/01/2016' AS Payment_Date
+,  a.created AS dt
+FROM 777accounting.invoices a
+LEFT JOIN 777accounting.invoiceaddresses i ON i.id = a.creditorinvoiceaddressid
+WHERE DATE IS NULL 
+AND outpaymenttype = 2
+
+Date: 2016-06-09 11:16:52 - Result: 37 Records
+Query: SELECT 
+  IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)) AS Payee_ID,
+  ROUND(amount * 1.1307 * 0.98,2) AS Amount,
+  'USD' AS Currency,
+  Number AS Payment_ID,
+  CAST(CONCAT( IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)),' ',Number) AS char) AS Description,
+  '06/01/2016' AS Payment_Date
+,  a.created AS dt
+FROM 777accounting.invoices a
+LEFT JOIN 777accounting.invoiceaddresses i ON i.id = a.creditorinvoiceaddressid
+WHERE DATE IS NULL 
+AND a.id > 116058
+AND outpaymenttype = 2
+
+Date: 2016-06-09 11:17:51 - Result: 37 Records
+Query: SELECT 
+  IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)) AS Payee_ID,
+  ROUND(amount * 1.1307 * 0.98,2) AS Amount,
+  'USD' AS Currency,
+  Number AS Payment_ID,
+  CAST(CONCAT( IF(invoicetypeid = 1001, CAST(CONCAT('M',partnerreference) AS char), CAST(CONCAT('A',partnerreference) AS char)),' ',Number) AS char) AS Description,
+  '06/01/2016' AS Payment_Date
+FROM 777accounting.invoices a
+LEFT JOIN 777accounting.invoiceaddresses i ON i.id = a.creditorinvoiceaddressid
+WHERE DATE IS NULL 
+AND a.id > 116058
+AND outpaymenttype = 2
+
+Date: 2016-06-09 12:34:47 - Query: SELECT COUNT( DISTINCT DATE(b.returntime)) AS D, 
+TIME(CONCAT(HOUR(b.returntime),':',FLOOR(MINUTE(b.returntime)/60)*60)) AS H,
+SUM(b.price) / COUNT( DISTINCT DATE(b.returntime)) AS EUR_AVG_DAY, 
+
+SUM(IF( WEEKDAY(b.returntime ) = WEEKDAY(CURRENT_TIMESTAMP),b.price ,0 ) ) / COUNT( DISTINCT DATE( IF( WEEKDAY(b.returntime ) = WEEKDAY(CURRENT_TIMESTAMP) &&  DATE(b.returntime ) < DATE_FORMAT(CURRENT_TIMESTAMP, '%x-%m-%d')  ,  b.returntime , CURRENT_TIMESTAMP )) ) AS EUR_AVG_WEEKDAY,
+
+SUM(IF( WEEKDAY(b.returntime ) = WEEKDAY(CURRENT_TIMESTAMP), 1 ,0 ) ) / COUNT( DISTINCT DATE( IF( WEEKDAY(b.returntime ) = WEEKDAY(CURRENT_TIMESTAMP) &&  DATE(b.returntime ) < DATE_FORMAT(CURRENT_TIMESTAMP, '%x-%m-%d')  ,  b.returntime , CURRENT_TIMESTAMP )) ) AS PAYMENT_AVG_WEEKDAY,
+
+				    
+FROM billing b 
+
+WHERE b.returntime >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -14 DAY)
+
+GROUP BY TIME(CONCAT(HOUR(returntime), ':', FLOOR(MINUTE(returntime)/60)*60))
+Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM billing b 
+
+WHERE b.returntime >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -14 ' at line 10
+
+Date: 2016-06-09 12:36:35 - Result: 218 Records
+Query: SELECT * FROM billing b WHERE b.returntime > '2016-06-09 00:00:00'
+

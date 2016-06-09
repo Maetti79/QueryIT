@@ -1,0 +1,4 @@
+Date: 2016-06-08 11:55:38 - Result: 0 Records
+Query: SELECT * FROM  `777live`.`billing_cnb_tmp` LIMIT 100;
+
+

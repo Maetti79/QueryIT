@@ -241,6 +241,7 @@
             this.sqlBox.Size = new System.Drawing.Size(377, 148);
             this.sqlBox.TabIndex = 4;
             this.sqlBox.Text = "";
+            this.sqlBox.SelectionChanged += new System.EventHandler(this.sqlBox_SelectionChanged);
             this.sqlBox.TextChanged += new System.EventHandler(this.sqlBox_TextChanged);
             // 
             // sqlPreviewBox
@@ -413,7 +414,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ForeachForm";
-            this.Text = "ForEach [BETA]";
+            this.Text = "ForEach";
             this.Activated += new System.EventHandler(this.ForeachForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ForeachForm_FormClosing);
             this.Load += new System.EventHandler(this.ForeachForm_Load);

@@ -21,6 +21,7 @@ namespace QueryIT.model {
                 "database",
                 "date_add",
                 "date_sub",
+                "default",
                 "delete",
                 "desc",
                 "distinct",
@@ -69,20 +70,26 @@ namespace QueryIT.model {
             };
 
         public static string[] SQLdarkgreen = {
+                "auto_increment",
                 "avg",
                 "binary_checksum",
                 "car",
                 "cast",
+                "ceil",
                 "checksum",
                 "checksum_agg",
                 "convert",
                 "concat",
                 "count",
                 "current_timestamp",
+                "date",
+                "date_add",
+                "date_format",
                 "datediff",
                 "datepart",
                 "day",
                 "first",
+                "floor",
                 "format",
                 "hour",
                 "if",
@@ -108,16 +115,22 @@ namespace QueryIT.model {
                 "substr",
                 "substring",
                 "sum",
+                "time",
                 "ucase",
                 "varp",
+                "weekday",
                 "year"   
             };
 
-        public static string[] SQLred = { "*", "%", "#", ";" };
+        public static string[] SQLsign = { "*", "%", "#", ";" };
 
-        public static string[] SQLgreen = { "'", "`", "(", ")", "[", "]" };
+        public static string[] SQLquote = { "'", "`", "´", "\"" };
 
-        public static string[] SQlgray = { ".", ",", "=", "+", "-", "/", ">", "<" };
+        public static string[] SQLbrackets = { "(", ")", "[", "]", "{", "}" };
+
+        public static string[] SQLoperator = { ".", ",", "=", "+", "-", "/", ">", "<" };
+
+        public static string[] SQLDataTypes = { "int", "varchar", "datetime", "timestamp", "float" };
 
         public static string fixSQL(string sql) {
             return sql;

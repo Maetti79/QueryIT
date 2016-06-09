@@ -183,7 +183,7 @@
             // 
             // crossjoinView
             // 
-            this.crossjoinView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            this.crossjoinView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.crossjoinView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.crossjoinView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.crossjoinView.Location = new System.Drawing.Point(0, 0);

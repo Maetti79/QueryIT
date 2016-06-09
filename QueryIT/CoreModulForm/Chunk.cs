@@ -189,5 +189,136 @@ namespace QueryIT {
 
         }
 
+        private void selectSQL_SelectionChanged(object sender, EventArgs e) {
+            try {
+                if(sender.GetType() == typeof(RichTextBox)) {
+                    RichTextBox tb = (RichTextBox)sender;
+                    Dictionary<string, string> TA = reloadAutocomplete(tb);
+                    tb.SyntaxHighlight(TA);
+                }
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        public Dictionary<string, string> reloadAutocomplete(RichTextBox rtfin) {
+            //AutoComplete
+            string[] wordsraw = rtfin.Text.Replace("\n", " ").Split(" ".ToCharArray());
+            string[] words = new string[0];
+            Dictionary<string, string> TA = new Dictionary<string, string>();
+            Dictionary<string, string> HL = new Dictionary<string, string>();
+            foreach(string rawword in wordsraw) {
+                if(rawword != "" && rawword != "\n") {
+                    words = words.AddItemToArray(rawword.Replace("\n", ""));
+                }
+            }
+            var acitems = new List<AutocompleteItem>();
+            Array.Sort(SQLSyntax.SQLblue);
+            foreach(var key in SQLSyntax.SQLblue) {
+                acitems.Add(new AutocompleteItem(key.ToString(), 0));
+                // words = words.RemoveIfExists(key);
+            }
+            Array.Sort(SQLSyntax.SQLdarkgreen);
+            foreach(var key in SQLSyntax.SQLdarkgreen) {
+                acitems.Add(new AutocompleteItem(key.ToString(), 0));
+                //words = words.RemoveIfExists(key);
+            }
+            //build Table aliases
+            for(int i = 0; i < words.Length - 1; i++) {
+                if(words[i].ToString() != "") {
+                    if((words[i].ToString().ToLower() == "from" || words[i].ToString().ToLower() == "join") && i + 2 < words.Length) {
+                        if(words[i + 2].ToString().ToLower() != "where" &&
+                            words[i + 2].ToString().ToLower() != "on" &&
+                            words[i + 2].ToString().ToLower() != "order" &&
+                            words[i + 2].ToString().ToLower() != "limit") {
+                            if(TA.ContainsKey(words[i + 2]) == false) {
+                                TA.Add(words[i + 2], words[i + 1].Replace("`", ""));
+                            }
+                            if(HL.ContainsKey(words[i + 2]) == false) {
+                                HL.Add(words[i + 2], words[i + 1].Replace("`", ""));
+                            }
+                        }
+                    }
+                }
+            }
+            //Build live Autocomplete List
+            if(LDS.DBschema.Databases != null) {
+                foreach(DatabaseSchema db in LDS.DBschema.Databases) {
+                    if(HL.ContainsKey(db.DatabaseName) == false) {
+                        HL.Add(db.DatabaseName, db.DatabaseName);
+                    }
+                    if(db.Tables != null) {
+                        foreach(TableSchema tbl in db.Tables) {
+                            acitems.Add(new AutocompleteItem(db.DatabaseName + "." + tbl.TableName, 5, db.DatabaseName + "." + tbl.TableName));
+                            acitems.Add(new AutocompleteItem(tbl.TableName, 5, tbl.TableName));
+                            //Hightlight table
+                            if(HL.ContainsKey(db.DatabaseName + "." + tbl.TableName) == false) {
+                                HL.Add(db.DatabaseName + "." + tbl.TableName, tbl.TableName);
+                            }
+                            //acitems.Add(new AutocompleteItem(db.DatabaseName + "." + tbl.TableName, 5, db.DatabaseName + "." + tbl.TableName));
+                            if(tbl.Columns != null) {
+                                if(rtfin.Text.Contains(tbl.TableName)) {
+                                    foreach(ColumnSchema col in tbl.Columns) {
+                                        //Database.Table.Column
+                                        string dbtblname = db.DatabaseName + "." + tbl.TableName;
+                                        if(TA.ContainsValue(dbtblname)) {
+                                            foreach(string vkey in TA.Keys) {
+                                                if(TA[vkey] == dbtblname) {
+                                                    if(col.PrimaryKey == true) {
+                                                        acitems.Add(new AutocompleteItem(vkey + "." + col.ColumnName, 10, vkey + "." + col.ColumnName));
+                                                    } else {
+                                                        acitems.Add(new AutocompleteItem(vkey + "." + col.ColumnName, 6, vkey + "." + col.ColumnName));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //Table.Column 
+                                        string tblname = tbl.TableName;
+                                        if(TA.ContainsValue(tblname)) {
+                                            foreach(string vkey in TA.Keys) {
+                                                if(TA[vkey] == tblname) {
+                                                    if(col.PrimaryKey == true) {
+                                                        acitems.Add(new AutocompleteItem(vkey + "." + col.ColumnName, 10, vkey + "." + col.ColumnName));
+                                                    } else {
+                                                        acitems.Add(new AutocompleteItem(vkey + "." + col.ColumnName, 6, vkey + "." + col.ColumnName));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //Column
+                                        if(col.PrimaryKey == true) {
+                                            acitems.Add(new AutocompleteItem(tbl.TableName + "." + col.ColumnName, 10, tbl.TableName + "." + col.ColumnName));
+                                        } else {
+                                            acitems.Add(new AutocompleteItem(tbl.TableName + "." + col.ColumnName, 6, tbl.TableName + "." + col.ColumnName));
+                                        }
+                                        //Hightlight Column
+                                        if(HL.ContainsKey(tbl.TableName + "." + col.ColumnName) == false) {
+                                            HL.Add(tbl.TableName + "." + col.ColumnName, col.ColumnName);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            acitems = acitems.Distinct().ToList();
+            autocomplete.SetAutocompleteItems(acitems);
+            autocomplete.SetAutocompleteMenu(rtfin, autocomplete);
+            return HL;
+        }
+
+        private void insertupdateSQL_SelectionChanged(object sender, EventArgs e) {
+            try {
+                if(sender.GetType() == typeof(RichTextBox)) {
+                    RichTextBox tb = (RichTextBox)sender;
+                    Dictionary<string, string> TA = reloadAutocomplete(tb);
+                    tb.SyntaxHighlight(TA);
+                }
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
     }
 }

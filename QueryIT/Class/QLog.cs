@@ -21,6 +21,7 @@ namespace QueryIT {
                     history = File.ReadAllText(file);
                 }
             } catch(Exception err) {
+                throw err;
             }
             return history;
         }
@@ -35,6 +36,7 @@ namespace QueryIT {
                 }
                 File.AppendAllText(file, text);
             } catch(Exception err) {
+                throw err;
             }
         }
 
@@ -48,6 +50,7 @@ namespace QueryIT {
                 }
                 File.AppendAllText(file, text);
             } catch(Exception err) {
+                throw err;
             }
         }
 

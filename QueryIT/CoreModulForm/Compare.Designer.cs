@@ -90,7 +90,7 @@
             // 
             // sourceGrid
             // 
-            this.sourceGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            this.sourceGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.sourceGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.sourceGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sourceGrid.Location = new System.Drawing.Point(0, 0);
@@ -111,7 +111,7 @@
             // 
             // bothGrid
             // 
-            this.bothGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            this.bothGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.bothGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.bothGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.bothGrid.Location = new System.Drawing.Point(0, 0);
@@ -132,7 +132,7 @@
             // 
             // destinationGrid
             // 
-            this.destinationGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            this.destinationGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.destinationGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.destinationGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.destinationGrid.Location = new System.Drawing.Point(0, 0);

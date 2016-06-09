@@ -1956,8 +1956,10 @@ namespace QueryIT {
                 qrtNew.Font = queryBox.Font;
                 qrtNew.Dock = DockStyle.Fill;
                 qrtNew.Text = sql;
-                qrtNew.SyntaxHighlight();
+                Dictionary<string, string> TA = reloadAutocomplete(qrtNew);
+                qrtNew.SyntaxHighlight(TA);
                 qrtNew.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
+                qrtNew.SelectionChanged += new System.EventHandler(this.rtfBox_SelectionChanged);
                 autocomplete.SetAutocompleteMenu(qrtNew, autocomplete);
                 spNew.Panel1.Controls.Add(qrtNew);
                 //Result Tabs -> Spliter 2
@@ -2058,6 +2060,25 @@ namespace QueryIT {
                         database = DatabaseTree.SelectedNode.Parent.Text.ToString();
                         addQueryer(QDS.DBschema.D[database].T[table].SQLDelete());
                     }
+                }
+            } catch(Exception err) {
+                parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
+            }
+        }
+
+        private void queryBox_KeyUp(object sender, KeyEventArgs e) {
+
+        }
+
+        private void queryBox_MouseClick(object sender, MouseEventArgs e) {
+            
+        }
+
+        private void rtfBox_SelectionChanged(object sender, EventArgs e) {
+            try {
+                if(sender.GetType() == typeof(RichTextBox)) {
+                    RichTextBox tb = (RichTextBox)sender;
+                    tb.SyntaxHighlightBrackets();
                 }
             } catch(Exception err) {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);

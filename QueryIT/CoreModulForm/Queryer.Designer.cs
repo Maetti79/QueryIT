@@ -727,6 +727,7 @@
             this.queryBox.Size = new System.Drawing.Size(371, 70);
             this.queryBox.TabIndex = 0;
             this.queryBox.Text = "";
+            this.queryBox.SelectionChanged += new System.EventHandler(this.rtfBox_SelectionChanged);
             this.queryBox.TextChanged += new System.EventHandler(this.rtfBox_TextChanged);
             // 
             // resultTabs
@@ -813,14 +814,14 @@
             // 
             // autocomplete
             // 
-            this.autocomplete.AppearInterval = 200;
+            this.autocomplete.AppearInterval = 350;
             this.autocomplete.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocomplete.Colors")));
             this.autocomplete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.autocomplete.ImageList = this.QueryIcons;
             this.autocomplete.Items = new string[0];
-            this.autocomplete.MinFragmentLength = 1;
             this.autocomplete.SearchPattern = "[\\w.]";
             this.autocomplete.TargetControlWrapper = null;
+            this.autocomplete.ToolTipDuration = 2000;
             // 
             // QueryerForm
             // 

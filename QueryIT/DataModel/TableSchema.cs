@@ -211,7 +211,7 @@ namespace QueryIT.model {
                     sqlh += "ALTER TABLE `" + DatabaseName + "`.`" + TableName + "`\n";
                     for(i = 0; i < newSchema.Columns.Count(); i++) {
                         ColumnSchema col = newSchema.Columns[i];
-                        if(C[col.ColumnName] == null) {
+                        if(C.ContainsKey(col.ColumnName) == false) {
                             //ADD NEW COLUMN
                             if(sql == "") {
                                 sql += sqlh + "ADD COLUMN ";
@@ -234,7 +234,7 @@ namespace QueryIT.model {
                             }
                             //AI
                             if(col.AutoIncrement == true) {
-                                sql += "AUTO INCREMENT ";
+                                sql += "AUTO_INCREMENT ";
                             }
                             //Position
                             if(col.ColumnPosition == 0) {
@@ -279,7 +279,7 @@ namespace QueryIT.model {
                                 }
                                 //AI
                                 if(col.AutoIncrement == true) {
-                                    sql += "AUTO INCREMENT";
+                                    sql += "AUTO_INCREMENT ";
                                 }
                                 //Position
                                 if(col.ColumnPosition == oldcol.ColumnPosition) {

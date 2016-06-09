@@ -150,9 +150,11 @@
             this.selectSQL.Size = new System.Drawing.Size(290, 78);
             this.selectSQL.TabIndex = 0;
             this.selectSQL.Text = "";
+            this.selectSQL.SelectionChanged += new System.EventHandler(this.selectSQL_SelectionChanged);
             // 
             // chunkResultGrid
             // 
+            this.chunkResultGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.chunkResultGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.chunkResultGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chunkResultGrid.Location = new System.Drawing.Point(0, 0);
@@ -183,6 +185,7 @@
             this.insertupdateSQL.Size = new System.Drawing.Size(290, 78);
             this.insertupdateSQL.TabIndex = 0;
             this.insertupdateSQL.Text = "";
+            this.insertupdateSQL.SelectionChanged += new System.EventHandler(this.insertupdateSQL_SelectionChanged);
             // 
             // chunkGroup
             // 

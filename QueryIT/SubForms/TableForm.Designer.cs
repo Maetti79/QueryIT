@@ -35,6 +35,7 @@
             this.sqlSplitH = new System.Windows.Forms.SplitContainer();
             this.sqlRtf = new System.Windows.Forms.RichTextBox();
             this.resultBox = new System.Windows.Forms.RichTextBox();
+            this.autocomplete = new AutocompleteMenuNS.AutocompleteMenu();
             this.menuStrip1.SuspendLayout();
             this.tableTab.SuspendLayout();
             this.tablePage.SuspendLayout();
@@ -100,6 +101,7 @@
             // 
             this.tableBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.autocomplete.SetAutocompleteMenu(this.tableBox, null);
             this.tableBox.Location = new System.Drawing.Point(0, 0);
             this.tableBox.Name = "tableBox";
             this.tableBox.Size = new System.Drawing.Size(426, 20);
@@ -112,6 +114,7 @@
             this.tableSchemaGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableSchemaGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.tableSchemaGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableSchemaGrid.Location = new System.Drawing.Point(0, 26);
             this.tableSchemaGrid.Name = "tableSchemaGrid";
@@ -162,15 +165,19 @@
             // 
             // sqlRtf
             // 
+            this.autocomplete.SetAutocompleteMenu(this.sqlRtf, this.autocomplete);
             this.sqlRtf.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sqlRtf.Location = new System.Drawing.Point(0, 0);
             this.sqlRtf.Name = "sqlRtf";
             this.sqlRtf.Size = new System.Drawing.Size(420, 141);
             this.sqlRtf.TabIndex = 1;
             this.sqlRtf.Text = "";
+            this.sqlRtf.SelectionChanged += new System.EventHandler(this.sqlRtf_SelectionChanged);
+            this.sqlRtf.TextChanged += new System.EventHandler(this.sqlRtf_TextChanged_1);
             // 
             // resultBox
             // 
+            this.autocomplete.SetAutocompleteMenu(this.resultBox, null);
             this.resultBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultBox.Location = new System.Drawing.Point(0, 0);
             this.resultBox.Name = "resultBox";
@@ -178,6 +185,15 @@
             this.resultBox.Size = new System.Drawing.Size(420, 140);
             this.resultBox.TabIndex = 5;
             this.resultBox.Text = "";
+            this.resultBox.TextChanged += new System.EventHandler(this.resultBox_TextChanged);
+            // 
+            // autocomplete
+            // 
+            this.autocomplete.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocomplete.Colors")));
+            this.autocomplete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.autocomplete.ImageList = null;
+            this.autocomplete.Items = new string[0];
+            this.autocomplete.TargetControlWrapper = null;
             // 
             // TableForm
             // 
@@ -219,6 +235,7 @@
         private System.Windows.Forms.SplitContainer sqlSplitH;
         private System.Windows.Forms.RichTextBox sqlRtf;
         private System.Windows.Forms.RichTextBox resultBox;
+        private AutocompleteMenuNS.AutocompleteMenu autocomplete;
 
     }
 }
