@@ -45,7 +45,7 @@ namespace QueryIT {
 
         public bool loadLicense() {
             try {
-                LicenseInformation = Serial.CallWebservice("http://queryit.purepix.net/", Serial.GetSerialNumber());
+                LicenseInformation = Serial.CallWebservice("https://queryit.purepix.net/", Serial.GetSerialNumber());
                 Microsoft.Win32.RegistryKey key;
                 string rootKey = "SOFTWARE\\" + Assembly.GetExecutingAssembly().GetName().Name;
                 key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(rootKey);
@@ -65,7 +65,7 @@ namespace QueryIT {
             try {
                 Array pls = plugincore.getPlugins(LicenseInformation);
                 foreach(Object pl in pls) {
-
+                    Console.WriteLine(pl.ToString());
                     if(plugincore.Hook(pl.ToString()) == pluginHook.Main || plugincore.Hook(pl.ToString()) == pluginHook.All) {
                         ToolStripMenuItem item = new ToolStripMenuItem();
                         item.Text = plugincore.Description(pl.ToString());
@@ -558,7 +558,29 @@ namespace QueryIT {
                 using(var cform = new ConnectionsForm()) {
                     var result = cform.ShowDialog();
                     if(result == DialogResult.OK) {
-
+                        /*
+                        string conStr = cform.conStr;
+                        string conName = cform.connectionName;
+                        Datasource QueryerDS = new Datasource(conStr, conName);
+                        if (QueryerDS.isConnected() == true)
+                        {
+                            QueryerForm QueryerQ = new QueryerForm(QueryerDS, "mid");
+                            if (QueryerQS != null)
+                            {
+                                QueryerQ.index = QueryerQS.Length;
+                            }
+                            if (QueryerADS != null)
+                            {
+                                QueryerDS.index = QueryerADS.Length;
+                            }
+                            QueryerQ.nameindex = "Queryer" + QueryerQ.index;
+                            QueryerQ.MdiParent = this;
+                            QueryerQ.Show();
+                            QueryerQ.Focus();
+                            QueryerQS = QueryerQS.AddItemToArray(QueryerQ);
+                            QueryerADS = QueryerADS.AddItemToArray(QueryerDS);
+                        }
+                        */
                     }
                 }
             } catch(Exception err) {
@@ -783,6 +805,15 @@ namespace QueryIT {
             }
         }
 
+        private void updateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://queryit.compucampus.de");
+        }
     }
 
 }

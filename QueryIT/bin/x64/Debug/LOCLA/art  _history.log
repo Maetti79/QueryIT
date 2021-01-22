@@ -1,0 +1,68 @@
+Date: 2020-08-13 14:06:01 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-13 14:16:55 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-13 14:17:04 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-14 07:02:01 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-14 07:14:46 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-14 08:24:37 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-14 08:33:52 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-14 08:35:08 - Result: 10 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 10;
+
+
+Date: 2020-08-14 08:37:27 - Result: 10 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 10;
+
+
+Date: 2020-08-14 08:38:19 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-14 08:45:14 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-14 08:51:35 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-14 09:14:06 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-14 09:50:25 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-17 06:32:04 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-17 07:03:18 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+
+Date: 2020-08-17 07:18:54 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`art` LIMIT 100;
+
+

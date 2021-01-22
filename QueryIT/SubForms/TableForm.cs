@@ -300,8 +300,8 @@ namespace QueryIT {
                 }
             }
             acitems = acitems.Distinct().ToList();
-            autocomplete.SetAutocompleteItems(acitems);
-            autocomplete.SetAutocompleteMenu(rtfin, autocomplete);
+            //autocomplete.SetAutocompleteItems(acitems);
+            //autocomplete.SetAutocompleteMenu(rtfin, autocomplete);
             return HL;
         }
 
@@ -361,10 +361,12 @@ namespace QueryIT {
                 if(DS.executeSql(sqlRtf.Text.ToString())) {
                     resultBox.Text = "Date: " + DS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
                                      "Result: " + DS.row_count.ToString() + " Records\n" +
+                                     "Result: " + DS.error + "\n" +
                                      "Query: '" + DS.sql.ToString() + "'\n";
                 } else {
                     resultBox.Text = "Date: " + DS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
                                      "Result: " + DS.row_count.ToString() + " Records\n" +
+                                     "Result: " + DS.error + "\n" +
                                      "Query: '" + DS.sql.ToString() + "'\n";
                 }
                 tableTab.SelectedTab = sqlPage;

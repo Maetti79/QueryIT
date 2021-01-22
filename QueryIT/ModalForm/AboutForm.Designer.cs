@@ -29,122 +29,97 @@
         private void InitializeComponent()
         {
             this.aboutGroup = new System.Windows.Forms.GroupBox();
-            this.OkBtn = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.SerialLbl = new System.Windows.Forms.Label();
-            this.VersionLbl = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.CopyrightLabel = new System.Windows.Forms.Label();
+            this.VersionLabel = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.BuildLabel = new System.Windows.Forms.Label();
+            this.SerialLabel = new System.Windows.Forms.Label();
             this.aboutGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // aboutGroup
             // 
-            this.aboutGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.aboutGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.aboutGroup.Controls.Add(this.SerialLabel);
             this.aboutGroup.Controls.Add(this.linkLabel1);
-            this.aboutGroup.Controls.Add(this.OkBtn);
-            this.aboutGroup.Controls.Add(this.label6);
-            this.aboutGroup.Controls.Add(this.label5);
-            this.aboutGroup.Controls.Add(this.label4);
-            this.aboutGroup.Controls.Add(this.label3);
-            this.aboutGroup.Controls.Add(this.SerialLbl);
-            this.aboutGroup.Controls.Add(this.VersionLbl);
+            this.aboutGroup.Controls.Add(this.BuildLabel);
+            this.aboutGroup.Controls.Add(this.CopyrightLabel);
+            this.aboutGroup.Controls.Add(this.VersionLabel);
+            this.aboutGroup.Controls.Add(this.button1);
             this.aboutGroup.Location = new System.Drawing.Point(12, 12);
             this.aboutGroup.Name = "aboutGroup";
-            this.aboutGroup.Size = new System.Drawing.Size(270, 247);
-            this.aboutGroup.TabIndex = 0;
+            this.aboutGroup.Size = new System.Drawing.Size(385, 137);
+            this.aboutGroup.TabIndex = 6;
             this.aboutGroup.TabStop = false;
-            this.aboutGroup.Text = "QueryIT";
-            this.aboutGroup.Enter += new System.EventHandler(this.aboutGroup_Enter);
-            // 
-            // OkBtn
-            // 
-            this.OkBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.OkBtn.Location = new System.Drawing.Point(106, 212);
-            this.OkBtn.Name = "OkBtn";
-            this.OkBtn.Size = new System.Drawing.Size(61, 23);
-            this.OkBtn.TabIndex = 4;
-            this.OkBtn.Text = "Close";
-            this.OkBtn.UseVisualStyleBackColor = true;
-            this.OkBtn.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 33);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(43, 13);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "© 2016";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(55, 138);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(152, 13);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "41836 Hückelhoven - Ratheim";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(55, 125);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(75, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Steinstraße 35";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(55, 112);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(86, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Dennis Mittmann";
-            // 
-            // SerialLbl
-            // 
-            this.SerialLbl.AutoSize = true;
-            this.SerialLbl.Location = new System.Drawing.Point(11, 55);
-            this.SerialLbl.Name = "SerialLbl";
-            this.SerialLbl.Size = new System.Drawing.Size(33, 13);
-            this.SerialLbl.TabIndex = 1;
-            this.SerialLbl.Text = "Serial";
-            this.SerialLbl.Click += new System.EventHandler(this.label2_Click);
-            // 
-            // VersionLbl
-            // 
-            this.VersionLbl.AutoSize = true;
-            this.VersionLbl.Location = new System.Drawing.Point(55, 33);
-            this.VersionLbl.Name = "VersionLbl";
-            this.VersionLbl.Size = new System.Drawing.Size(42, 13);
-            this.VersionLbl.TabIndex = 0;
-            this.VersionLbl.Text = "Version";
+            this.aboutGroup.Text = "Information";
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(55, 163);
+            this.linkLabel1.Location = new System.Drawing.Point(6, 106);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(129, 13);
-            this.linkLabel1.TabIndex = 5;
+            this.linkLabel1.Size = new System.Drawing.Size(161, 13);
+            this.linkLabel1.TabIndex = 7;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "http://queryit.purepix.net/";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.linkLabel1.Text = "https://queryit.compucampus.de";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked_1);
+            // 
+            // CopyrightLabel
+            // 
+            this.CopyrightLabel.AutoSize = true;
+            this.CopyrightLabel.Location = new System.Drawing.Point(6, 86);
+            this.CopyrightLabel.Name = "CopyrightLabel";
+            this.CopyrightLabel.Size = new System.Drawing.Size(51, 13);
+            this.CopyrightLabel.TabIndex = 5;
+            this.CopyrightLabel.Text = "Copyright";
+            // 
+            // VersionLabel
+            // 
+            this.VersionLabel.AutoSize = true;
+            this.VersionLabel.Location = new System.Drawing.Point(6, 26);
+            this.VersionLabel.Name = "VersionLabel";
+            this.VersionLabel.Size = new System.Drawing.Size(42, 13);
+            this.VersionLabel.TabIndex = 4;
+            this.VersionLabel.Text = "Version";
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(304, 108);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Close";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // BuildLabel
+            // 
+            this.BuildLabel.AutoSize = true;
+            this.BuildLabel.Location = new System.Drawing.Point(6, 46);
+            this.BuildLabel.Name = "BuildLabel";
+            this.BuildLabel.Size = new System.Drawing.Size(30, 13);
+            this.BuildLabel.TabIndex = 6;
+            this.BuildLabel.Text = "Build";
+            // 
+            // SerialLabel
+            // 
+            this.SerialLabel.AutoSize = true;
+            this.SerialLabel.Location = new System.Drawing.Point(6, 66);
+            this.SerialLabel.Name = "SerialLabel";
+            this.SerialLabel.Size = new System.Drawing.Size(33, 13);
+            this.SerialLabel.TabIndex = 8;
+            this.SerialLabel.Text = "Serial";
             // 
             // AboutForm
             // 
-            this.AcceptButton = this.OkBtn;
+            this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(294, 271);
+            this.ClientSize = new System.Drawing.Size(409, 161);
             this.Controls.Add(this.aboutGroup);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -163,13 +138,11 @@
         #endregion
 
         private System.Windows.Forms.GroupBox aboutGroup;
-        private System.Windows.Forms.Label VersionLbl;
-        private System.Windows.Forms.Label SerialLbl;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button OkBtn;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Label CopyrightLabel;
+        private System.Windows.Forms.Label VersionLabel;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label SerialLabel;
+        private System.Windows.Forms.Label BuildLabel;
     }
 }

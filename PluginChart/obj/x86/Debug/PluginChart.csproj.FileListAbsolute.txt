@@ -8,3 +8,15 @@ C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\bin\Debug\Plugin
 C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.dll
 C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.pdb
 C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.ChartForm.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.csprojAssemblyReference.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.ChartForm.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.Properties.Resources.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.csproj.GenerateResource.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\bin\Debug\PluginChart.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\bin\Debug\PluginChart.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\bin\Debug\IPlugin.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\bin\Debug\IPlugin.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.csproj.CopyComplete
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Debug\PluginChart.csproj.CoreCompileInputs.cache

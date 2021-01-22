@@ -88,9 +88,9 @@
             // 
             // YSeriesList
             // 
-            this.YSeriesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.YSeriesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.YSeriesList.CheckOnClick = true;
             this.YSeriesList.FormattingEnabled = true;
             this.YSeriesList.Location = new System.Drawing.Point(60, 34);
@@ -110,8 +110,8 @@
             // 
             // xAxisBox
             // 
-            this.xAxisBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.xAxisBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.xAxisBox.FormattingEnabled = true;
             this.xAxisBox.Location = new System.Drawing.Point(60, 6);
             this.xAxisBox.Name = "xAxisBox";
@@ -140,6 +140,7 @@
             this.Chart1.Legends.Add(legend1);
             this.Chart1.Location = new System.Drawing.Point(3, 3);
             this.Chart1.Name = "Chart1";
+            this.Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
             this.Chart1.Size = new System.Drawing.Size(470, 255);
             this.Chart1.TabIndex = 0;
             this.Chart1.Text = "chart1";

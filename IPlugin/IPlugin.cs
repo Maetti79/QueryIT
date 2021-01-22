@@ -29,6 +29,7 @@ namespace IPlugin {
         String Description { get; set; }
         String Author { get; set; }
         String Version { get; set; }
+        String Error { get; set; }
         pluginType Type { get; set; }
         pluginHook Hook { get; set; }
 

@@ -41,7 +41,6 @@
             this.offset = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.autocomplete = new AutocompleteMenuNS.AutocompleteMenu();
             this.QueryIcons = new System.Windows.Forms.ImageList(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chunkSplitH)).BeginInit();
@@ -106,9 +105,9 @@
             // 
             // chunkSplitH
             // 
-            this.chunkSplitH.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.chunkSplitH.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chunkSplitH.Location = new System.Drawing.Point(0, 83);
             this.chunkSplitH.Name = "chunkSplitH";
             // 
@@ -143,7 +142,6 @@
             // 
             // selectSQL
             // 
-            this.autocomplete.SetAutocompleteMenu(this.selectSQL, this.autocomplete);
             this.selectSQL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.selectSQL.Location = new System.Drawing.Point(0, 0);
             this.selectSQL.Name = "selectSQL";
@@ -178,7 +176,6 @@
             // 
             // insertupdateSQL
             // 
-            this.autocomplete.SetAutocompleteMenu(this.insertupdateSQL, this.autocomplete);
             this.insertupdateSQL.Dock = System.Windows.Forms.DockStyle.Top;
             this.insertupdateSQL.Location = new System.Drawing.Point(0, 0);
             this.insertupdateSQL.Name = "insertupdateSQL";
@@ -189,8 +186,8 @@
             // 
             // chunkGroup
             // 
-            this.chunkGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.chunkGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chunkGroup.Controls.Add(this.chunk);
             this.chunkGroup.Controls.Add(this.offset);
             this.chunkGroup.Controls.Add(this.label2);
@@ -204,7 +201,6 @@
             // 
             // chunk
             // 
-            this.autocomplete.SetAutocompleteMenu(this.chunk, null);
             this.chunk.Location = new System.Drawing.Point(251, 22);
             this.chunk.Name = "chunk";
             this.chunk.Size = new System.Drawing.Size(100, 20);
@@ -213,7 +209,6 @@
             // 
             // offset
             // 
-            this.autocomplete.SetAutocompleteMenu(this.offset, null);
             this.offset.Location = new System.Drawing.Point(82, 22);
             this.offset.Name = "offset";
             this.offset.Size = new System.Drawing.Size(99, 20);
@@ -237,14 +232,6 @@
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "ChunkSize";
-            // 
-            // autocomplete
-            // 
-            this.autocomplete.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocomplete.Colors")));
-            this.autocomplete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.autocomplete.ImageList = this.QueryIcons;
-            this.autocomplete.Items = new string[0];
-            this.autocomplete.TargetControlWrapper = null;
             // 
             // QueryIcons
             // 

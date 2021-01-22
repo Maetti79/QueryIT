@@ -15,6 +15,8 @@ namespace PluginTAB {
     public class ExportTAB : IPlugin.IPlugin {
         #region IPlugin Members
 
+        private String iError;
+
         public Image Icon() {
             return PluginTAB.Properties.Resources.pluginImage;
         }
@@ -46,6 +48,12 @@ namespace PluginTAB {
 
         public pluginHook Hook {
             get { return pluginHook.Queryer; }
+            set { ; }
+        }
+
+        public string Error
+        {
+            get { return iError; }
             set { ; }
         }
 
@@ -101,7 +109,7 @@ namespace PluginTAB {
                             }
                         }
                     } catch(Exception e) {
-
+                        iError = e.Message;
                     }
                 }
             }

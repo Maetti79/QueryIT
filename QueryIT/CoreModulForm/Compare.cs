@@ -73,9 +73,11 @@ namespace QueryIT {
                 pform.update(0, Source.Rows.Count,0);
                 pform.Show();
                 int loops = 0;
-                sourceGrid.DataSource = Source;
-                bothGrid.DataSource = Both;
-                destinationGrid.DataSource = Destination;
+                //Too slow
+                //sourceGrid.DataSource = Source;
+                //bothGrid.DataSource = Both;
+                //destinationGrid.DataSource = Destination;
+                Application.DoEvents();
                 run = true;
                 int total = Source.Rows.Count;
                 bool match = false;
@@ -100,7 +102,7 @@ namespace QueryIT {
                         indexS++;
                     }
                     loops++;
-                    if(loops % 250 == 0) {
+                    if(loops % 25 == 0) {
                         pform.update(0, Source.Rows.Count, indexS + matches);
                         Application.DoEvents();
                     }
@@ -124,6 +126,9 @@ namespace QueryIT {
                 run = false;
                 compareToolStripMenuItem.Enabled = true;
                 killToolStripMenuItem.Enabled = false;
+                sourceGrid.DataSource = Source;
+                bothGrid.DataSource = Both;
+                destinationGrid.DataSource = Destination;
                 sourceGrid.Refresh();
                 bothGrid.Refresh();
                 destinationGrid.Refresh();

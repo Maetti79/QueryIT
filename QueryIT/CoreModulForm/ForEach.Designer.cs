@@ -56,7 +56,6 @@
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.killToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.autocomplete = new AutocompleteMenuNS.AutocompleteMenu();
             this.loopTabs.SuspendLayout();
             this.moveMapTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -204,9 +203,9 @@
             // 
             // placeholderList
             // 
-            this.placeholderList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.placeholderList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.placeholderList.FormattingEnabled = true;
             this.placeholderList.Location = new System.Drawing.Point(0, 0);
             this.placeholderList.Name = "placeholderList";
@@ -233,7 +232,6 @@
             // 
             // sqlBox
             // 
-            this.autocomplete.SetAutocompleteMenu(this.sqlBox, this.autocomplete);
             this.sqlBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sqlBox.Font = new System.Drawing.Font("Consolas", 12F);
             this.sqlBox.Location = new System.Drawing.Point(0, 0);
@@ -246,7 +244,6 @@
             // 
             // sqlPreviewBox
             // 
-            this.autocomplete.SetAutocompleteMenu(this.sqlPreviewBox, null);
             this.sqlPreviewBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sqlPreviewBox.Font = new System.Drawing.Font("Consolas", 12F);
             this.sqlPreviewBox.Location = new System.Drawing.Point(0, 0);
@@ -271,7 +268,6 @@
             // 
             // loopResultBox
             // 
-            this.autocomplete.SetAutocompleteMenu(this.loopResultBox, null);
             this.loopResultBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.loopResultBox.Location = new System.Drawing.Point(3, 3);
             this.loopResultBox.Name = "loopResultBox";
@@ -292,10 +288,9 @@
             // 
             // loopHistoryBox
             // 
-            this.loopHistoryBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.autocomplete.SetAutocompleteMenu(this.loopHistoryBox, null);
+            this.loopHistoryBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.loopHistoryBox.Location = new System.Drawing.Point(3, 3);
             this.loopHistoryBox.Name = "loopHistoryBox";
             this.loopHistoryBox.Size = new System.Drawing.Size(617, 407);
@@ -364,8 +359,8 @@
             // 
             this.saveAsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveAsToolStripMenuItem.Image")));
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.S)));
+            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
             this.saveAsToolStripMenuItem.Text = "Save as (*.qit)";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
@@ -395,14 +390,6 @@
             this.pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
             this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.pluginsToolStripMenuItem.Text = "Plugins";
-            // 
-            // autocomplete
-            // 
-            this.autocomplete.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocomplete.Colors")));
-            this.autocomplete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.autocomplete.ImageList = this.QueryIcons;
-            this.autocomplete.Items = new string[0];
-            this.autocomplete.TargetControlWrapper = null;
             // 
             // ForeachForm
             // 

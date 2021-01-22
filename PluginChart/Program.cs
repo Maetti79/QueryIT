@@ -15,6 +15,8 @@ namespace PluginChart {
     public class BuildChart : IPlugin.IPlugin {
         #region IPlugin Members
 
+        private String iError;
+
         public Image Icon() {
             return PluginChart.Properties.Resources.pluginImage;
         }
@@ -49,10 +51,16 @@ namespace PluginChart {
             set { ; }
         }
 
+        public string Error
+        {
+            get { return iError; }
+            set {; }
+        }
+
         public DataTable Process(DataTable Data, String Arg) {
             ChartForm crtFrm = new ChartForm(Data);
             crtFrm.Show();
-
+            iError = crtFrm.iError;
             return Data;
         }
 

@@ -1,0 +1,4 @@
+Date: 2020-08-14 09:20:29 - Result: 100 Records
+Query: SELECT FIRST 100 * FROM ADS;
+
+

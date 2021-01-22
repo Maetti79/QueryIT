@@ -54,7 +54,7 @@ namespace QueryIT {
                 int imported = 0;
                 int chunk = 1000;
                 //int offset = 0;
-                ProgressForm pform = new ProgressForm(this, "Progress [Export - " + table + "]");
+                ProgressForm pform = new ProgressForm(this, "Progress [Import - " + table + "]");
                 pform.update(0, chunk, 0);
                 pform.Show();
 
@@ -92,9 +92,15 @@ namespace QueryIT {
                 }
                 tmpf.Close();
                 string[] words = line.Split(delimiter.ToCharArray());
-                foreach(string columnname in words) {
- 
+
+                string sqlV;
+                sqlV = " VALUES(";
+                foreach (string columnname in words) {
+                    sqlV += "'" + columnname.ToString() + "',";
                 }
+                sqlV = sqlV.Substring(0, sqlV.Length - 2);
+                sqlV += ") ;\n";
+
 
 
 

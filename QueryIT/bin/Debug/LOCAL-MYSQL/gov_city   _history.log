@@ -1,8 +1,0 @@
-Date: 2016-06-06 11:56:02 - Result: 100 Records
-Query: SELECT * FROM  `geo`.`gov_city` LIMIT 100;
-
-
-Date: 2016-06-06 11:56:07 - Result: 100 Records
-Query: SELECT * FROM  `geo`.`gov_city` LIMIT 100;
-
-

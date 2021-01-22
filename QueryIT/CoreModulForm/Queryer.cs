@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.IO;
-using System.Globalization;
+﻿using AutocompleteMenuNS;
 using IPlugin;
 using QueryIT.model;
-using AutocompleteMenuNS;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
-namespace QueryIT {
-    public partial class QueryerForm : Form {
+namespace QueryIT
+{
+    public partial class QueryerForm : Form
+    {
         private MainForm parent;
         private String LicenseInformation = "";
 
@@ -37,15 +36,22 @@ namespace QueryIT {
 
         public string sqlfilepath = "";
 
-        public QueryerForm() {
+        public QueryerForm()
+        {
             InitializeComponent();
+            autocomplete = new AutocompleteMenu();
+            autocomplete.ImageList = QueryIcons;
         }
 
-        public void loadPlugins() {
-            try {
+        public void loadPlugins()
+        {
+            try
+            {
                 Array pls = plugincore.getPlugins(LicenseInformation);
-                foreach(Object pl in pls) {
-                    if(plugincore.Hook(pl.ToString()) == pluginHook.Queryer || plugincore.Hook(pl.ToString()) == pluginHook.All) {
+                foreach (Object pl in pls)
+                {
+                    if (plugincore.Hook(pl.ToString()) == pluginHook.Queryer || plugincore.Hook(pl.ToString()) == pluginHook.All)
+                    {
                         ToolStripMenuItem item = new ToolStripMenuItem();
                         item.Text = plugincore.Description(pl.ToString());
                         item.Name = pl.ToString();
@@ -54,47 +60,65 @@ namespace QueryIT {
                         pluginsToolStripMenuItem.DropDownItems.Insert(pluginsToolStripMenuItem.DropDownItems.Count, item);
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        public QueryerForm(Datasource ds, string a) {
-            try {
+        public QueryerForm(Datasource ds, string a)
+        {
+            try
+            {
                 InitializeComponent();
+                autocomplete = new AutocompleteMenu();
+                autocomplete.ImageList = QueryIcons;
                 QDS = ds;
                 align = a;
                 reloadSchema();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void MenuItemClickHandler(object sender, EventArgs e) {
-            try {
+        private void MenuItemClickHandler(object sender, EventArgs e)
+        {
+            try
+            {
                 ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
                 DT = plugincore.Process(clickedItem.Name.ToString(), DT, "");
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        public void doResize() {
-            try {
-                if(this.WindowState == FormWindowState.Normal && isMoved == false) {
-                    if(align == "left") {
+        public void doResize()
+        {
+            try
+            {
+                if (this.WindowState == FormWindowState.Normal && isMoved == false)
+                {
+                    if (align == "left")
+                    {
                         this.Left = 0;
                         this.Top = 0;
                         this.Height = this.Parent.Height - 5;
                         this.Width = (this.Parent.Width / 2) - 5;
                     }
-                    if(align == "right") {
+                    if (align == "right")
+                    {
                         this.Left = (this.Parent.Width / 2);
                         this.Top = 0;
                         this.Height = this.Parent.Height - 5;
                         this.Width = (this.Parent.Width / 2) - 5;
                     }
-                    if(align == "mid") {
+                    if (align == "mid")
+                    {
                         this.Top = 0;
                         this.Left = (this.Parent.Width / 4) - 5;
                         this.Height = this.Parent.Height - 5;
@@ -102,94 +126,139 @@ namespace QueryIT {
                         this.WindowState = FormWindowState.Maximized;
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void DatabaseTree_DoubleClick(object sender, EventArgs e) {
-            try {
-                if(DatabaseTree.SelectedNode != null) {
-                    foreach(TreeNode tn in DatabaseTree.Nodes) {
-                        if(tn.Text.ToString() == DatabaseTree.SelectedNode.Text.ToString()) {
-                            tn.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
-                            tn.Text = tn.Text;
-                        } else {
-                            tn.NodeFont = DatabaseTree.Font;
-                            tn.Text = tn.Text;
+        private void DatabaseTree_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DatabaseTree.SelectedNode != null)
+                {
+                    /*
+                        foreach (TreeNode tn in DatabaseTree.Nodes) {
+                            if(tn.Text.ToString() == DatabaseTree.SelectedNode.Text.ToString()) {
+                                tn.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
+                                tn.Text = tn.Text;
+                            } else {
+                                tn.NodeFont = DatabaseTree.Font;
+                                tn.Text = tn.Text;
+                            }
                         }
-                    }
+                    */
                     database = QDS.database;
-                    if(DatabaseTree.SelectedNode.ImageIndex == 3) {
-                        database = DatabaseTree.SelectedNode.Text.ToString();
-                        //Switch Database
-                        QDS.switchDatabase(DatabaseTree.SelectedNode.Text.ToString());
-                        reloadSchema();
-                    } else if(DatabaseTree.SelectedNode.ImageIndex == 4) {
+                    if (DatabaseTree.SelectedNode.ImageIndex == 3)
+                    {
                         database = DatabaseTree.SelectedNode.Text.ToString();
                         //Switch Database
                         QDS.switchDatabase(DatabaseTree.SelectedNode.Text.ToString());
                         reloadSchema();
                     }
-                    if(DatabaseTree.SelectedNode.ImageIndex == 5) {
+                    else if (DatabaseTree.SelectedNode.ImageIndex == 4)
+                    {
+                        database = DatabaseTree.SelectedNode.Text.ToString();
+                        //Switch Database
+                        QDS.switchDatabase(DatabaseTree.SelectedNode.Text.ToString());
+                        reloadSchema();
+                    }
+                    if (DatabaseTree.SelectedNode.ImageIndex == 5)
+                    {
                         table = DatabaseTree.SelectedNode.Text.ToString();
                         database = DatabaseTree.SelectedNode.Parent.Text.ToString();
                         DatabaseTree.SelectedNode.Parent.NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
                         DatabaseTree.SelectedNode.Parent.Text = DatabaseTree.SelectedNode.Parent.Text;
                         addQueryer(QDS.DBschema.D[database].T[table].SQLSelectTop());
                         QDS.table = DatabaseTree.SelectedNode.Text.ToString();
-                    } else if(DatabaseTree.SelectedNode.ImageIndex == 6) {
+                    }
+                    else if (DatabaseTree.SelectedNode.ImageIndex == 6)
+                    {
                         column = DatabaseTree.SelectedNode.Text.ToString();
-                        if(queryBox.Text.Length == 0) {
+                        if (queryBox.Text.Length == 0)
+                        {
                             string querypart = DatabaseTree.SelectedNode.Text.ToString().Substring(0, DatabaseTree.SelectedNode.Text.IndexOf("("));
                             queryBox.Text += querypart;
                         }
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void QueryerForm_Load(object sender, EventArgs e) {
+        private void QueryerForm_Load(object sender, EventArgs e)
+        {
             parent = this.MdiParent as MainForm;
             LicenseInformation = parent.LicenseInformation;
-            try {
-                if(QDS.conectionString.Contains("Microsoft Text Driver")) {
+            try
+            {
+                if (QDS.conectionString.Contains("Microsoft Text Driver"))
+                {
                     this.Icon = Icon.FromHandle(((Bitmap)QueryIcons.Images[3]).GetHicon());
                     this.Text = nameindex + " CSV: " + QDS.database + "";
-                } else {
+                }
+                else
+                {
                     this.Icon = Icon.FromHandle(((Bitmap)QueryIcons.Images[4]).GetHicon());
                     this.Text = nameindex + " MySQL: " + QDS.database + "";
                 }
                 resultHistoryTextBox.Text = QLog.LoadlogHistory(QDS.connectionName, queryTab.Text);
-                if(nameindex.ToString() == "Source") {
+                if (nameindex.ToString() == "Source")
+                {
                     setAsSourceToolStripMenuItem.Enabled = false;
                 }
-                if(nameindex.ToString() == "Destination") {
+                if (nameindex.ToString() == "Destination")
+                {
                     setAsDestinationToolStripMenuItem.Enabled = false;
                 }
+
+                /*
+                    if (QDS.engine == "MySQL") {
+                        this.BackgroundImage = DBLogos.Images[0];
+                    } else if (QDS.engine == "Firebird") {
+                        this.BackgroundImage = DBLogos.Images[4];
+                    } else {
+                        this.BackgroundImage = DBLogos.Images[0];
+                    }
+                    this.BackgroundImageLayout = ImageLayout.Center;
+                */
+
                 loadPlugins();
                 doResize();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void queryRunMenu_Click_1(object sender, EventArgs e) {
-            try {
+        private void queryRunMenu_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
                 queryRunMenu.Enabled = false;
                 killToolStripMenuItem.Enabled = true;
                 run = true;
-                if(LicenseInformation.Contains("Query") == false) {
-                    try {
-                        using(var sform = new LicenseForm(parent)) {
+                if (LicenseInformation.Contains("Query") == false)
+                {
+                    try
+                    {
+                        using (var sform = new LicenseForm(parent))
+                        {
                             var result = sform.ShowDialog();
-                            if(result == DialogResult.OK) {
+                            if (result == DialogResult.OK)
+                            {
 
                             }
                         }
-                    } catch(Exception err) {
+                    }
+                    catch (Exception err)
+                    {
                         parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                     }
                 }
@@ -202,23 +271,31 @@ namespace QueryIT {
                 RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 TabControl rTabs = getSelectedResultTabs(qTab);
                 query = qBox.Text.ToString();
-                if(query.Length > 0) {
+                if (query.Length > 0)
+                {
                     DT = new DataTable();
                     DT.Clear();
                     cellRow = -1;
                     cellColumn = -1;
-                    if(QDS.executeSql(query.ToString())) {
+                    if (QDS.executeSql(query.ToString()))
+                    {
                         rBox.Columns.Clear();
                         rBox.DataSource = null;
-                        if(QDS.hasResult() == true && QDS.hasErrors() == false) {
+                        if (QDS.hasResult() == true && QDS.hasErrors() == false)
+                        {
                             rTabs.SelectTab(0);
                             //Needed to Copy for Cell Edit
-                            if(QDS.row_count > 0) {
+                            if (QDS.row_count > 0)
+                            {
                                 DT = QDS.result.Copy();
-                            } else {
+                            }
+                            else
+                            {
                                 rTabs.SelectTab(1);
                             }
-                        } else {
+                        }
+                        else
+                        {
                             rTabs.SelectTab(1);
                         }
                         rBox.DataSource = DT;
@@ -237,8 +314,11 @@ namespace QueryIT {
                             "Result: " + QDS.row_count.ToString() + " Records\n" +
                             "Query: " + QDS.sql.ToString() + "\n" +
                             "\n");
-                    } else {
-                        if(QDS.hasErrors() == true) {
+                    }
+                    else
+                    {
+                        if (QDS.hasErrors() == true)
+                        {
                             rTabs.SelectTab(1);
                             rtBox.Text = "Date: " + QDS.utcStart.ToString("yyyy-MM-dd HH':'mm':'ss") + " - " +
                                          "Query: " + QDS.sql.ToString() + "\n" +
@@ -260,7 +340,9 @@ namespace QueryIT {
                 run = false;
                 queryRunMenu.Enabled = true;
                 killToolStripMenuItem.Enabled = false;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 run = false;
                 queryRunMenu.Enabled = true;
@@ -268,165 +350,223 @@ namespace QueryIT {
             }
         }
 
-        private void QueryerForm_Resize(object sender, EventArgs e) {
+        private void QueryerForm_Resize(object sender, EventArgs e)
+        {
             //isMoved = true;
         }
 
-        private void exportcsvToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
-                using(var sfd = new SaveFileDialog()) {
+        private void exportcsvToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var sfd = new SaveFileDialog())
+                {
                     sfd.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
                     sfd.FilterIndex = 1;
-                    if(sfd.ShowDialog() == DialogResult.OK) {
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
                         QDS.exportCSV(sfd.FileName);
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void newclearAllToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void newclearAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 RichTextBox qBox = getSelectedQueryBox(qTab);
                 qBox.Text = "";
                 sqlfilepath = "";
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void savesqlToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void savesqlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 RichTextBox qBox = getSelectedQueryBox(qTab);
-                if(File.Exists(sqlfilepath) == true) {
+                if (File.Exists(sqlfilepath) == true)
+                {
                     File.WriteAllText(sqlfilepath, qBox.Text.ToString());
-                } else {
-                    using(var sfd = new SaveFileDialog()) {
+                }
+                else
+                {
+                    using (var sfd = new SaveFileDialog())
+                    {
                         sfd.Filter = "SQL files (*.sql)|*.sql|All files (*.*)|*.*";
                         sfd.FilterIndex = 1;
 
-                        if(sfd.ShowDialog() == DialogResult.OK) {
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
                             sqlfilepath = sfd.FileName;
                             File.WriteAllText(sfd.FileName, qBox.Text.ToString());
                         }
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void loadsqlToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void loadsqlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 RichTextBox qBox = getSelectedQueryBox(qTab);
-                using(var sfd = new OpenFileDialog()) {
+                using (var sfd = new OpenFileDialog())
+                {
                     sfd.Filter = "SQL files (*.sql)|*.sql|All files (*.*)|*.*";
                     sfd.FilterIndex = 1;
 
-                    if(sfd.ShowDialog() == DialogResult.OK) {
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
                         string sql = File.ReadAllText(sfd.FileName);
                         sqlfilepath = sfd.FileName;
                         table = Path.GetFileName(sfd.FileName).Replace(".sql", "");
                         addQueryer(sql);
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void QueryerForm_Move(object sender, EventArgs e) {
+        private void QueryerForm_Move(object sender, EventArgs e)
+        {
             //isMoved = true;
         }
 
-        private void rtfBox_TextChanged(object sender, EventArgs e) {
-            try {
-                if(sender.GetType() == typeof(RichTextBox)) {
+        private void rtfBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (sender.GetType() == typeof(RichTextBox))
+                {
                     RichTextBox tb = (RichTextBox)sender;
                     Dictionary<string, string> TA = reloadAutocomplete(tb);
                     tb.SyntaxHighlight(TA);
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void dateTimeToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void dateTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 RichTextBox qBox = getSelectedQueryBox(qTab);
-                using(var sfd = new DateTimeForm()) {
-                    if(sfd.ShowDialog() == DialogResult.OK) {
+                using (var sfd = new DateTimeForm())
+                {
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
                         qBox.SelectedText = "'" + sfd.DateTimeStr + "'";
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void killToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void killToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 run = false;
                 QDS.run = false;
                 QDS.cancelSQL();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void QueryerForm_FormClosing(object sender, FormClosingEventArgs e) {
+        private void QueryerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
             run = false;
             QDS.run = false;
             QDS.disconnect();
         }
 
-        private void DatabaseTree_AfterSelect(object sender, TreeViewEventArgs e) {
-            try {
+        private void DatabaseTree_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            try
+            {
 
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        public Dictionary<string, string> reloadAutocomplete(RichTextBox rtfin) {
+        public Dictionary<string, string> reloadAutocomplete(RichTextBox rtfin)
+        {
             //AutoComplete
-            string[] wordsraw = rtfin.Text.Replace("\n"," ").Split(" ".ToCharArray());
+            string[] wordsraw = rtfin.Text.Replace("\n", " ").Split(" ".ToCharArray());
             string[] words = new string[0];
             Dictionary<string, string> TA = new Dictionary<string, string>();
             Dictionary<string, string> HL = new Dictionary<string, string>();
-            foreach(string rawword in wordsraw) {
-                if(rawword != "" && rawword != "\n") {
-                    words = words.AddItemToArray(rawword.Replace("\n",""));
+            foreach (string rawword in wordsraw)
+            {
+                if (rawword != "" && rawword != "\n")
+                {
+                    words = words.AddItemToArray(rawword.Replace("\n", ""));
                 }
             }
             var acitems = new List<AutocompleteItem>();
             Array.Sort(SQLSyntax.SQLblue);
-            foreach(var key in SQLSyntax.SQLblue) {
+            foreach (var key in SQLSyntax.SQLblue)
+            {
                 acitems.Add(new AutocompleteItem(key.ToString(), 0));
                 // words = words.RemoveIfExists(key);
             }
             Array.Sort(SQLSyntax.SQLdarkgreen);
-            foreach(var key in SQLSyntax.SQLdarkgreen) {
+            foreach (var key in SQLSyntax.SQLdarkgreen)
+            {
                 acitems.Add(new AutocompleteItem(key.ToString(), 0));
                 //words = words.RemoveIfExists(key);
             }
             //build Table aliases
-            for(int i = 0; i < words.Length - 1; i++) {
-                if(words[i].ToString() != "") {
-                    if((words[i].ToString().ToLower() == "from" || words[i].ToString().ToLower() == "join") && i + 2 < words.Length) {
-                        if(words[i + 2].ToString().ToLower() != "where" && 
-                            words[i + 2].ToString().ToLower() != "on" && 
-                            words[i + 2].ToString().ToLower() != "order" && 
-                            words[i + 2].ToString().ToLower() != "limit") {
-                            if(TA.ContainsKey(words[i + 2]) == false) {
+            for (int i = 0; i < words.Length - 1; i++)
+            {
+                if (words[i].ToString() != "")
+                {
+                    if ((words[i].ToString().ToLower() == "from" || words[i].ToString().ToLower() == "join") && i + 2 < words.Length)
+                    {
+                        if (words[i + 2].ToString().ToLower() != "where" &&
+                            words[i + 2].ToString().ToLower() != "on" &&
+                            words[i + 2].ToString().ToLower() != "order" &&
+                            words[i + 2].ToString().ToLower() != "limit")
+                        {
+                            if (TA.ContainsKey(words[i + 2]) == false)
+                            {
                                 TA.Add(words[i + 2], words[i + 1].Replace("`", ""));
                             }
-                            if(HL.ContainsKey(words[i + 2]) == false) {
+                            if (HL.ContainsKey(words[i + 2]) == false)
+                            {
                                 HL.Add(words[i + 2], words[i + 1].Replace("`", ""));
                             }
                         }
@@ -434,31 +574,46 @@ namespace QueryIT {
                 }
             }
             //Build live Autocomplete List
-            if(QDS.DBschema.Databases != null) {
-                foreach(DatabaseSchema db in QDS.DBschema.Databases) {
-                    if(HL.ContainsKey(db.DatabaseName) == false) {
+            if (QDS.DBschema.Databases != null)
+            {
+                foreach (DatabaseSchema db in QDS.DBschema.Databases)
+                {
+                    if (HL.ContainsKey(db.DatabaseName) == false)
+                    {
                         HL.Add(db.DatabaseName, db.DatabaseName);
                     }
-                    if(db.Tables != null) {
-                        foreach(TableSchema tbl in db.Tables) {
+                    if (db.Tables != null)
+                    {
+                        foreach (TableSchema tbl in db.Tables)
+                        {
                             acitems.Add(new AutocompleteItem(db.DatabaseName + "." + tbl.TableName, 5, db.DatabaseName + "." + tbl.TableName));
                             acitems.Add(new AutocompleteItem(tbl.TableName, 5, tbl.TableName));
                             //Hightlight table
-                            if(HL.ContainsKey(db.DatabaseName + "." + tbl.TableName) == false) {
+                            if (HL.ContainsKey(db.DatabaseName + "." + tbl.TableName) == false)
+                            {
                                 HL.Add(db.DatabaseName + "." + tbl.TableName, tbl.TableName);
                             }
                             //acitems.Add(new AutocompleteItem(db.DatabaseName + "." + tbl.TableName, 5, db.DatabaseName + "." + tbl.TableName));
-                            if(tbl.Columns != null) {
-                                if(rtfin.Text.Contains(tbl.TableName)) {
-                                    foreach(ColumnSchema col in tbl.Columns) {
+                            if (tbl.Columns != null)
+                            {
+                                if (rtfin.Text.Contains(tbl.TableName))
+                                {
+                                    foreach (ColumnSchema col in tbl.Columns)
+                                    {
                                         //Database.Table.Column
                                         string dbtblname = db.DatabaseName + "." + tbl.TableName;
-                                        if(TA.ContainsValue(dbtblname)) {
-                                            foreach(string vkey in TA.Keys) {
-                                                if(TA[vkey] == dbtblname) {
-                                                    if(col.PrimaryKey == true) {
+                                        if (TA.ContainsValue(dbtblname))
+                                        {
+                                            foreach (string vkey in TA.Keys)
+                                            {
+                                                if (TA[vkey] == dbtblname)
+                                                {
+                                                    if (col.PrimaryKey == true)
+                                                    {
                                                         acitems.Add(new AutocompleteItem(vkey + "." + col.ColumnName, 10, vkey + "." + col.ColumnName));
-                                                    } else {
+                                                    }
+                                                    else
+                                                    {
                                                         acitems.Add(new AutocompleteItem(vkey + "." + col.ColumnName, 6, vkey + "." + col.ColumnName));
                                                     }
                                                 }
@@ -466,25 +621,35 @@ namespace QueryIT {
                                         }
                                         //Table.Column 
                                         string tblname = tbl.TableName;
-                                        if(TA.ContainsValue(tblname)) {
-                                            foreach(string vkey in TA.Keys) {
-                                                if(TA[vkey] == tblname) {
-                                                    if(col.PrimaryKey == true) {
+                                        if (TA.ContainsValue(tblname))
+                                        {
+                                            foreach (string vkey in TA.Keys)
+                                            {
+                                                if (TA[vkey] == tblname)
+                                                {
+                                                    if (col.PrimaryKey == true)
+                                                    {
                                                         acitems.Add(new AutocompleteItem(vkey + "." + col.ColumnName, 10, vkey + "." + col.ColumnName));
-                                                    } else {
+                                                    }
+                                                    else
+                                                    {
                                                         acitems.Add(new AutocompleteItem(vkey + "." + col.ColumnName, 6, vkey + "." + col.ColumnName));
                                                     }
                                                 }
                                             }
                                         }
                                         //Column
-                                        if(col.PrimaryKey == true) {
+                                        if (col.PrimaryKey == true)
+                                        {
                                             acitems.Add(new AutocompleteItem(tbl.TableName + "." + col.ColumnName, 10, tbl.TableName + "." + col.ColumnName));
-                                        } else {
+                                        }
+                                        else
+                                        {
                                             acitems.Add(new AutocompleteItem(tbl.TableName + "." + col.ColumnName, 6, tbl.TableName + "." + col.ColumnName));
                                         }
                                         //Hightlight Column
-                                        if(HL.ContainsKey(tbl.TableName + "." + col.ColumnName) == false) {
+                                        if (HL.ContainsKey(tbl.TableName + "." + col.ColumnName) == false)
+                                        {
                                             HL.Add(tbl.TableName + "." + col.ColumnName, col.ColumnName);
                                         }
                                     }
@@ -500,47 +665,65 @@ namespace QueryIT {
             return HL;
         }
 
-        public void reloadSchema() {
-            try {
+        public void reloadSchema()
+        {
+            try
+            {
                 //AutoComplete
                 var acitems = new List<AutocompleteItem>();
                 Array.Sort(SQLSyntax.SQLblue);
-                foreach(var key in SQLSyntax.SQLblue) {
+                foreach (var key in SQLSyntax.SQLblue)
+                {
                     acitems.Add(new AutocompleteItem(key.ToString(), 0));
                 }
                 Array.Sort(SQLSyntax.SQLdarkgreen);
-                foreach(var key in SQLSyntax.SQLdarkgreen) {
+                foreach (var key in SQLSyntax.SQLdarkgreen)
+                {
                     acitems.Add(new AutocompleteItem(key.ToString(), 0));
                 }
                 //TreeView
                 string database = QDS.database;
-                if(QDS.DBschema.Databases != null) {
-                    foreach(DatabaseSchema db in QDS.DBschema.Databases) {
-                        if(DatabaseTree.Nodes.IndexOfKey(db.DatabaseName) == -1) {
+                if (QDS.DBschema.Databases != null)
+                {
+                    foreach (DatabaseSchema db in QDS.DBschema.Databases)
+                    {
+                        if (DatabaseTree.Nodes.IndexOfKey(db.DatabaseName) == -1)
+                        {
                             //Add, Database to TreeView
                             DatabaseTree.Nodes.Add(db.DatabaseName, db.DatabaseName);
                             //Seelct Font
-                            if(db.DatabaseName == database) {
+                            if (db.DatabaseName == database)
+                            {
                                 DatabaseTree.Nodes[db.DatabaseName].NodeFont = new Font(DatabaseTree.Font, FontStyle.Bold);
                                 DatabaseTree.Nodes[db.DatabaseName].Text = DatabaseTree.Nodes[db.DatabaseName].Text;
-                            } else {
+                            }
+                            else
+                            {
                                 DatabaseTree.Nodes[db.DatabaseName].NodeFont = DatabaseTree.Font;
                                 DatabaseTree.Nodes[db.DatabaseName].Text = DatabaseTree.Nodes[db.DatabaseName].Text;
                             }
                             //Select Icon
-                            if(QDS.conectionString.Contains("Microsoft Text Driver")) {
+                            if (QDS.conectionString.Contains("Microsoft Text Driver"))
+                            {
                                 DatabaseTree.Nodes[db.DatabaseName].ImageIndex = 3;
                                 DatabaseTree.Nodes[db.DatabaseName].SelectedImageIndex = 3;
-                            } else {
+                            }
+                            else
+                            {
                                 DatabaseTree.Nodes[db.DatabaseName].ImageIndex = 4;
                                 DatabaseTree.Nodes[db.DatabaseName].SelectedImageIndex = 4;
                             }
-                        } else {
+                        }
+                        else
+                        {
                             //Skip, Database is already in TreeView
                         }
-                        if(db.Tables != null) {
-                            foreach(TableSchema tbl in db.Tables) {
-                                if(DatabaseTree.Nodes[db.DatabaseName].Nodes.IndexOfKey(tbl.TableName) == -1) {
+                        if (db.Tables != null)
+                        {
+                            foreach (TableSchema tbl in db.Tables)
+                            {
+                                if (DatabaseTree.Nodes[db.DatabaseName].Nodes.IndexOfKey(tbl.TableName) == -1)
+                                {
                                     //Add Table to Treeview
                                     DatabaseTree.Nodes[db.DatabaseName].Nodes.Add(tbl.TableName, tbl.TableName);
                                     //Image
@@ -548,32 +731,45 @@ namespace QueryIT {
                                     DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].SelectedImageIndex = 5;
                                     //AutoComplete
                                     acitems.Add(new AutocompleteItem(db.DatabaseName + "." + tbl.TableName, 5, db.DatabaseName + "." + tbl.TableName));
-                                } else {
+                                }
+                                else
+                                {
                                     acitems.Add(new AutocompleteItem(db.DatabaseName + "." + tbl.TableName, 5, db.DatabaseName + "." + tbl.TableName));
                                     //Skip, Table is already in Treeview
                                 }
-                                if(tbl.Columns != null) {
-                                    foreach(ColumnSchema col in tbl.Columns) {
-                                        if(DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes.IndexOfKey(col.ColumnName) == -1) {
+                                if (tbl.Columns != null)
+                                {
+                                    foreach (ColumnSchema col in tbl.Columns)
+                                    {
+                                        if (DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes.IndexOfKey(col.ColumnName) == -1)
+                                        {
                                             //Add Column to Treeview
                                             DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes.Add(col.ColumnName, col.ColumnName + "   " + col.DataType + "");
-                                            if(col.PrimaryKey == true) {
+                                            if (col.PrimaryKey == true)
+                                            {
                                                 //Image
                                                 DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].ImageIndex = 10;
                                                 DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].SelectedImageIndex = 10;
                                                 //AutoComplete
                                                 acitems.Add(new AutocompleteItem(tbl.TableName + "." + col.ColumnName, 10, tbl.TableName + "." + col.ColumnName));
-                                            } else {
+                                            }
+                                            else
+                                            {
                                                 //Image
                                                 DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].ImageIndex = 6;
                                                 DatabaseTree.Nodes[db.DatabaseName].Nodes[tbl.TableName].Nodes[col.ColumnName].SelectedImageIndex = 6;
                                                 //AutoComplete
                                                 acitems.Add(new AutocompleteItem(tbl.TableName + "." + col.ColumnName, 6, tbl.TableName + "." + col.ColumnName));
                                             }
-                                        } else {
-                                            if(col.PrimaryKey == true) {
+                                        }
+                                        else
+                                        {
+                                            if (col.PrimaryKey == true)
+                                            {
                                                 acitems.Add(new AutocompleteItem(tbl.TableName + "." + col.ColumnName, 10, tbl.TableName + "." + col.ColumnName));
-                                            } else {
+                                            }
+                                            else
+                                            {
                                                 acitems.Add(new AutocompleteItem(tbl.TableName + "." + col.ColumnName, 6, tbl.TableName + "." + col.ColumnName));
                                             }
                                             //Skip, Column is already in Treeview
@@ -587,13 +783,17 @@ namespace QueryIT {
                 //acitems.Sort(acitems);
                 acitems = acitems.Distinct().ToList();
                 autocomplete.SetAutocompleteItems(acitems);
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        public void reloadSchema2() {
-            try {
+        public void reloadSchema2()
+        {
+            try
+            {
                 /*
                 var acitems = new List<AutocompleteItem>();
                 Array.Sort(SQLSyntax.SQLblue);
@@ -700,59 +900,83 @@ namespace QueryIT {
                 //acitems = acitems.Distinct().ToList();
                 autocomplete.SetAutocompleteItems(acitems);           
                 */
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
 
         }
 
-        private void connectToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 QDS.connect();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 QDS.disconnect();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e) {
-            try {
-                if(QDS.isConnected() == true) {
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (QDS.isConnected() == true)
+                {
                     connectionToolStripMenuItem.Image = QueryIcons.Images[1];
-                } else {
+                }
+                else
+                {
                     connectionToolStripMenuItem.Image = QueryIcons.Images[2];
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 RichTextBox qBox = getSelectedQueryBox(qTab);
-                using(var sfd = new SaveFileDialog()) {
+                using (var sfd = new SaveFileDialog())
+                {
                     sfd.Filter = "SQL files (*.sql)|*.sql|All files (*.*)|*.*";
                     sfd.FilterIndex = 1;
 
-                    if(sfd.ShowDialog() == DialogResult.OK) {
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
                         sqlfilepath = sfd.FileName;
                         File.WriteAllText(sfd.FileName, qBox.Text.ToString());
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void saveSQLToolStripMenuItem1_Click(object sender, EventArgs e) {
+        private void saveSQLToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
             /*
             try {
                 
@@ -851,35 +1075,49 @@ namespace QueryIT {
             */
         }
 
-        private void setAsSourceToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void setAsSourceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 MainForm parent = this.MdiParent as MainForm;
                 parent.openSource(QDS.conectionString.ToString(), QDS.connectionName.ToString());
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void newQueryerToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void newQueryerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 MainForm parent = this.MdiParent as MainForm;
                 parent.openQueryer(QDS.conectionString.ToString(), QDS.connectionName.ToString());
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void setAsDestinationToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void setAsDestinationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 MainForm parent = this.MdiParent as MainForm;
                 parent.openDestination(QDS.conectionString.ToString(), QDS.connectionName.ToString());
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void searchToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void searchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -887,13 +1125,17 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 SearchForm searchfrm = new SearchForm(rBox);
                 searchfrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        public int doAutocase(string Autocase, int offset = 0, string[] columns = null) {
-            try {
+        public int doAutocase(string Autocase, int offset = 0, string[] columns = null)
+        {
+            try
+            {
                 int match = 0;
                 int loops = 0;
                 DateTime utcStart;
@@ -912,16 +1154,26 @@ namespace QueryIT {
                 utcStart = DateTime.UtcNow;
                 TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
                 rBox.CurrentCell = null;
-                foreach(DataGridViewRow r in rBox.Rows) {
-                    if(r.IsNewRow == false) {
-                        foreach(DataGridViewCell c in r.Cells) {
-                            if(columns.Contains(c.OwningColumn.Name.ToString())) {
-                                if(c.Value != null) {
-                                    if(Autocase == "to lower") {
+                foreach (DataGridViewRow r in rBox.Rows)
+                {
+                    if (r.IsNewRow == false)
+                    {
+                        foreach (DataGridViewCell c in r.Cells)
+                        {
+                            if (columns.Contains(c.OwningColumn.Name.ToString()))
+                            {
+                                if (c.Value != null)
+                                {
+                                    if (Autocase == "to lower")
+                                    {
                                         c.Value = c.Value.ToString().ToLowerInvariant();
-                                    } else if(Autocase == "to UPPER") {
+                                    }
+                                    else if (Autocase == "to UPPER")
+                                    {
                                         c.Value = c.Value.ToString().ToUpperInvariant();
-                                    } else if(Autocase == "to Title Case") {
+                                    }
+                                    else if (Autocase == "to Title Case")
+                                    {
                                         c.Value = textInfo.ToTitleCase(c.Value.ToString());
                                     }
                                     match++;
@@ -930,7 +1182,8 @@ namespace QueryIT {
                         }
                     }
                     loops++;
-                    if(loops % 250 == 0) {
+                    if (loops % 250 == 0)
+                    {
                         Application.DoEvents();
                     }
                 }
@@ -948,7 +1201,9 @@ namespace QueryIT {
                                   "Tool: AutoCase(" + Autocase.ToString() + ")\n" +
                                   "\n" + rhBox.Text.ToString();
                 return match;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 run = false;
                 queryRunMenu.Enabled = true;
@@ -957,8 +1212,10 @@ namespace QueryIT {
             }
         }
 
-        public int doHash(string Hash, int offset = 0, string[] columns = null) {
-            try {
+        public int doHash(string Hash, int offset = 0, string[] columns = null)
+        {
+            try
+            {
                 int match = 0;
                 int loops = 0;
                 DateTime utcStart;
@@ -977,14 +1234,22 @@ namespace QueryIT {
                 utcStart = DateTime.UtcNow;
                 TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
                 rBox.CurrentCell = null;
-                foreach(DataGridViewRow r in rBox.Rows) {
-                    if(r.IsNewRow == false) {
-                        foreach(DataGridViewCell c in r.Cells) {
-                            if(columns.Contains(c.OwningColumn.Name.ToString())) {
-                                if(c.Value != null) {
-                                    if(Hash == "MD5") {
+                foreach (DataGridViewRow r in rBox.Rows)
+                {
+                    if (r.IsNewRow == false)
+                    {
+                        foreach (DataGridViewCell c in r.Cells)
+                        {
+                            if (columns.Contains(c.OwningColumn.Name.ToString()))
+                            {
+                                if (c.Value != null)
+                                {
+                                    if (Hash == "MD5")
+                                    {
                                         c.Value = c.Value.ToString().checksum();
-                                    } else if(Hash == "SHA-1") {
+                                    }
+                                    else if (Hash == "SHA-1")
+                                    {
                                         c.Value = c.Value.ToString().checksum();
                                     }
                                     match++;
@@ -993,7 +1258,8 @@ namespace QueryIT {
                         }
                     }
                     loops++;
-                    if(loops % 250 == 0) {
+                    if (loops % 250 == 0)
+                    {
                         Application.DoEvents();
                     }
                 }
@@ -1011,7 +1277,9 @@ namespace QueryIT {
                                   "Tool: AutoCase(" + Hash.ToString() + ")\n" +
                                   "\n" + rhBox.Text.ToString();
                 return match;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 run = false;
                 queryRunMenu.Enabled = true;
@@ -1020,8 +1288,10 @@ namespace QueryIT {
             }
         }
 
-        public int doConcat(string column, int offset = 0, string before = "", string after = "") {
-            try {
+        public int doConcat(string column, int offset = 0, string before = "", string after = "")
+        {
+            try
+            {
                 int match = 0;
                 int loops = 0;
                 DateTime utcStart;
@@ -1040,11 +1310,16 @@ namespace QueryIT {
                 utcStart = DateTime.UtcNow;
                 TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 
-                foreach(DataGridViewRow r in rBox.Rows) {
-                    if(r.IsNewRow == false) {
-                        foreach(DataGridViewCell c in r.Cells) {
-                            if(column.Equals(c.OwningColumn.Name.ToString())) {
-                                if(c.Value != null) {
+                foreach (DataGridViewRow r in rBox.Rows)
+                {
+                    if (r.IsNewRow == false)
+                    {
+                        foreach (DataGridViewCell c in r.Cells)
+                        {
+                            if (column.Equals(c.OwningColumn.Name.ToString()))
+                            {
+                                if (c.Value != null)
+                                {
                                     c.Value = before.ToString() + c.Value.ToString() + after.ToString();
                                     match++;
                                 }
@@ -1052,7 +1327,8 @@ namespace QueryIT {
                         }
                     }
                     loops++;
-                    if(loops % 250 == 0) {
+                    if (loops % 250 == 0)
+                    {
                         Application.DoEvents();
                     }
                 }
@@ -1070,7 +1346,9 @@ namespace QueryIT {
                                   "Tool: Concat(" + column.ToString() + ", " + before.ToString() + ", " + after.ToString() + ")\n" +
                                   "\n" + rhBox.Text.ToString();
                 return match;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 run = false;
                 queryRunMenu.Enabled = true;
@@ -1079,8 +1357,10 @@ namespace QueryIT {
             }
         }
 
-        public int doReplace(string searchstring, string replacestring, int offset = 0, bool exact = false, bool casesensetive = false, string[] columns = null) {
-            try {
+        public int doReplace(string searchstring, string replacestring, int offset = 0, bool exact = false, bool casesensetive = false, string[] columns = null)
+        {
+            try
+            {
                 int match = 0;
                 int loops = 0;
                 DateTime utcStart;
@@ -1097,31 +1377,49 @@ namespace QueryIT {
                 killToolStripMenuItem.Enabled = true;
                 resultGrid.CurrentCell = null;
                 utcStart = DateTime.UtcNow;
-                foreach(DataGridViewRow r in rBox.Rows) {
-                    if(r.IsNewRow == false) {
-                        foreach(DataGridViewCell c in r.Cells) {
-                            if(columns.Contains(c.OwningColumn.Name.ToString())) {
-                                if(c.Value != null) {
-                                    if(casesensetive == true) {
-                                        if(exact == true) {
-                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true) {
+                foreach (DataGridViewRow r in rBox.Rows)
+                {
+                    if (r.IsNewRow == false)
+                    {
+                        foreach (DataGridViewCell c in r.Cells)
+                        {
+                            if (columns.Contains(c.OwningColumn.Name.ToString()))
+                            {
+                                if (c.Value != null)
+                                {
+                                    if (casesensetive == true)
+                                    {
+                                        if (exact == true)
+                                        {
+                                            if (c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true)
+                                            {
                                                 c.Value = replacestring.ToString();
                                                 match++;
                                             }
-                                        } else {
-                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0) {
+                                        }
+                                        else
+                                        {
+                                            if (c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0)
+                                            {
                                                 c.Value = c.Value.ToString().Replace(searchstring.ToString(), replacestring.ToString());
                                                 match++;
                                             }
                                         }
-                                    } else {
-                                        if(exact == true) {
-                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true) {
+                                    }
+                                    else
+                                    {
+                                        if (exact == true)
+                                        {
+                                            if (c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true)
+                                            {
                                                 c.Value = replacestring.ToString();
                                                 match++;
                                             }
-                                        } else {
-                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0) {
+                                        }
+                                        else
+                                        {
+                                            if (c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0)
+                                            {
                                                 c.Value = c.Value.ToString().Replace(searchstring.ToString(), replacestring.ToString());
                                                 match++;
                                             }
@@ -1132,7 +1430,8 @@ namespace QueryIT {
                         }
                     }
                     loops++;
-                    if(loops % 250 == 0) {
+                    if (loops % 250 == 0)
+                    {
                         Application.DoEvents();
                     }
                 }
@@ -1150,7 +1449,9 @@ namespace QueryIT {
                                   "Tool: Filter(" + searchstring.ToString() + ", " + replacestring.ToString() + ")\n" +
                                   "\n" + rhBox.Text.ToString();
                 return match;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 run = false;
                 queryRunMenu.Enabled = true;
@@ -1159,8 +1460,10 @@ namespace QueryIT {
             }
         }
 
-        public int doFilter(string searchstring, int offset = 0, bool exact = false, bool casesensetive = false, string[] columns = null) {
-            try {
+        public int doFilter(string searchstring, int offset = 0, bool exact = false, bool casesensetive = false, string[] columns = null)
+        {
+            try
+            {
                 int match = 0;
                 int loops = 0;
                 DateTime utcStart;
@@ -1179,32 +1482,50 @@ namespace QueryIT {
                 pform.Show();
                 utcStart = DateTime.UtcNow;
                 rBox.CurrentCell = null;
-                foreach(DataGridViewRow r in rBox.Rows) {
-                    if(r.IsNewRow == false) {
+                foreach (DataGridViewRow r in rBox.Rows)
+                {
+                    if (r.IsNewRow == false)
+                    {
                         r.Visible = false;
-                        foreach(DataGridViewCell c in r.Cells) {
-                            if(columns.Contains(c.OwningColumn.Name.ToString())) {
-                                if(c.Value != null) {
-                                    if(casesensetive == true) {
-                                        if(exact == true) {
-                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true) {
-                                                r.Visible = true;
-                                                match++;
-                                            }
-                                        } else {
-                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0) {
+                        foreach (DataGridViewCell c in r.Cells)
+                        {
+                            if (columns.Contains(c.OwningColumn.Name.ToString()))
+                            {
+                                if (c.Value != null)
+                                {
+                                    if (casesensetive == true)
+                                    {
+                                        if (exact == true)
+                                        {
+                                            if (c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true)
+                                            {
                                                 r.Visible = true;
                                                 match++;
                                             }
                                         }
-                                    } else {
-                                        if(exact == true) {
-                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true) {
+                                        else
+                                        {
+                                            if (c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0)
+                                            {
                                                 r.Visible = true;
                                                 match++;
                                             }
-                                        } else {
-                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0) {
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (exact == true)
+                                        {
+                                            if (c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true)
+                                            {
+                                                r.Visible = true;
+                                                match++;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0)
+                                            {
                                                 r.Visible = true;
                                                 match++;
                                             }
@@ -1215,7 +1536,8 @@ namespace QueryIT {
                         }
                     }
                     loops++;
-                    if(loops % 250 == 0) {
+                    if (loops % 250 == 0)
+                    {
                         pform.update(0, rBox.Rows.Count, loops);
                         Application.DoEvents();
                         rBox.Refresh();
@@ -1238,7 +1560,9 @@ namespace QueryIT {
                                   "Tool: Filter(" + searchstring.ToString() + ")\n" +
                                   "\n" + rhBox.Text.ToString();
                 return match;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 run = false;
                 queryRunMenu.Enabled = true;
@@ -1247,8 +1571,10 @@ namespace QueryIT {
             }
         }
 
-        public int doSearch(string searchstring, int offset = 0, bool exact = false, bool casesensetive = false, string[] columns = null) {
-            try {
+        public int doSearch(string searchstring, int offset = 0, bool exact = false, bool casesensetive = false, string[] columns = null)
+        {
+            try
+            {
                 int match = 0;
                 int loops = 0;
                 DateTime utcStart;
@@ -1263,55 +1589,85 @@ namespace QueryIT {
                 queryRunMenu.Enabled = false;
                 killToolStripMenuItem.Enabled = true;
                 utcStart = DateTime.UtcNow;
-                foreach(DataGridViewRow r in rBox.Rows) {
-                    if(r.IsNewRow == false) {
-                        foreach(DataGridViewCell c in r.Cells) {
-                            if(columns.Contains(c.OwningColumn.Name.ToString())) {
-                                if(c.Value != null) {
-                                    if(casesensetive == true) {
-                                        if(exact == true) {
-                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true) {
-                                                if(match == offset) {
+                foreach (DataGridViewRow r in rBox.Rows)
+                {
+                    if (r.IsNewRow == false)
+                    {
+                        foreach (DataGridViewCell c in r.Cells)
+                        {
+                            if (columns.Contains(c.OwningColumn.Name.ToString()))
+                            {
+                                if (c.Value != null)
+                                {
+                                    if (casesensetive == true)
+                                    {
+                                        if (exact == true)
+                                        {
+                                            if (c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCulture) == true)
+                                            {
+                                                if (match == offset)
+                                                {
                                                     rBox.CurrentCell = rBox.Rows[c.RowIndex].Cells[c.ColumnIndex];
                                                     search = false;
                                                     match++;
                                                     break;
-                                                } else {
-                                                    match++;
                                                 }
-                                            }
-                                        } else {
-                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0) {
-                                                if(match == offset) {
-                                                    rBox.CurrentCell = rBox.Rows[c.RowIndex].Cells[c.ColumnIndex];
-                                                    search = false;
-                                                    match++;
-                                                    break;
-                                                } else {
+                                                else
+                                                {
                                                     match++;
                                                 }
                                             }
                                         }
-                                    } else {
-                                        if(exact == true) {
-                                            if(c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true) {
-                                                if(match == offset) {
+                                        else
+                                        {
+                                            if (c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCulture) >= 0)
+                                            {
+                                                if (match == offset)
+                                                {
                                                     rBox.CurrentCell = rBox.Rows[c.RowIndex].Cells[c.ColumnIndex];
                                                     search = false;
                                                     match++;
                                                     break;
-                                                } else {
+                                                }
+                                                else
+                                                {
                                                     match++;
                                                 }
                                             }
-                                        } else {
-                                            if(c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0) {
-                                                if(match == offset) {
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (exact == true)
+                                        {
+                                            if (c.Value.ToString().Equals(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) == true)
+                                            {
+                                                if (match == offset)
+                                                {
                                                     rBox.CurrentCell = rBox.Rows[c.RowIndex].Cells[c.ColumnIndex];
                                                     search = false;
                                                     match++;
                                                     break;
-                                                } else {
+                                                }
+                                                else
+                                                {
+                                                    match++;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (c.Value.ToString().IndexOf(searchstring.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0)
+                                            {
+                                                if (match == offset)
+                                                {
+                                                    rBox.CurrentCell = rBox.Rows[c.RowIndex].Cells[c.ColumnIndex];
+                                                    search = false;
+                                                    match++;
+                                                    break;
+                                                }
+                                                else
+                                                {
                                                     match++;
                                                 }
                                             }
@@ -1322,10 +1678,12 @@ namespace QueryIT {
                         }
                     }
                     loops++;
-                    if(loops % 250 == 0) {
+                    if (loops % 250 == 0)
+                    {
                         Application.DoEvents();
                     }
-                    if(search == false || run == false) {
+                    if (search == false || run == false)
+                    {
                         break;
                     }
                 }
@@ -1334,7 +1692,9 @@ namespace QueryIT {
                 queryRunMenu.Enabled = true;
                 killToolStripMenuItem.Enabled = false;
                 return match;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 run = false;
                 queryRunMenu.Enabled = true;
@@ -1343,8 +1703,10 @@ namespace QueryIT {
             }
         }
 
-        public int doUniq() {
-            try {
+        public int doUniq()
+        {
+            try
+            {
                 int match = 0;
                 int loops = 0;
                 int indexS = 0;
@@ -1363,34 +1725,50 @@ namespace QueryIT {
                 queryRunMenu.Enabled = false;
                 killToolStripMenuItem.Enabled = true;
                 utcStart = DateTime.UtcNow;
-                while(indexS < rBox.Rows.Count && run == true) {
+                while (indexS < rBox.Rows.Count && run == true)
+                {
                     indexD = 0;
-                    while(indexD < rBox.Rows.Count && run == true) {
-                        if(indexS != indexD) {
-                            if(indexS < rBox.Rows.Count && indexD < rBox.Rows.Count) {
-                                if(rBox.Rows[indexS].IsNewRow == false && rBox.Rows[indexD].IsNewRow == false) {
-                                    if(rBox.Rows[indexS].ItemArray().arrEquals(rBox.Rows[indexD].ItemArray()) == true) {
+                    while (indexD < rBox.Rows.Count && run == true)
+                    {
+                        if (indexS != indexD)
+                        {
+                            if (indexS < rBox.Rows.Count && indexD < rBox.Rows.Count)
+                            {
+                                if (rBox.Rows[indexS].IsNewRow == false && rBox.Rows[indexD].IsNewRow == false)
+                                {
+                                    if (rBox.Rows[indexS].ItemArray().arrEquals(rBox.Rows[indexD].ItemArray()) == true)
+                                    {
                                         rBox.Rows.RemoveAt(indexD);
                                         match++;
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         indexD++;
                                     }
-                                } else {
+                                }
+                                else
+                                {
                                     indexD++;
                                 }
-                            } else {
+                            }
+                            else
+                            {
                                 indexD++;
                             }
-                        } else {
+                        }
+                        else
+                        {
                             indexD++;
                         }
                         loops++;
-                        if(loops % 250 == 0) {
+                        if (loops % 250 == 0)
+                        {
                             pform.update(0, rBox.Rows.Count, indexS);
                             Application.DoEvents();
                         }
                     }
-                    if(indexD == rBox.Rows.Count) {
+                    if (indexD == rBox.Rows.Count)
+                    {
                         indexS++;
                     }
                 }
@@ -1408,7 +1786,9 @@ namespace QueryIT {
                 "Tool: Unique()\n" +
                 "\n" + rhBox.Text.ToString();
                 return match;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 run = false;
                 queryRunMenu.Enabled = true;
@@ -1418,8 +1798,10 @@ namespace QueryIT {
         }
 
 
-        public int doDouble() {
-            try {
+        public int doDouble()
+        {
+            try
+            {
                 int match = 0;
                 int keep = 0;
                 int loops = 0;
@@ -1439,14 +1821,20 @@ namespace QueryIT {
                 queryRunMenu.Enabled = false;
                 killToolStripMenuItem.Enabled = true;
                 utcStart = DateTime.UtcNow;
-                while(indexS < rBox.Rows.Count && run == true) {
+                while (indexS < rBox.Rows.Count && run == true)
+                {
                     indexD = 0;
                     match = 0;
-                    while(indexD < rBox.Rows.Count && run == true) {
-                        if(rBox.Rows[indexS].IsNewRow == false && rBox.Rows[indexD].IsNewRow == false) {
-                            if(indexS != indexD) {
-                                if(indexS < rBox.Rows.Count && indexD < rBox.Rows.Count) {
-                                    if(rBox.Rows[indexS].ItemArray().arrEquals(rBox.Rows[indexD].ItemArray()) == true) {
+                    while (indexD < rBox.Rows.Count && run == true)
+                    {
+                        if (rBox.Rows[indexS].IsNewRow == false && rBox.Rows[indexD].IsNewRow == false)
+                        {
+                            if (indexS != indexD)
+                            {
+                                if (indexS < rBox.Rows.Count && indexD < rBox.Rows.Count)
+                                {
+                                    if (rBox.Rows[indexS].ItemArray().arrEquals(rBox.Rows[indexD].ItemArray()) == true)
+                                    {
                                         match++;
                                     }
                                 }
@@ -1454,22 +1842,29 @@ namespace QueryIT {
                         }
                         indexD++;
                         loops++;
-                        if(loops % 250 == 0) {
+                        if (loops % 250 == 0)
+                        {
                             pform.update(0, rBox.Rows.Count, indexS + keep);
                             Application.DoEvents();
                         }
                     }
 
-                    if(match == 0) {
-                        if(rBox.Rows[indexS].IsNewRow == false) {
+                    if (match == 0)
+                    {
+                        if (rBox.Rows[indexS].IsNewRow == false)
+                        {
                             rBox.Rows.RemoveAt(indexS);
                         }
-                    } else {
+                    }
+                    else
+                    {
                         keep++;
-                        if(indexD == rBox.Rows.Count) {
+                        if (indexD == rBox.Rows.Count)
+                        {
                             indexS++;
                         }
-                        if(rBox.Rows[indexS].IsNewRow == true) {
+                        if (rBox.Rows[indexS].IsNewRow == true)
+                        {
                             indexS++;
                         }
                     }
@@ -1491,7 +1886,9 @@ namespace QueryIT {
                                          "\n" + rhBox.Text.ToString();
 
                 return match;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 run = false;
                 queryRunMenu.Enabled = true;
@@ -1500,8 +1897,10 @@ namespace QueryIT {
             }
         }
 
-        private void filterToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void filterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -1509,13 +1908,17 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 FilterForm filterfrm = new FilterForm(rBox);
                 filterfrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void replaceToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -1523,33 +1926,46 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 ReplaceForm replacefrm = new ReplaceForm(rBox);
                 replacefrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void resultGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {
+        private void resultGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
 
-        private void uniqToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void uniqToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 doUniq();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void doubleToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void doubleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 doDouble();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void autoCaseToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void autoCaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -1557,18 +1973,23 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 AutoCaseForm casefrm = new AutoCaseForm(rBox);
                 casefrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void resultGrid_CellClick(object sender, DataGridViewCellEventArgs e) {
+        private void resultGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
             cellColumn = e.ColumnIndex;
             cellRow = e.RowIndex;
         }
 
-        private void filterToolStripMenuItem1_Click(object sender, EventArgs e) {
-            try {
+        private void filterToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -1576,13 +1997,17 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 FilterForm filterfrm = new FilterForm(rBox);
                 filterfrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void searchToolStripMenuItem1_Click(object sender, EventArgs e) {
-            try {
+        private void searchToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -1590,13 +2015,17 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 SearchForm searchfrm = new SearchForm(rBox);
                 searchfrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void replaceToolStripMenuItem1_Click(object sender, EventArgs e) {
-            try {
+        private void replaceToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -1604,13 +2033,17 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 ReplaceForm replacefrm = new ReplaceForm(rBox);
                 replacefrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void autoCaseToolStripMenuItem1_Click(object sender, EventArgs e) {
-            try {
+        private void autoCaseToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -1618,29 +2051,41 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 AutoCaseForm casefrm = new AutoCaseForm(rBox);
                 casefrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void uniqueToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void uniqueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 doUniq();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void doubleToolStripMenuItem1_Click(object sender, EventArgs e) {
-            try {
+        private void doubleToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 doDouble();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void concatToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void concatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -1648,13 +2093,17 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 ConcatForm concatfrm = new ConcatForm(rBox);
                 concatfrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void concatToolStripMenuItem1_Click(object sender, EventArgs e) {
-            try {
+        private void concatToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -1662,39 +2111,55 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 ConcatForm concatfrm = new ConcatForm(rBox);
                 concatfrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void alterTableToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
-                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
-                    if(DatabaseTree.SelectedNode != null) {
+        private void alterTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5)
+                {
+                    if (DatabaseTree.SelectedNode != null)
+                    {
                         TableForm tablefrm = new TableForm(QDS, DatabaseTree.SelectedNode.Text.ToString(), "alter");
                         tablefrm.Show();
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        public void errorLog(string origin, Exception e) {
-            try {
+        public void errorLog(string origin, Exception e)
+        {
+            try
+            {
                 parent.errorLog(origin, e);
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void QueryTabs_DrawItem(object sender, DrawItemEventArgs e) {
-            if(this.QueryTabs.TabPages[e.Index].Text != "Query") {
+        private void QueryTabs_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (this.QueryTabs.TabPages[e.Index].Text != "Query")
+            {
                 e.Graphics.DrawString("x", e.Font, Brushes.DarkGray, e.Bounds.Right - 12, e.Bounds.Top + 4);
                 e.Graphics.DrawString(this.QueryTabs.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 18, e.Bounds.Top + 4);
                 Rectangle rct = new Rectangle(e.Bounds.Left + 2, e.Bounds.Top + 4, 16, 16);
                 e.Graphics.DrawIcon(Icon.FromHandle(((Bitmap)QueryIcons.Images[this.QueryTabs.TabPages[e.Index].ImageIndex]).GetHicon()), rct);
-            } else {
+            }
+            else
+            {
                 e.Graphics.DrawString(this.QueryTabs.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 18, e.Bounds.Top + 4);
                 Rectangle rct = new Rectangle(e.Bounds.Left + 2, e.Bounds.Top + 4, 16, 16);
                 e.Graphics.DrawIcon(Icon.FromHandle(((Bitmap)QueryIcons.Images[this.QueryTabs.TabPages[e.Index].ImageIndex]).GetHicon()), rct);
@@ -1702,54 +2167,77 @@ namespace QueryIT {
             e.DrawFocusRectangle();
         }
 
-        private void QueryTabs_MouseDown(object sender, MouseEventArgs e) {
+        private void QueryTabs_MouseDown(object sender, MouseEventArgs e)
+        {
             Rectangle r = QueryTabs.GetTabRect(this.QueryTabs.SelectedIndex);
             Rectangle closeButton = new Rectangle(r.Right - 15, r.Top + 4, 10, 10);
-            if(this.QueryTabs.TabPages[this.QueryTabs.SelectedIndex].Text != "Query") {
-                if(closeButton.Contains(e.Location)) {
+            if (this.QueryTabs.TabPages[this.QueryTabs.SelectedIndex].Text != "Query")
+            {
+                if (closeButton.Contains(e.Location))
+                {
                     this.QueryTabs.TabPages.Remove(this.QueryTabs.SelectedTab);
                 }
             }
         }
 
-        private void saveHistoryhstToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void saveHistoryhstToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
         }
 
-        public TabPage getSelectedTab() {
-            try {
+        public TabPage getSelectedTab()
+        {
+            try
+            {
                 return QueryTabs.SelectedTab;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 return null;
             }
         }
 
-        public RichTextBox getSelectedQueryBox(TabPage qTab) {
-            try {
-                foreach(SplitContainer qSplit in qTab.Controls) {
-                    foreach(RichTextBox qBox in qSplit.Panel1.Controls) {
-                        if(qBox.Focused == true || QueryTabs.SelectedTab == qTab) {
+        public RichTextBox getSelectedQueryBox(TabPage qTab)
+        {
+            try
+            {
+                foreach (SplitContainer qSplit in qTab.Controls)
+                {
+                    foreach (RichTextBox qBox in qSplit.Panel1.Controls)
+                    {
+                        if (qBox.Focused == true || QueryTabs.SelectedTab == qTab)
+                        {
                             return qBox;
                         }
                     }
                 }
                 return null;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 return null;
             }
         }
 
-        public DataGridView getSelectedResultGridBox(TabPage qTab) {
-            try {
-                foreach(SplitContainer qSplit in qTab.Controls) {
-                    foreach(TabControl rTabsC in qSplit.Panel2.Controls) {
-                        foreach(TabPage rTab in rTabsC.TabPages) {
-                            foreach(object rGVo in rTab.Controls) {
-                                if(rGVo.GetType() == typeof(DataGridView)) {
+        public DataGridView getSelectedResultGridBox(TabPage qTab)
+        {
+            try
+            {
+                foreach (SplitContainer qSplit in qTab.Controls)
+                {
+                    foreach (TabControl rTabsC in qSplit.Panel2.Controls)
+                    {
+                        foreach (TabPage rTab in rTabsC.TabPages)
+                        {
+                            foreach (object rGVo in rTab.Controls)
+                            {
+                                if (rGVo.GetType() == typeof(DataGridView))
+                                {
                                     DataGridView rGV = (DataGridView)rGVo;
-                                    if(rGV.Name.Contains("resultGrid")) {
+                                    if (rGV.Name.Contains("resultGrid"))
+                                    {
                                         return rGV;
                                     }
                                 }
@@ -1758,35 +2246,51 @@ namespace QueryIT {
                     }
                 }
                 return null;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 return null;
             }
         }
 
-        public TabControl getSelectedResultTabs(TabPage qTab) {
-            try {
-                foreach(SplitContainer qSplit in qTab.Controls) {
-                    foreach(TabControl rTabsC in qSplit.Panel2.Controls) {
+        public TabControl getSelectedResultTabs(TabPage qTab)
+        {
+            try
+            {
+                foreach (SplitContainer qSplit in qTab.Controls)
+                {
+                    foreach (TabControl rTabsC in qSplit.Panel2.Controls)
+                    {
                         return rTabsC;
                     }
                 }
                 return null;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 return null;
             }
         }
 
-        public RichTextBox getSelectedResultTextBox(TabPage qTab) {
-            try {
-                foreach(SplitContainer qSplit in qTab.Controls) {
-                    foreach(TabControl rTabsC in qSplit.Panel2.Controls) {
-                        foreach(TabPage rTab in rTabsC.TabPages) {
-                            foreach(object rRTFo in rTab.Controls) {
-                                if(rRTFo.GetType() == typeof(RichTextBox)) {
+        public RichTextBox getSelectedResultTextBox(TabPage qTab)
+        {
+            try
+            {
+                foreach (SplitContainer qSplit in qTab.Controls)
+                {
+                    foreach (TabControl rTabsC in qSplit.Panel2.Controls)
+                    {
+                        foreach (TabPage rTab in rTabsC.TabPages)
+                        {
+                            foreach (object rRTFo in rTab.Controls)
+                            {
+                                if (rRTFo.GetType() == typeof(RichTextBox))
+                                {
                                     RichTextBox rRTF = (RichTextBox)rRTFo;
-                                    if(rRTF.Name.Contains("resultTextBox")) {
+                                    if (rRTF.Name.Contains("resultTextBox"))
+                                    {
                                         return rRTF;
                                     }
                                 }
@@ -1795,21 +2299,31 @@ namespace QueryIT {
                     }
                 }
                 return null;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 return null;
             }
         }
 
-        public RichTextBox getSelectedResultHistoryBox(TabPage qTab) {
-            try {
-                foreach(SplitContainer qSplit in qTab.Controls) {
-                    foreach(TabControl rTabsC in qSplit.Panel2.Controls) {
-                        foreach(TabPage rTab in rTabsC.TabPages) {
-                            foreach(object rRTFo in rTab.Controls) {
-                                if(rRTFo.GetType() == typeof(RichTextBox)) {
+        public RichTextBox getSelectedResultHistoryBox(TabPage qTab)
+        {
+            try
+            {
+                foreach (SplitContainer qSplit in qTab.Controls)
+                {
+                    foreach (TabControl rTabsC in qSplit.Panel2.Controls)
+                    {
+                        foreach (TabPage rTab in rTabsC.TabPages)
+                        {
+                            foreach (object rRTFo in rTab.Controls)
+                            {
+                                if (rRTFo.GetType() == typeof(RichTextBox))
+                                {
                                     RichTextBox rRTF = (RichTextBox)rRTFo;
-                                    if(rRTF.Name.Contains("resultHistoryTextBox")) {
+                                    if (rRTF.Name.Contains("resultHistoryTextBox"))
+                                    {
                                         return rRTF;
                                     }
                                 }
@@ -1818,22 +2332,28 @@ namespace QueryIT {
                     }
                 }
                 return null;
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
                 return null;
             }
         }
 
-        private void resultToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void resultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
         }
 
-        private void toolsToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
         }
 
-        private void hashToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
+        private void hashToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -1841,13 +2361,17 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 HashForm hashFrm = new HashForm(rBox);
                 hashFrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void hashToolStripMenuItem1_Click(object sender, EventArgs e) {
-            try {
+        private void hashToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 TabPage qTab = getSelectedTab();
                 //RichTextBox qBox = getSelectedQueryBox(qTab);
                 DataGridView rBox = getSelectedResultGridBox(qTab);
@@ -1855,87 +2379,122 @@ namespace QueryIT {
                 //RichTextBox rhBox = getSelectedResultHistoryBox(qTab);
                 HashForm hashFrm = new HashForm(rBox);
                 hashFrm.Show();
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void createTableToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
-                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
-                    if(DatabaseTree.SelectedNode != null) {
-                        TableForm tablefrm = new TableForm(QDS, "", "create");
-                        tablefrm.Show();
-                    }
+        private void createTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
+                if (DatabaseTree.SelectedNode != null)
+                {
+                    TableForm tablefrm = new TableForm(QDS, "", "create");
+                    tablefrm.Show();
                 }
-            } catch(Exception err) {
+                //}
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void truncateTableToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
-                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
-                    if(DatabaseTree.SelectedNode != null) {
+        private void truncateTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5)
+                {
+                    if (DatabaseTree.SelectedNode != null)
+                    {
                         TableForm tablefrm = new TableForm(QDS, DatabaseTree.SelectedNode.Text.ToString(), "truncate");
                         tablefrm.Show();
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void dropTableToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
-                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
-                    if(DatabaseTree.SelectedNode != null) {
+        private void dropTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5)
+                {
+                    if (DatabaseTree.SelectedNode != null)
+                    {
                         TableForm tablefrm = new TableForm(QDS, DatabaseTree.SelectedNode.Text.ToString(), "drop");
                         tablefrm.Show();
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void exportToolStripMenuItem_Click(object sender, EventArgs e) {
-            if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
-                if(DatabaseTree.SelectedNode != null) {
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5)
+            {
+                if (DatabaseTree.SelectedNode != null)
+                {
                     ExportForm tablefrm = new ExportForm(QDS, DatabaseTree.SelectedNode.Text.ToString());
                     tablefrm.Show();
                 }
             }
         }
 
-        private void importToolStripMenuItem_Click(object sender, EventArgs e) {
-            if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
-                if(DatabaseTree.SelectedNode != null) {
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5)
+            {
+                if (DatabaseTree.SelectedNode != null)
+                {
                     ImportForm tablefrm = new ImportForm(QDS, DatabaseTree.SelectedNode.Text.ToString());
                     tablefrm.Show();
                 }
             }
         }
 
-        private void selectToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
-                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
-                    if(DatabaseTree.SelectedNode != null) {
+        private void selectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5)
+                {
+                    if (DatabaseTree.SelectedNode != null)
+                    {
                         table = DatabaseTree.SelectedNode.Text.ToString();
                         database = DatabaseTree.SelectedNode.Parent.Text.ToString();
                         addQueryer(QDS.DBschema.D[database].T[table].SQLSelectTop());
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
 
-        public void addQueryer(string sql) {
-            if(QueryTabs.TabPages.ContainsKey("Tab" + table.Replace(".csv", "")) == true) {
+        public void addQueryer(string sql)
+        {
+            if (QueryTabs.TabPages.ContainsKey("Tab" + table.Replace(".csv", "")) == true)
+            {
                 QueryTabs.SelectedIndex = QueryTabs.TabPages.IndexOfKey("Tab" + table.Replace(".csv", ""));
-            } else {
+            }
+            else
+            {
                 //New Tab
                 TabPage tpNew = new TabPage();
                 tpNew.Name = "Tab" + table.Replace(".csv", "");
@@ -2024,65 +2583,97 @@ namespace QueryIT {
             }
         }
 
-        private void insertToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
-                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
-                    if(DatabaseTree.SelectedNode != null) {
+        private void insertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5)
+                {
+                    if (DatabaseTree.SelectedNode != null)
+                    {
                         table = DatabaseTree.SelectedNode.Text.ToString();
                         database = DatabaseTree.SelectedNode.Parent.Text.ToString();
                         addQueryer(QDS.DBschema.D[database].T[table].SQLInsert());
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void updateToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
-                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
-                    if(DatabaseTree.SelectedNode != null) {
+        private void updateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5)
+                {
+                    if (DatabaseTree.SelectedNode != null)
+                    {
                         table = DatabaseTree.SelectedNode.Text.ToString();
                         database = DatabaseTree.SelectedNode.Parent.Text.ToString();
                         addQueryer(QDS.DBschema.D[database].T[table].SQLUpdate());
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
-            try {
-                if(DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5) {
-                    if(DatabaseTree.SelectedNode != null) {
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DatabaseTree.SelectedNode.ImageIndex == 5 || DatabaseTree.SelectedNode.ImageIndex == 5)
+                {
+                    if (DatabaseTree.SelectedNode != null)
+                    {
                         table = DatabaseTree.SelectedNode.Text.ToString();
                         database = DatabaseTree.SelectedNode.Parent.Text.ToString();
                         addQueryer(QDS.DBschema.D[database].T[table].SQLDelete());
                     }
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
         }
 
-        private void queryBox_KeyUp(object sender, KeyEventArgs e) {
+        private void queryBox_KeyUp(object sender, KeyEventArgs e)
+        {
 
         }
 
-        private void queryBox_MouseClick(object sender, MouseEventArgs e) {
-            
+        private void queryBox_MouseClick(object sender, MouseEventArgs e)
+        {
+
         }
 
-        private void rtfBox_SelectionChanged(object sender, EventArgs e) {
-            try {
-                if(sender.GetType() == typeof(RichTextBox)) {
+        private void rtfBox_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (sender.GetType() == typeof(RichTextBox))
+                {
                     RichTextBox tb = (RichTextBox)sender;
                     tb.SyntaxHighlightBrackets();
                 }
-            } catch(Exception err) {
+            }
+            catch (Exception err)
+            {
                 parent.errorLog(System.Reflection.MethodBase.GetCurrentMethod().Name, err);
             }
+        }
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DatabaseTree.Nodes.Clear();
+            QDS.getSchema();
+            reloadSchema();
         }
 
     }

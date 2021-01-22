@@ -1,0 +1,11 @@
+C:\Users\User\source\repos\QueryIT\PluginCSV\bin\x64\Release\PluginCSV.dll
+C:\Users\User\source\repos\QueryIT\PluginCSV\bin\x64\Release\PluginCSV.pdb
+C:\Users\User\source\repos\QueryIT\PluginCSV\bin\x64\Release\IPlugin.dll
+C:\Users\User\source\repos\QueryIT\PluginCSV\bin\x64\Release\IPlugin.pdb
+C:\Users\User\source\repos\QueryIT\PluginCSV\obj\x64\Release\PluginCSV.csprojAssemblyReference.cache
+C:\Users\User\source\repos\QueryIT\PluginCSV\obj\x64\Release\PluginCSV.Properties.Resources.resources
+C:\Users\User\source\repos\QueryIT\PluginCSV\obj\x64\Release\PluginCSV.csproj.GenerateResource.cache
+C:\Users\User\source\repos\QueryIT\PluginCSV\obj\x64\Release\PluginCSV.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\QueryIT\PluginCSV\obj\x64\Release\PluginCSV.csproj.CopyComplete
+C:\Users\User\source\repos\QueryIT\PluginCSV\obj\x64\Release\PluginCSV.dll
+C:\Users\User\source\repos\QueryIT\PluginCSV\obj\x64\Release\PluginCSV.pdb

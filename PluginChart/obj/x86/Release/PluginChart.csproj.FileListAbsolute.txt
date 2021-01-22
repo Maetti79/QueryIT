@@ -1,0 +1,12 @@
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\bin\Release\PluginChart.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\bin\Release\PluginChart.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\bin\Release\IPlugin.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\bin\Release\IPlugin.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Release\PluginChart.csprojAssemblyReference.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Release\PluginChart.ChartForm.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Release\PluginChart.Properties.Resources.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Release\PluginChart.csproj.GenerateResource.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Release\PluginChart.csproj.CoreCompileInputs.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Release\PluginChart.csproj.CopyComplete
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Release\PluginChart.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginChart\obj\x86\Release\PluginChart.pdb

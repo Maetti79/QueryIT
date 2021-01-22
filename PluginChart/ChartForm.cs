@@ -15,7 +15,7 @@ namespace PluginChart
 
         DataTable Data;
         string[] SeriesColumns;
-
+        public String iError;
         public ChartForm()
         {
             InitializeComponent();
@@ -83,7 +83,7 @@ namespace PluginChart
 
                 Chart1.DataBind();
             } catch (Exception e) {
-
+                iError = e.Message;
             }
         }
 

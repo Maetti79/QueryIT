@@ -16,6 +16,9 @@ namespace QueryIT {
 
         public string connectionName { get; set; }
         public string conStr { get; set; }
+        public Boolean asyncCon { get; set; }
+        public Boolean sshCon { get; set; }
+        public SSHConnectionSettings SSHSettings { get; set; }
         public string Driver { get; set; }
         public string ServerIP { get; set; }
         public string FilePath { get; set; }
@@ -25,35 +28,34 @@ namespace QueryIT {
         
         public ConnectForm() {
             InitializeComponent();
+            SSHSettings = new SSHConnectionSettings();
         }
 
         public ConnectForm(bool save)
         {
             InitializeComponent();
             SaveChk.Checked = true;
+            SSHSettings = new SSHConnectionSettings();
         }
 
         public ConnectForm(bool save, string connection)
         {
             InitializeComponent();
             SaveChk.Checked = true;
+            SSHSettings = new SSHConnectionSettings();
             connectionName = connection;
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
-            
-
         }
 
         public void buildConnectionString() {
             // Folder with CSV
-            if(DriverSel.SelectedItem.ToString() == "ODBC File (*.csv)") {
+            if (DriverSel.SelectedItem.ToString() == "ODBC File (*.csv)") {
                 Driver = "{Microsoft Text Driver (*.txt; *.csv)}";
                 ServerIP = ServerTxt.Text.ToString();
                 FilePath = ServerTxt.Text.ToString();
                 Database = DatabaseTxt.Text.ToString();
                 Username = UsernameTxt.Text.ToString();
                 Password = PasswordTxt.Text.ToString();
+                asyncCon = AsyncChk.Checked;
                 conStr = "Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=" + FilePath.ToString() + ";Extensions=asc,csv,tab,txt;";
             }
             //Excel 97/2000 File
@@ -64,17 +66,19 @@ namespace QueryIT {
                 Database = DatabaseTxt.Text.ToString();
                 Username = UsernameTxt.Text.ToString();
                 Password = PasswordTxt.Text.ToString();
+                asyncCon = AsyncChk.Checked;
                 conStr = "Driver={Microsoft Excel Driver (*.xls)};DriverId=790;Dbq=" + FilePath.ToString() + ";";
             }
             //MySQl Server
             if(DriverSel.SelectedItem.ToString() == "ODBC MySQL (IP)") {
-                Driver = "{MySQL ODBC 5.1 Driver}";
+                Driver = "{MySQL ODBC 8.0 Unicode Driver}";
                 ServerIP = ServerTxt.Text.ToString();
                 FilePath = ServerTxt.Text.ToString();
                 Database = DatabaseTxt.Text.ToString();
                 Username = UsernameTxt.Text.ToString();
                 Password = PasswordTxt.Text.ToString();
-                conStr = "Driver={MySQL ODBC 5.1 Driver};Server=" + ServerIP.ToString() + ";Database=" + Database.ToString() + ";uid=" + Username.ToString() + ";pwd=" + Password.ToString() + ";";
+                asyncCon = AsyncChk.Checked;
+                conStr = "Driver={MySQL ODBC 8.0 Unicode Driver};Server=" + ServerIP.ToString() + ";Database=" + Database.ToString() + ";uid=" + Username.ToString() + ";pwd=" + Password.ToString() + ";";
             }
             //SQLite File
             if(DriverSel.SelectedItem.ToString() == "ODBC SQLite (*.db)") {
@@ -84,6 +88,7 @@ namespace QueryIT {
                 Database = DatabaseTxt.Text.ToString();
                 Username = UsernameTxt.Text.ToString();
                 Password = PasswordTxt.Text.ToString();
+                asyncCon = AsyncChk.Checked;
                 conStr = "DRIVER=SQLite3 ODBC Driver;Database=" + FilePath.ToString() + ";LongNames=0;Timeout=1000;NoTXN=0;SyncPragma=NORMAL;StepAPI=0;";
             }
             //PostgreSQL
@@ -94,18 +99,20 @@ namespace QueryIT {
                 Database = DatabaseTxt.Text.ToString();
                 Username = UsernameTxt.Text.ToString();
                 Password = PasswordTxt.Text.ToString();
+                asyncCon = AsyncChk.Checked;
                 conStr = "Driver={PostgreSQL};Server=" + ServerIP.ToString() + ";Port=5432;Database=" + Database.ToString() + ";Uid=" + Username.ToString() + ";Pwd=" + Password.ToString() + ";";
             }
-
             //MySQL Server
-            if(DriverSel.SelectedItem.ToString() == "ADO MySQL (IP)") {
+            if (DriverSel.SelectedItem.ToString() == "ADO MySQL (IP)") {
                 Driver = "{MySQL ADO Driver}";
                 ServerIP = ServerTxt.Text.ToString();
                 FilePath = ServerTxt.Text.ToString();
                 Database = DatabaseTxt.Text.ToString();
                 Username = UsernameTxt.Text.ToString();
                 Password = PasswordTxt.Text.ToString();
+                asyncCon = AsyncChk.Checked;
                 conStr = "SERVER=" + ServerIP.ToString() + ";DATABASE=" + Database.ToString() + ";UID=" + Username.ToString() + ";PASSWORD=" + Password.ToString() + ";PORT=3306;";
+                
             }
             //Microsoft (Transakt) SQL Server (97/2000)
             if(DriverSel.SelectedItem.ToString() == "ADO Microsoft SQL (IP)") {
@@ -115,17 +122,31 @@ namespace QueryIT {
                 Database = DatabaseTxt.Text.ToString();
                 Username = UsernameTxt.Text.ToString();
                 Password = PasswordTxt.Text.ToString();
+                asyncCon = AsyncChk.Checked;
                 conStr = "Driver={SQL Server};Server=" + ServerIP.ToString() + ";Database=" + Database.ToString() + ";Uid=" + Username.ToString() + ";Pwd=" + Password.ToString() + ";";
             }
-            // Provider=MSDASQL;Driver=MySQL ODBC 5.1 Driver;Server=127.0.0.1;Database=datebank_name;Uid=mein_db_user;Pwd=pa_pa_passwort
-            if(DriverSel.SelectedItem.ToString() == "ADODB MSDASQL/MYSQL (IP)") {
-                Driver = "Provider=MSDASQL;Driver=MySQL ODBC 5.1 Driver";
+            
+            if (DriverSel.SelectedItem.ToString() == "ADO FireBird (IP)")
+            {
+                Driver = "{FireBird}";
                 ServerIP = ServerTxt.Text.ToString();
                 FilePath = ServerTxt.Text.ToString();
                 Database = DatabaseTxt.Text.ToString();
                 Username = UsernameTxt.Text.ToString();
                 Password = PasswordTxt.Text.ToString();
-                conStr = "Provider=MSDASQL;Driver=MySQL ODBC 5.1 Driver;Server=" + ServerIP.ToString() + ";Database=" + Database.ToString() + ";Uid=" + Username.ToString() + ";Pwd=" + Password.ToString() + ";";
+                asyncCon = AsyncChk.Checked;
+                conStr = "Provider={FireBird};database=" + ServerIP.ToString() + ":" + Database.ToString() + ";user=" + Username.ToString() + ";password=" + Password.ToString() + ";dialect=3;";
+            }
+            // Provider=MSDASQL;Driver=MySQL ODBC 5.1 Driver;Server=127.0.0.1;Database=datebank_name;Uid=mein_db_user;Pwd=pa_pa_passwort
+            if (DriverSel.SelectedItem.ToString() == "ADODB MSDASQL/MYSQL (IP)") {
+                Driver = "Provider=MSDASQL;Driver=MySQL ODBC 8.0 Unicode Driver";
+                ServerIP = ServerTxt.Text.ToString();
+                FilePath = ServerTxt.Text.ToString();
+                Database = DatabaseTxt.Text.ToString();
+                Username = UsernameTxt.Text.ToString();
+                Password = PasswordTxt.Text.ToString();
+                asyncCon = AsyncChk.Checked;
+                conStr = "Provider=MSDASQL;Driver=MySQL ODBC 8.0 Unicode Driver;Server=" + ServerIP.ToString() + ";Database=" + Database.ToString() + ";Uid=" + Username.ToString() + ";Pwd=" + Password.ToString() + ";";
             }
             conStrBox.Text = conStr.ToString();
         }
@@ -133,6 +154,11 @@ namespace QueryIT {
         private void ODBCOkBtn_Click(object sender, EventArgs e) {
             buildConnectionString();
             TestConnectionBtn.ImageIndex = 0;
+
+            if (sshChk.Checked == true) {
+                //SSHTunnel TestSSH = new SSHTunnel(ss);
+            }
+
             connectionName = ConnectionNameBox.Text.ToString();
             Datasource TestDS = new Datasource(conStr, connectionName);
             if(TestDS.isConnected() == true) {
@@ -209,12 +235,31 @@ namespace QueryIT {
                 string rootKey = "SOFTWARE\\" + Assembly.GetExecutingAssembly().GetName().Name + "\\Connections";
                 key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(rootKey);
                 subkey = key.CreateSubKey(ConnectionNameBox.Text.ToString());
+
+                if (sshCon == true) {
+                    subkey.SetValue("SSHcon", "true");
+                    subkey.SetValue("SSHUsername", sshUsernameTxt.Text.ToString());
+                    subkey.SetValue("SSHPassword", sshPasswordTxt.Text.ToString());
+                    subkey.SetValue("SSHServer", sshServerTxt.Text.ToString());
+                } else {
+                    subkey.SetValue("SSHcon", "false");
+                    subkey.SetValue("SSHUsername", "");
+                    subkey.SetValue("SSHPassword", "");
+                    subkey.SetValue("SSHServer", "");
+                }
+        
                 subkey.SetValue("Driver", DriverSel.SelectedItem.ToString());
                 subkey.SetValue("ServerIP", ServerTxt.Text.ToString());
                 subkey.SetValue("FilePath", ServerTxt.Text.ToString());
                 subkey.SetValue("Database", DatabaseTxt.Text.ToString());
                 subkey.SetValue("Username", UsernameTxt.Text.ToString());
                 subkey.SetValue("Password", PasswordTxt.Text.ToString());
+                if (asyncCon == true) {
+                    subkey.SetValue("Async", "true");
+                } else {
+                    subkey.SetValue("Async", "false");
+                }
+                
                 key.Close();
             }
         }
@@ -228,6 +273,36 @@ namespace QueryIT {
                 string rootKey = "SOFTWARE\\" + Assembly.GetExecutingAssembly().GetName().Name + "\\Connections";
                 key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(rootKey);
                 subkey = key.OpenSubKey(ConnectionNameBox.Text.ToString());
+
+                if (subkey.GetValue("SSHcon") != null)
+                {
+
+                    if (subkey.GetValue("SSHcon").ToString() == "true")
+                    {
+                        sshChk.Checked = true;
+                        sshCon = true;
+                        sshUsernameTxt.Text = subkey.GetValue("SSHUsername").ToString();
+                        sshPasswordTxt.Text = subkey.GetValue("SSHPassword").ToString();
+                        sshServerTxt.Text = subkey.GetValue("SSHServer").ToString();
+                        sshPortTxt.Text = subkey.GetValue("SSHPort").ToString();
+                    }
+                    else
+                    {
+                        sshChk.Checked = false;
+                        sshCon = false;
+                        sshUsernameTxt.Text = "";
+                        sshPasswordTxt.Text = "";
+                        sshServerTxt.Text = "";
+                        sshPortTxt.Text = "";
+                    }
+
+                } else {
+                    sshUsernameTxt.Text = "";
+                    sshPasswordTxt.Text = "";
+                    sshServerTxt.Text = "";
+                    sshPortTxt.Text = "";
+                }
+                
                 DriverSel.Text = subkey.GetValue("Driver").ToString();
                 if (subkey.GetValue("Driver").ToString() == "ODBC File (*.csv)" || subkey.GetValue("Driver").ToString() == "ODBC File (*.xls)")
                 {
@@ -240,7 +315,21 @@ namespace QueryIT {
                 DatabaseTxt.Text = subkey.GetValue("Database").ToString();
                 UsernameTxt.Text = subkey.GetValue("Username").ToString();
                 PasswordTxt.Text = subkey.GetValue("Password").ToString();
+                if (subkey.GetValue("Async") != null)
+                {
+                    if (subkey.GetValue("Async").ToString() == "true")
+                    {
+                        AsyncChk.Checked = true;
+                        asyncCon = true;
+                    }
+                    else
+                    {
+                        AsyncChk.Checked = false;
+                        asyncCon = false;
+                    }
+                }
                 key.Close();
+
             }
         }
 
@@ -286,16 +375,36 @@ namespace QueryIT {
         }
 
         private void TestConnectionBtn_Click(object sender, EventArgs e) {
-                TestConnectionBtn.ImageIndex = 0;
+            TestConnectionBtn.ImageIndex = 0;
+            if (sshChk.Checked == true) {
                 connectionName = ConnectionNameBox.Text.ToString();
-                Datasource TestDS = new Datasource(conStr, connectionName);
-                if(TestDS.isConnected() == true) {
+                Datasource TestDS = new Datasource(SSHSettings, conStr, connectionName, AsyncChk.Checked);
+                if (TestDS.isConnected() == true)
+                {
+                    errorTxt.Text = "Server Version: " + TestDS.serverVersion;
                     TestConnectionBtn.ImageIndex = 1;
-                } else {
-                    errorTxt.Text = TestDS.error.ToString(); 
+                }
+                else
+                {
+                    errorTxt.Text = TestDS.error.ToString();
                     TestConnectionBtn.ImageIndex = 2;
                 }
                 TestDS.disconnect();
+            } else {
+                connectionName = ConnectionNameBox.Text.ToString();
+                Datasource TestDS = new Datasource(conStr, connectionName, AsyncChk.Checked);
+                if (TestDS.isConnected() == true)
+                {
+                    errorTxt.Text = "Server Version: " + TestDS.serverVersion;
+                    TestConnectionBtn.ImageIndex = 1;
+                }
+                else
+                {
+                    errorTxt.Text = TestDS.error.ToString();
+                    TestConnectionBtn.ImageIndex = 2;
+                }
+                TestDS.disconnect();
+            }
         }
 
         private void ServerTxt_TextChanged(object sender, EventArgs e) {
@@ -322,5 +431,56 @@ namespace QueryIT {
             conStrBox.Enabled = true;
         }
 
+        private void errorTxt_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AsyncChk_CheckedChanged(object sender, EventArgs e)
+        {
+            asyncCon = AsyncChk.Checked;
+        }
+
+        private void sshTextButton_Click(object sender, EventArgs e)
+        {
+            sshTextButton.ImageIndex = 0;
+            SSHSettings.SSHlocalPort = "54321";
+            if (sshChk.Checked == true)
+            {
+                sshCon = true;
+                SSHSettings.SSHusername = sshUsernameTxt.Text.ToString();
+                SSHSettings.SSHpassword = sshPasswordTxt.Text.ToString();
+                SSHSettings.SSHserver = sshServerTxt.Text.ToString();
+                SSHSettings.SSHremotePort = sshPortTxt.Text.ToString();
+                SSHTunnel TestSH = new SSHTunnel(SSHSettings);
+                if (TestSH.isConnected() == true)
+                {
+                    sshTextButton.ImageIndex = 1;
+                }
+                else {
+                    sshTextButton.ImageIndex = 2;
+                }
+                TestSH.Close();
+            }
+        }
+
+        private void sshChk_CheckedChanged_1(object sender, EventArgs e)
+        {
+            sshCon = sshChk.Checked;
+            if (sshChk.Checked == true)
+            {
+                sshUsernameTxt.Enabled = true;
+                sshPasswordTxt.Enabled = true;
+                sshServerTxt.Enabled = true;
+                sshPortTxt.Enabled = true;
+            }
+            else
+            {
+                sshUsernameTxt.Enabled = false;
+                sshPasswordTxt.Enabled = false;
+                sshServerTxt.Enabled = false;
+                sshPortTxt.Enabled = false;
+            }
+        }
     }
 }

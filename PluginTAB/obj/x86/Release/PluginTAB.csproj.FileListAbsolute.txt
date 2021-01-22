@@ -1,0 +1,11 @@
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\bin\Release\PluginTAB.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\bin\Release\PluginTAB.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\bin\Release\IPlugin.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\bin\Release\IPlugin.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Release\PluginTAB.ExportForm.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Release\PluginTAB.Properties.Resources.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Release\PluginTAB.csproj.GenerateResource.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Release\PluginTAB.csproj.CoreCompileInputs.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Release\PluginTAB.csproj.CopyComplete
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Release\PluginTAB.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Release\PluginTAB.pdb

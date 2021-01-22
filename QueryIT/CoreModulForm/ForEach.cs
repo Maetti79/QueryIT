@@ -31,12 +31,16 @@ namespace QueryIT {
 
         public ForeachForm() {
             InitializeComponent();
+            autocomplete = new AutocompleteMenu();
+            autocomplete.ImageList = QueryIcons;
         }
 
         public ForeachForm(Datasource LeftDS, Datasource RightDS) {
             LDS = LeftDS;
             RDS = RightDS;
             InitializeComponent();
+            autocomplete = new AutocompleteMenu();
+            autocomplete.ImageList = QueryIcons;
         }
 
         public void loadPlugins() {

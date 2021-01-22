@@ -10,6 +10,7 @@ namespace QueryIT.model {
         public string ConnectionName { get; set; }
         public string DatabaseName { get; set; }
         public string TableName { get; set; }
+        public string Dialect { get; set; }
         public ColumnSchema[] Columns { get; set; }
         public Dictionary<string, ColumnSchema> C = new Dictionary<string, ColumnSchema>();
 
@@ -82,7 +83,9 @@ namespace QueryIT.model {
 
         public string SQLSelectTop() {
             string sql = "";
-            if(TableName.Contains(".csv")) {
+            if(Dialect == "firebird") {
+                sql = "SELECT first 100 * FROM " + TableName + ";\n";
+            } else if(TableName.Contains(".csv")) {
                 sql = "SELECT * FROM  `" + TableName + "`;\n";
             } else {
                 sql = "SELECT * FROM  `" + DatabaseName + "`.`" + TableName + "` LIMIT 100;\n";
@@ -189,7 +192,7 @@ namespace QueryIT.model {
                         sql += "NULL ";
                     }
                     if(Column.AutoIncrement == true) {
-                        sql += "AUTO INCREMENT ";
+                        sql += "AUTO_INCREMENT ";
                     }
                     sql += ",\n";
                 }

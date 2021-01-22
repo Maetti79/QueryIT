@@ -80,7 +80,7 @@ namespace QueryIT {
         }
 
         private void OkBtn_Click(object sender, EventArgs e) {
-            LicenseInformation = Serial.CallWebservice("http://queryit.purepix.net/", Serial.GetSerialNumber());
+            LicenseInformation = Serial.CallWebservice("https://queryit.purepix.net/", Serial.GetSerialNumber());
             Microsoft.Win32.RegistryKey key;
             string rootKey = "SOFTWARE\\" + Assembly.GetExecutingAssembly().GetName().Name;
             key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(rootKey);

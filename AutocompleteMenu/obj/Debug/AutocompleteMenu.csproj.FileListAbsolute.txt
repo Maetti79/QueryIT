@@ -20,3 +20,11 @@ C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\A
 C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenu.pdb
 C:\Users\Dennis\Dropbox\Purepix.net\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenuNS.Properties.Resources.resources
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenu.csprojResolveAssemblyReference.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenuNS.AutocompleteMenu.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenuNS.Properties.Resources.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenu.csproj.GenerateResource.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenu.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenu.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\bin\Debug\AutocompleteMenu.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\bin\Debug\AutocompleteMenu.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Debug\AutocompleteMenu.csproj.CoreCompileInputs.cache

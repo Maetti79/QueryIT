@@ -1,0 +1,8 @@
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\bin\Release\AutocompleteMenu.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\bin\Release\AutocompleteMenu.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Release\AutocompleteMenuNS.AutocompleteMenu.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Release\AutocompleteMenuNS.Properties.Resources.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Release\AutocompleteMenu.csproj.GenerateResource.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Release\AutocompleteMenu.csproj.CoreCompileInputs.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Release\AutocompleteMenu.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\AutocompleteMenu\obj\Release\AutocompleteMenu.pdb

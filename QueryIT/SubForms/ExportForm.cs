@@ -124,8 +124,6 @@ namespace QueryIT {
             }
         }
 
-
-
         private void killToolStripMenuItem_Click(object sender, EventArgs e) {
             try {
                 run = false;

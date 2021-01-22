@@ -14,6 +14,10 @@ namespace QueryIT
 {
     public partial class ConnectionsForm : Form
     {
+
+        public string conStr = "";
+        public string conName = "";
+
         public ConnectionsForm()
         {
             InitializeComponent();
@@ -97,6 +101,12 @@ namespace QueryIT
                     deleteToolStripMenuItem.Enabled = false;
                 }
             }
+        }
+
+        private void connectionsView_DoubleClick(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

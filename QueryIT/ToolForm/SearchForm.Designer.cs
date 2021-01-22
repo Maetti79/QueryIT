@@ -90,7 +90,7 @@
             this.columnBox.Name = "columnBox";
             this.columnBox.Size = new System.Drawing.Size(189, 94);
             this.columnBox.TabIndex = 5;
-            this.columnBox.SelectedIndexChanged += new System.EventHandler(this.columnBox_SelectedIndexChanged);
+            //this.columnBox.SelectedIndexChanged += new System.EventHandler(this.columnBox_SelectedIndexChanged);
             // 
             // label1
             // 

@@ -1,0 +1,8 @@
+Date: 2020-08-13 14:05:47 - Result: 7 Records
+Query: SELECT * FROM  `inventur`.`user` LIMIT 100;
+
+
+Date: 2020-08-13 14:05:53 - Result: 7 Records
+Query: SELECT * FROM  `inventur`.`user` LIMIT 100;
+
+

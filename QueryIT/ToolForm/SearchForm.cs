@@ -100,8 +100,5 @@ namespace QueryIT
             }
         }
 
-        private void columnBox_SelectedIndexChanged(object sender, EventArgs e) {
-
-        }
     }
 }

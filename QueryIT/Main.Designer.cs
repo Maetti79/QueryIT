@@ -48,13 +48,13 @@
             this.convertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectRightMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.licenseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bugReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statsTimer = new System.Windows.Forms.Timer(this.components);
             this.MainStatus.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -126,8 +126,8 @@
             this.modulesToolStripMenuItem,
             this.connectRightMenu,
             this.connectionsToolStripMenuItem,
-            this.pluginsToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.pluginsToolStripMenuItem});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(784, 24);
@@ -239,14 +239,6 @@
             this.connectionsToolStripMenuItem.ToolTipText = "Manage Connections";
             this.connectionsToolStripMenuItem.Click += new System.EventHandler(this.connectionsToolStripMenuItem_Click);
             // 
-            // pluginsToolStripMenuItem
-            // 
-            this.pluginsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pluginsToolStripMenuItem.Image")));
-            this.pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
-            this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
-            this.pluginsToolStripMenuItem.Text = "Plugins";
-            this.pluginsToolStripMenuItem.Visible = false;
-            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -276,6 +268,7 @@
             this.updateToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.updateToolStripMenuItem.Text = "Update";
             this.updateToolStripMenuItem.Visible = false;
+            this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
             // 
             // bugReportToolStripMenuItem
             // 
@@ -287,12 +280,11 @@
             // 
             // helpToolStripMenuItem
             // 
-            this.helpToolStripMenuItem.Enabled = false;
             this.helpToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripMenuItem.Image")));
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.helpToolStripMenuItem.Text = "Help";
-            this.helpToolStripMenuItem.Visible = false;
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem1
             // 
@@ -301,6 +293,14 @@
             this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
+            // 
+            // pluginsToolStripMenuItem
+            // 
+            this.pluginsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pluginsToolStripMenuItem.Image")));
+            this.pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
+            this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+            this.pluginsToolStripMenuItem.Text = "Plugins";
+            this.pluginsToolStripMenuItem.Visible = false;
             // 
             // statsTimer
             // 
@@ -313,6 +313,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.MainStatus);
             this.Controls.Add(this.MainMenu);

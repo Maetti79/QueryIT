@@ -1,0 +1,32 @@
+Date: 2020-08-13 11:55:30 - Result: 29 Records
+Query: SELECT * FROM  `inventur`.`inventur` LIMIT 1000;
+
+
+Date: 2020-08-13 11:56:02 - Result: 1000 Records
+Query: SELECT * FROM  `inventur`.`warehouse` LIMIT 1000;
+
+
+Date: 2020-08-13 11:56:13 - Result: 1000 Records
+Query: SELECT * FROM  `inventur`.`warehouse` LIMIT 1000;
+
+
+Date: 2020-08-13 12:00:41 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`warehouse` LIMIT 100;
+
+
+Date: 2020-08-13 12:04:24 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`warehouse` LIMIT 100;
+
+
+Date: 2020-08-13 12:21:30 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`warehouse` LIMIT 100;
+
+
+Date: 2020-08-13 12:23:39 - Result: 100 Records
+Query: SELECT * FROM  `inventur`.`warehouse` LIMIT 100;
+
+
+Date: 2020-08-13 12:25:04 - Result: 9770 Records
+Query: SELECT * FROM  `inventur`.`warehouse` LIMIT 9770;
+
+

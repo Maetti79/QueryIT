@@ -15,6 +15,8 @@ namespace PluginCSV {
     public class ExportCSV : IPlugin.IPlugin {
         #region IPlugin Members
 
+        private String iError;
+
         public Image Icon() {
             return PluginCSV.Properties.Resources.pluginImage;
         }
@@ -49,6 +51,12 @@ namespace PluginCSV {
             set { ; }
         }
 
+        public string Error
+        {
+            get { return iError; }
+            set {; }
+        }
+
         public DataTable Process(DataTable Data, String Arg) {
 
             using(var sfd = new SaveFileDialog()) {
@@ -69,7 +77,7 @@ namespace PluginCSV {
                         File.WriteAllText(sfd.FileName, sb.ToString());
 
                     } catch(Exception e) {
-
+                        iError = e.Message;
                     }
                 }
             }

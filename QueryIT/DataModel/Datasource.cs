@@ -8,7 +8,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using FirebirdSql.Data.FirebirdClient;
 using ADODB;
+using FirebirdSql.Data.Client.Native.Handle;
 
 namespace QueryIT.model {
 
@@ -16,17 +18,24 @@ namespace QueryIT.model {
 
         public string conectionString = "";
         public string connectionName = "";
+        public string serverVersion = "";
+        public string engine = "";
+        public SSHConnectionSettings SSHSettings;
+
+        public SSHTunnel SSHT = new SSHTunnel();
 
         public ConnectionSchema DBschema = new ConnectionSchema();
-
+        
         private OdbcConnection con = new OdbcConnection();
         private MySqlConnection mycon = new MySqlConnection();
         private ADODB.Connection adocon = new ADODB.Connection();
+        private FbConnection fbcon = new FbConnection();
 
         private DataTable tables = new DataTable();
         private DataTable databases = new DataTable();
         private DataTable columns = new DataTable();
 
+        public Boolean async = false;
         public string database = "";
         public string table = "";
         public DataTable result = new DataTable();
@@ -66,15 +75,26 @@ namespace QueryIT.model {
             try {
                 conectionString = conStr;
                 connectionName = "UNNAMEDDB";
-                if(conectionString.Contains("Provider=") == true) {
-                    adocon = new ADODB.Connection(conStr);
+                if (conectionString.Contains("FireBird") == true) {
+                    engine = "Firebird";
+                    fbcon = new FbConnection(conStr);
+                    fbcon.Open();
+                    serverVersion = fbcon.ServerVersion.ToString();
+                } else if (conectionString.Contains("Provider=") == true) {
+                    engine = "MySQL";
+                    adocon = new ADODB.Connection();
                     adocon.Open();
+                    serverVersion = adocon.Version.ToString();
                 } else if(conectionString.Contains("Driver=") == true) {
+                    engine = "MySQL";
                     con = new OdbcConnection(conStr);
                     con.Open();
+                    serverVersion = con.ServerVersion.ToString();
                 } else {
+                    engine = "MySQL";
                     mycon = new MySqlConnection(conStr);
                     mycon.Open();
+                    serverVersion = mycon.ServerVersion.ToString();
                 }
                 this.getSchema();
             } catch(Exception e) {
@@ -82,22 +102,144 @@ namespace QueryIT.model {
             }
         }
 
-        public Datasource(string conStr, string conName) {
+        public Datasource(string conStr, string conName, Boolean asyncCon = false) {
             try {
                 conectionString = conStr;
                 connectionName = conName;
-                if(conectionString.Contains("Provider=") == true) {
-                    adocon = new ADODB.Connection(conStr);
-                    adocon.Open();
-                } else if(conectionString.Contains("Driver=") == true) {
-                    con = new OdbcConnection(conStr);
-                    con.Open();
-                } else {
-                    mycon = new MySqlConnection(conStr);
-                    mycon.Open();
+                async = asyncCon;
+                if (conectionString.ToString() != "")
+                {
+                    if (conectionString.Contains("FireBird") == true)
+                    {
+                        engine = "Firebird";
+                        fbcon = new FbConnection(conStr);
+                        if (async == true)
+                        {
+                            fbcon.Open();
+                        }
+                        else
+                        {
+                            fbcon.OpenAsync();
+                        }
+                        if (fbcon.State == ConnectionState.Open)
+                        {
+                            serverVersion = fbcon.ServerVersion.ToString();
+                        }
+                    }
+                    else if (conectionString.Contains("Provider=") == true)
+                    {
+                        engine = "MySQL";
+                        adocon = new ADODB.Connection();
+                        adocon.Open();
+                        if (adocon.State == 1)
+                        {
+                            serverVersion = adocon.Version.ToString();
+                        }
+                    }
+                    else if (conectionString.Contains("Driver=") == true)
+                    {
+                        engine = "MySQL";
+                        con = new OdbcConnection(conStr);
+                        con.Open();
+                        if (con.State == ConnectionState.Open)
+                        {
+                            serverVersion = con.ServerVersion.ToString();
+                        }
+                    }
+                    else
+                    {
+                        engine = "MySQL";
+                        mycon = new MySqlConnection(conStr);
+                        if (async == true)
+                        {
+                            mycon.OpenAsync();
+                        }
+                        else
+                        {
+                            mycon.Open();
+                        }
+                        if (mycon.State == ConnectionState.Open)
+                        {
+                            serverVersion = mycon.ServerVersion.ToString();
+                        }
+                    }
+                    this.getSchema();
                 }
-                this.getSchema();
             } catch(Exception e) {
+                error = e.Message.ToString();
+            }
+        }
+
+        public Datasource(SSHConnectionSettings SSHSettings, string conStr, string conName, Boolean asyncCon = false)
+        {
+            try
+            {
+                conectionString = conStr;
+                connectionName = conName;
+                async = asyncCon;
+                if (conectionString.ToString() != "")
+                {
+                    if (conectionString.Contains("FireBird") == true)
+                    {
+                        engine = "Firebird";
+                        fbcon = new FbConnection(conStr);
+                        if (async == true)
+                        {
+                            fbcon.Open();
+                        }
+                        else
+                        {
+                            fbcon.OpenAsync();
+                        }
+                        if (fbcon.State == ConnectionState.Open)
+                        {
+                            serverVersion = fbcon.ServerVersion.ToString();
+                        }
+                    }
+                    else if (conectionString.Contains("Provider=") == true)
+                    {
+                        engine = "MySQL";
+                        adocon = new ADODB.Connection();
+                        adocon.Open();
+                        if (adocon.State == 1)
+                        {
+                            serverVersion = adocon.Version.ToString();
+                        }
+                    }
+                    else if (conectionString.Contains("Driver=") == true)
+                    {
+                        engine = "MySQL";
+                        con = new OdbcConnection(conStr);
+                        con.Open();
+                        if (con.State == ConnectionState.Open)
+                        {
+                            serverVersion = con.ServerVersion.ToString();
+                        }
+                    }
+                    else
+                    {
+                        engine = "MySQL";
+                        SSHT = new SSHTunnel(SSHSettings);
+                        conStr.Replace("PORT=3306;", "PORT=" + SSHT.Settings.SSHlocalPort + ";");
+                        mycon = new MySqlConnection(conStr);
+                        if (async == true)
+                        {
+                            mycon.OpenAsync();
+                        }
+                        else
+                        {
+                            mycon.Open();
+                        }
+                        if (mycon.State == ConnectionState.Open)
+                        {
+                            serverVersion = mycon.ServerVersion.ToString();
+                        }
+                    }
+                    this.getSchema();
+                }
+            }
+            catch (Exception e)
+            {
                 error = e.Message.ToString();
             }
         }
@@ -124,7 +266,9 @@ namespace QueryIT.model {
 
         public bool cancelSQL() {
             try {
-                if(conectionString.Contains("Provider=") == true) {
+                if (conectionString.Contains("FireBird") == true) {
+                    return true;
+                } else if (conectionString.Contains("Provider=") == true) {
                     adocon.Cancel();
                     return true;
                 } else if(conectionString.Contains("Driver=") == true) {
@@ -148,7 +292,45 @@ namespace QueryIT.model {
                 run = true;
                 error = "";
                 if(isConnected() == true) {
-                    if(conectionString.Contains("Provider=") == true) {
+                    if (conectionString.Contains("FireBird") == true) {
+                  
+                        using (var transaction = fbcon.BeginTransaction())
+                        {
+                            using (var command = new FbCommand(sqlStr.ToString(), fbcon, transaction))
+                            {
+                                using (var oDR = command.ExecuteReader())
+                                {
+                                    row_count = oDR.RecordsAffected;
+                                    column_count = oDR.FieldCount;
+                                    result.Clear();
+                                    result.Columns.Clear();
+                                    //result.Load(oDR);
+                                    for (int i = 0; i < oDR.FieldCount; i++)
+                                    {
+                                        result.Columns.Add(oDR.GetName(i));
+                                    }
+                                    while (oDR.Read())
+                                    {
+                                        DataRow row = result.NewRow();
+                                        for (int i = 0; i < oDR.FieldCount; i++)
+                                        {
+                                            row[oDR.GetName(i)] = oDR.GetValue(i);
+                                        }
+                                        result.Rows.Add(row);
+                                        Application.DoEvents();
+                                        if (run == false)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    if (row_count <= 0)
+                                    {
+                                        row_count = result.Rows.Count;
+                                    }
+                                }
+                            }
+                        }
+                    } else if(conectionString.Contains("Provider=") == true) {
                         //add logic
                     } else if(conectionString.Contains("Driver=") == true) {
                         OdbcCommand oCmd = new OdbcCommand(sqlStr.ToString(), con);
@@ -182,6 +364,7 @@ namespace QueryIT.model {
                         oCmd.Dispose();
                     } else {
                         MySqlCommand oCmd = new MySqlCommand(sqlStr.ToString(), mycon);
+ 
                         MySqlDataReader oDR = oCmd.ExecuteReader();
                         if(oDR.HasRows == true) {
                             row_count = oDR.RecordsAffected;
@@ -227,7 +410,42 @@ namespace QueryIT.model {
 
         public void getSchema() {
             try {
-                if(conectionString.Contains("Provider=") == true) {
+                if (conectionString.Contains("FireBird") == true) {
+                    database = fbcon.Database.ToString();
+                    tables.Clear();
+                    columns.Clear();
+                    tables = fbcon.GetSchema("Tables");
+                    columns = fbcon.GetSchema("Columns");
+                    if (databases.Rows.Count <= 0)
+                    {
+                        databases.Columns.Add("Database");
+                        databases.Rows.Add(database);
+                        /*
+                        FbCommand oCmd = new FbCommand("select f.rdb$relation_name as T, f.rdb$field_name as C from rdb$relation_fields f join rdb$relations r on f.rdb$relation_name = r.rdb$relation_name and r.rdb$view_blr is null and (r.rdb$system_flag is null or r.rdb$system_flag = 0) order by 1, f.rdb$field_position; ", fbcon);
+                        FbDataReader oDR = oCmd.ExecuteReader();
+                        string tmpT = "";
+                        if (oDR.HasRows == true)
+                        {
+                            while (oDR.Read())
+                            {
+                                for (int i = 0; i < oDR.FieldCount; i++)
+                                {
+                                    if (tmpT != oDR.GetValue(i).ToString().Trim()) {
+                                        tmpT = oDR.GetValue(i).ToString().Trim();
+                                        tables.Columns.Add(tmpT);
+                                    } else {
+
+                                    }
+
+                                    //databases.Rows.Add(oDR.GetValue(i).ToString().Trim());
+                                }
+                            }
+                        }
+                        oDR.Close();
+                        oCmd.Dispose();
+                        */
+                    }
+                } else if (conectionString.Contains("Provider=") == true) {
                     //add logic
                 } else if(conectionString.Contains("Driver=") == true) {
                     database = con.Database.ToString();
@@ -358,8 +576,35 @@ namespace QueryIT.model {
                         DatabaseSchema tmpDB = new DatabaseSchema(bd[0].ToString());
                         tmpDB.ConnectionName = DBschema.ConnectionName;
                         foreach(DataRow tbl in tables.Rows) {
-                            if(tbl["TABLE_SCHEMA"].ToString() == bd[0].ToString()) {
+                            if (tbl[3].ToString() == "TABLE")
+                            {
                                 TableSchema tmpTable = new TableSchema(tbl["TABLE_NAME"].ToString());
+                                tmpTable.Dialect = "firebird";
+                                tmpTable.ConnectionName = DBschema.ConnectionName;
+                                tmpTable.DatabaseName = tmpDB.DatabaseName;
+                                foreach (DataRow col in columns.Rows)
+                                {
+                                    if (tbl["TABLE_NAME"].ToString() == col["TABLE_NAME"].ToString())
+                                    {
+                                        if (columns.Columns.Contains("COLUMN_NAME") == true)
+                                        {
+                                            //Console.WriteLine(col["COLUMN_NAME"].ToString());
+                                            ColumnSchema tmpCol = new ColumnSchema(col["COLUMN_NAME"].ToString());
+                                            tmpCol.ConnectionName = DBschema.ConnectionName;
+                                            tmpCol.DatabaseName = tmpDB.DatabaseName;
+                                            tmpCol.TableName = tmpTable.TableName;
+                                            if (columns.Columns.Contains("COLUMN_DATA_TYPE") == true)
+                                            {
+                                                tmpCol.DataType = col["COLUMN_DATA_TYPE"].ToString();
+                                            }
+                                            tmpTable.addColumn(tmpCol);
+                                        }
+                                    }
+                                }
+                                tmpDB.addTable(tmpTable);
+                            } else if (tbl["TABLE_SCHEMA"].ToString() == bd[0].ToString()) {
+                                TableSchema tmpTable = new TableSchema(tbl["TABLE_NAME"].ToString());
+                                tmpTable.Dialect = "mysql";
                                 tmpTable.ConnectionName = DBschema.ConnectionName;
                                 tmpTable.DatabaseName = tmpDB.DatabaseName;
                                 if(tables.Columns.Contains("ENGINE") == true) {
@@ -440,10 +685,28 @@ namespace QueryIT.model {
 
         public bool isConnected() {
             try {
-                if(conectionString.Contains("Provider=") == true) {
+
+                if (conectionString.Contains("FireBird") == true)
+                {
+                    if (fbcon.State == System.Data.ConnectionState.Open) {
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Executing) {
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Fetching) {
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Connecting) {
+                        return false;
+                    } else if (fbcon.State == System.Data.ConnectionState.Closed) {
+                        return false;
+                    } else if (fbcon.State == System.Data.ConnectionState.Broken) {
+                        return false;
+                    } else {
+                        return false;
+                    }
+                } else if (conectionString.Contains("Provider=") == true) {
                     if(adocon.State == 0) {
                         return false;
-                    } else if(adocon.State == 1) {
+                    } else if (adocon.State == 1) {
                         return true;
                     } else if(adocon.State == 2) {
                         return false;
@@ -519,21 +782,37 @@ namespace QueryIT.model {
             }
         }
 
-
         public bool switchDatabase(string databasename) {
             try {
                 disconnect();
                 string conStr = conectionString.Replace(database, databasename);
                 database = databasename;
-                if(conectionString.Contains("Provider=") == true) {
-                    adocon = new ADODB.Connection(conStr);
+                if (conectionString.Contains("FireBird") == true) {
+                    fbcon = new FbConnection(conStr);
+                    if (async == true)
+                    {
+                        fbcon.OpenAsync();
+                    }
+                    else
+                    {
+                        fbcon.Open();
+                    }
+                } else if (conectionString.Contains("Provider=") == true) {
+                    adocon = new ADODB.Connection();
                     adocon.Open();
                 } else if(conectionString.Contains("Driver=") == true) {
                     con = new OdbcConnection(conStr);
                     con.Open();
                 } else {
                     mycon = new MySqlConnection(conStr);
-                    mycon.Open();
+                    if (async == true)
+                    {
+                        mycon.OpenAsync();
+                    }
+                    else
+                    {
+                        mycon.Open();
+                    }
                 }
                 connect();
                 this.getSchema();
@@ -546,55 +825,142 @@ namespace QueryIT.model {
 
         public bool connect() {
             try {
-                if(conectionString.Contains("Provider=") == true) {
-                    if(adocon.State == 0) {
+                if (conectionString.Contains("FireBird") == true) {
+                    if (fbcon.State == System.Data.ConnectionState.Open) {
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Executing) {
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Fetching) {
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Connecting) {
+                        return false;
+                    } else if (fbcon.State == System.Data.ConnectionState.Closed) {
+                        if (async == true)
+                        {
+                            fbcon.OpenAsync();
+                        }
+                        else
+                        {
+                            fbcon.Open();
+                        }
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Broken) {
+                        if (async == true)
+                        {
+                            fbcon.OpenAsync();
+                        }
+                        else
+                        {
+                            fbcon.Open();
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else if (conectionString.Contains("Provider=") == true) {
+                    if (adocon.State == 0)
+                    {
                         adocon.Open();
                         return true;
-                    } else if(adocon.State == 1) {
+                    }
+                    else if (adocon.State == 1)
+                    {
                         return true;
-                    } else if(adocon.State == 2) {
-                        return false;
-                    } else if(adocon.State == 4) {
-                        return true;
-                    } else if(adocon.State == 8) {
-                        return true;
-                    } else {
+                    }
+                    else if (adocon.State == 2)
+                    {
                         return false;
                     }
-                } else if(conectionString.Contains("Driver=") == true) {
-                    if(con.State == System.Data.ConnectionState.Open) {
+                    else if (adocon.State == 4)
+                    {
                         return true;
-                    } else if(con.State == System.Data.ConnectionState.Executing) {
+                    }
+                    else if (adocon.State == 8)
+                    {
                         return true;
-                    } else if(con.State == System.Data.ConnectionState.Fetching) {
-                        return true;
-                    } else if(con.State == System.Data.ConnectionState.Connecting) {
-                        return false;
-                    } else if(con.State == System.Data.ConnectionState.Closed) {
-                        con.Open();
-                        return true;
-                    } else if(con.State == System.Data.ConnectionState.Broken) {
-                        con.Open();
-                        return true;
-                    } else {
+                    }
+                    else
+                    {
                         return false;
                     }
-                } else {
-                    if(mycon.State == System.Data.ConnectionState.Open) {
+                }
+                else if (conectionString.Contains("Driver=") == true)
+                {
+                    if (con.State == System.Data.ConnectionState.Open)
+                    {
                         return true;
-                    } else if(mycon.State == System.Data.ConnectionState.Executing) {
+                    }
+                    else if (con.State == System.Data.ConnectionState.Executing)
+                    {
                         return true;
-                    } else if(mycon.State == System.Data.ConnectionState.Fetching) {
+                    }
+                    else if (con.State == System.Data.ConnectionState.Fetching)
+                    {
                         return true;
-                    } else if(mycon.State == System.Data.ConnectionState.Connecting) {
+                    }
+                    else if (con.State == System.Data.ConnectionState.Connecting)
+                    {
                         return false;
-                    } else if(mycon.State == System.Data.ConnectionState.Closed) {
-                        mycon.Open();
+                    }
+                    else if (con.State == System.Data.ConnectionState.Closed)
+                    {
+                        con.Open();
                         return true;
-                    } else if(mycon.State == System.Data.ConnectionState.Broken) {
-                        mycon.Open();
+                    }
+                    else if (con.State == System.Data.ConnectionState.Broken)
+                    {
+                        con.Open();
                         return true;
-                    } else {
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (mycon.State == System.Data.ConnectionState.Open)
+                    {
+                        return true;
+                    }
+                    else if (mycon.State == System.Data.ConnectionState.Executing)
+                    {
+                        return true;
+                    }
+                    else if (mycon.State == System.Data.ConnectionState.Fetching)
+                    {
+                        return true;
+                    }
+                    else if (mycon.State == System.Data.ConnectionState.Connecting)
+                    {
+                        return false;
+                    }
+                    else if (mycon.State == System.Data.ConnectionState.Closed)
+                    {
+                        if (async == true)
+                        {
+                            mycon.OpenAsync();
+                        }
+                        else
+                        {
+                            mycon.Open();
+                        }
+                        return true;
+                    }
+                    else if (mycon.State == System.Data.ConnectionState.Broken)
+                    {
+                        if (async == true)
+                        {
+                            mycon.OpenAsync();
+                        }
+                        else
+                        {
+                            mycon.Open();
+                        }
+                        return true;
+                    }
+                    else
+                    {
                         return false;
                     }
                 }
@@ -606,7 +972,28 @@ namespace QueryIT.model {
 
         public bool disconnect() {
             try {
-                if(conectionString.Contains("Provider=") == true) {
+                if (conectionString.Contains("FireBird") == true) {
+                    if (fbcon.State == System.Data.ConnectionState.Open) {
+                        fbcon.Close();
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Executing) {
+                        fbcon.Close();
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Fetching) {
+                        fbcon.Close();
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Connecting) {
+                        fbcon.Close();
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Closed) {
+                        return true;
+                    } else if (fbcon.State == System.Data.ConnectionState.Broken) {
+                        fbcon.Close();
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else if (conectionString.Contains("Provider=") == true) {
                     if(adocon.State == 0) {
                         return true;
                     } else if(adocon.State == 1) {

@@ -1,0 +1,4 @@
+Date: 2020-08-17 07:16:51 - Result: 0 Records
+Query: SELECT FIRST 100 * FROM ART_UMS;
+
+

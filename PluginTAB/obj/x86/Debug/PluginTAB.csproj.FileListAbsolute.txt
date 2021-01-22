@@ -37,3 +37,6 @@ C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\Plug
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.csproj.GenerateResource.Cache
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.dll
 C:\Users\dennis\Dropbox\purepix.net\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.csprojAssemblyReference.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.csproj.CopyComplete
+C:\Users\dennis\Desktop\QueryIT\QueryIT\PluginTAB\obj\x86\Debug\PluginTAB.csproj.CoreCompileInputs.cache

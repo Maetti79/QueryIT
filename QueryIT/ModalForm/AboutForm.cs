@@ -21,11 +21,15 @@ namespace QueryIT
         }
 
         private void AboutForm_Load(object sender, EventArgs e) {
-            string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString(); 
-            string fileVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion; 
-            string productVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
-            VersionLbl.Text = "Version: " + productVersion;
-            SerialLbl.Text = "Serial: " + SerialManager.ToString();
+            var version = Assembly.GetEntryAssembly().GetName().Version;
+            var buildDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(
+            TimeSpan.TicksPerDay * version.Build +
+            TimeSpan.TicksPerSecond * 2 * version.Revision));
+
+            VersionLabel.Text = Application.ProductName + " Version: " + Application.ProductVersion;
+            CopyrightLabel.Text = "Copyright © 2019 - 2021 " + Application.CompanyName;
+            BuildLabel.Text = "Build: " + buildDateTime;
+            BuildLabel.Text = "Serial: " + SerialManager.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -45,7 +49,18 @@ namespace QueryIT
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            System.Diagnostics.Process.Start("http://queryit.purepix.net/");
+          
+        }
+
+        private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://queryit.compucampus.de");
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

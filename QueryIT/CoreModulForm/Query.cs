@@ -38,6 +38,8 @@ namespace QueryIT {
 
         public QueryForm() {
             InitializeComponent();
+            autocomplete = new AutocompleteMenu();
+            autocomplete.ImageList = QueryIcons;
         }
 
         public void loadPlugins() {
@@ -61,6 +63,8 @@ namespace QueryIT {
         public QueryForm(Datasource ds, string a) {
             try {
                 InitializeComponent();
+                autocomplete = new AutocompleteMenu();
+                autocomplete.ImageList = QueryIcons;
                 QDS = ds;
                 align = a;
                 reloadSchema();

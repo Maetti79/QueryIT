@@ -132,6 +132,7 @@ namespace QueryIT {
                 if(this.Focused == false) {
                     this.Focus();
                 }
+                //this.Refresh();
             } catch(Exception e) {
                 Error = e.Message;
             }

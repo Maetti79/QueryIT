@@ -1,0 +1,8 @@
+C:\Users\dennis\Desktop\QueryIT\QueryIT\IPlugin\bin\Release\IPlugin.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\IPlugin\bin\Release\IPlugin.pdb
+C:\Users\dennis\Desktop\QueryIT\QueryIT\IPlugin\obj\x86\Release\IPlugin.csprojAssemblyReference.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\IPlugin\obj\x86\Release\IPlugin.Properties.Resources.resources
+C:\Users\dennis\Desktop\QueryIT\QueryIT\IPlugin\obj\x86\Release\IPlugin.csproj.GenerateResource.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\IPlugin\obj\x86\Release\IPlugin.csproj.CoreCompileInputs.cache
+C:\Users\dennis\Desktop\QueryIT\QueryIT\IPlugin\obj\x86\Release\IPlugin.dll
+C:\Users\dennis\Desktop\QueryIT\QueryIT\IPlugin\obj\x86\Release\IPlugin.pdb

@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
 [assembly: AssemblyTitle("QueryIT")]
-[assembly: AssemblyDescription("QueryIT (C#2016)")]
+[assembly: AssemblyDescription("QueryIT")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Dennis Mittmann")]
+[assembly: AssemblyCompany("Dennis Sven Mittmann Purepix / Compucampus")]
 [assembly: AssemblyProduct("QueryIT")]
-[assembly: AssemblyCopyright("Copyright © 2016")]
-[assembly: AssemblyTrademark("Dennis Mittmann")]
+[assembly: AssemblyCopyright("Copyright © 2016 - 2021")]
+[assembly: AssemblyTrademark("Dennis Sven Mittmann Purepix / Compucampus")]
 [assembly: AssemblyCulture("")]
 
 // Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.17")]
-[assembly: AssemblyFileVersion("1.0.0.17")]
+[assembly: AssemblyVersion("1.2.1.0")]
+[assembly: AssemblyFileVersion("1.2.1.0")]

@@ -1,0 +1,23 @@
+Date: 2020-08-13 08:51:30 - Result: 20 Records
+Query: SELECT EXTRACT(YEAR FROM b.belegdatum)||IIF(EXTRACT(MONTH FROM b.belegdatum)<10,'0','')||EXTRACT(MONTH FROM b.belegdatum),
+ d.abc_kennung,
+ SUM(iif(a.warengruppe = 25101000,p.gesamtpreis,0)) AS RoundLiner,
+ SUM(iif(a.warengruppe = 25101100,p.gesamtpreis,0)) AS DiamondLiner ,
+ SUM(iif(a.warengruppe = 25101200,p.gesamtpreis,0)) AS RoundLinerAngled  ,
+ SUM(iif(a.warengruppe = 25101300,p.gesamtpreis,0)) AS MagnumOpen  ,
+ SUM(iif(a.warengruppe = 25101400,p.gesamtpreis,0)) AS MagnumClosed  ,
+ SUM(iif(a.warengruppe = 25101500,p.gesamtpreis,0)) AS BigMagnum  ,
+ SUM(iif(a.warengruppe = 25101600,p.gesamtpreis,0)) AS CartridgeGrip
+FROM BEP p
+    JOIN bek b ON b.id = p.bek_id
+    JOIN art a ON a.id = p.art_id
+    JOIN adr d ON d.id = b.adr_id
+WHERE
+ b.belegdatum > '2019-01-01'  AND d.abc_kennung = 'Tattoo-Studio'
+GROUP BY
+ EXTRACT(YEAR FROM b.belegdatum)||IIF(EXTRACT(MONTH FROM b.belegdatum)<10,'0','')||EXTRACT(MONTH FROM b.belegdatum),
+ d.abc_kennung
+ORDER BY
+ EXTRACT(YEAR FROM b.belegdatum)||IIF(EXTRACT(MONTH FROM b.belegdatum)<10,'0','')||EXTRACT(MONTH FROM b.belegdatum),
+ d.abc_kennung
+

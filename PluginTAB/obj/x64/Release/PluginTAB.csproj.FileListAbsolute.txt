@@ -1,0 +1,12 @@
+C:\Users\User\source\repos\QueryIT\PluginTAB\bin\x64\Release\PluginTAB.dll
+C:\Users\User\source\repos\QueryIT\PluginTAB\bin\x64\Release\PluginTAB.pdb
+C:\Users\User\source\repos\QueryIT\PluginTAB\bin\x64\Release\IPlugin.dll
+C:\Users\User\source\repos\QueryIT\PluginTAB\bin\x64\Release\IPlugin.pdb
+C:\Users\User\source\repos\QueryIT\PluginTAB\obj\x64\Release\PluginTAB.csprojAssemblyReference.cache
+C:\Users\User\source\repos\QueryIT\PluginTAB\obj\x64\Release\PluginTAB.ExportForm.resources
+C:\Users\User\source\repos\QueryIT\PluginTAB\obj\x64\Release\PluginTAB.Properties.Resources.resources
+C:\Users\User\source\repos\QueryIT\PluginTAB\obj\x64\Release\PluginTAB.csproj.GenerateResource.cache
+C:\Users\User\source\repos\QueryIT\PluginTAB\obj\x64\Release\PluginTAB.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\QueryIT\PluginTAB\obj\x64\Release\PluginTAB.csproj.CopyComplete
+C:\Users\User\source\repos\QueryIT\PluginTAB\obj\x64\Release\PluginTAB.dll
+C:\Users\User\source\repos\QueryIT\PluginTAB\obj\x64\Release\PluginTAB.pdb

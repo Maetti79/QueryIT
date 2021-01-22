@@ -44,9 +44,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.connectionsView);
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
@@ -57,9 +57,10 @@
             // 
             // connectionsView
             // 
-            this.connectionsView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.connectionsView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.connectionsView.HideSelection = false;
             this.connectionsView.Location = new System.Drawing.Point(6, 19);
             this.connectionsView.Name = "connectionsView";
             this.connectionsView.Size = new System.Drawing.Size(258, 185);
@@ -68,6 +69,7 @@
             this.connectionsView.UseCompatibleStateImageBehavior = false;
             this.connectionsView.View = System.Windows.Forms.View.List;
             this.connectionsView.SelectedIndexChanged += new System.EventHandler(this.connectionsView_SelectedIndexChanged);
+            this.connectionsView.DoubleClick += new System.EventHandler(this.connectionsView_DoubleClick);
             // 
             // connectionIcons
             // 

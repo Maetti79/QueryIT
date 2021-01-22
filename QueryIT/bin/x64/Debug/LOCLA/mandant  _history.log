@@ -1,0 +1,4 @@
+Date: 2020-08-13 14:05:54 - Result: 3 Records
+Query: SELECT * FROM  `inventur`.`mandant` LIMIT 100;
+
+
